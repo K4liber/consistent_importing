@@ -1,7 +1,7 @@
 
-from network.edge import Edge
-from network.node import Node
-from network.graph import Graph
+from examples.graph.error.network.edge import Edge
+from examples.graph.error.network.node import Node
+from examples.graph.error.network.graph import Graph
 
 
 def print_graph():

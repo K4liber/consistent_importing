@@ -1,4 +1,4 @@
-from network.node import Node
+from examples.graph.error.network.node import Node
 
 
 class Edge:
