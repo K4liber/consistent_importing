@@ -1,0 +1,2 @@
+class EntityA:
+    pass

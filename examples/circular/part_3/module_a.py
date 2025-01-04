@@ -1,7 +1,7 @@
 # file: module_a.py
 
 def function_a():
-    print("Function A")
+    print("A")
 
 import module_b
 
