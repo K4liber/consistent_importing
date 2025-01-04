@@ -6,13 +6,13 @@ TODO
 
 ## Outline
 
-I. Why do we care? (1 minute)
+### I. Why should we care? (1 minute)
 
 1. Consistency: not repeating same questions in CRs
-2. Can imports structure impact project architecture?
-    - Is there something more in the proper importing than just a consistency?
+2. Is there something more in the proper importing than just a consistency?
+    - imports structure impact on a project architecture
 
-II. Creating a modular structure (10 minutes)
+### II. Creating a modular structure (10 minutes)
 
 1. Python module  
     - Any python file (`.py`) is a module
@@ -53,7 +53,7 @@ To support this, Python has a way to put definitions in a file and use them in a
     - all entities defined in a module became module's attributes
     - module cached in sys.modules
 
-III. How to (not) import? (5 minutes)
+### III. How to (not) import? (5 minutes)
 
 Imports style and sorting: https://peps.python.org/pep-0008/#imports
 
@@ -73,7 +73,7 @@ Imports style and sorting: https://peps.python.org/pep-0008/#imports
 
 4. [recommended] use absolute imports
     - `+` consistent, clear and simple
-    - `+` relative imports not recommened in pep
+    - `+` (PEP) "absolute imports are usually more readable and tend to be better behaved (or at least give better error messages)"
     - `-` can lead to a long import line
 
 5. [recommended] from module import entity
@@ -89,11 +89,11 @@ Imports style and sorting: https://peps.python.org/pep-0008/#imports
     - `-` suffixing with a module name
     - `-` executes the entire module
 
-8. [not-recommended] from module import *
+8. [not-recommended] wildcard imports: from module import *
     - `+` imports only "public" objects (ignore ones starting from `_`)
     - `+` using `__all__` to specify what is imported under the asterisk `*`
     - `-` executes the entire module
-    - `-` loads everything into the namespace masking attributes in a namespace -> uncertain state of the namespace. Could lead to potential bugs
+    - `-` loads everything into the namespace masking attributes in a namespace -> uncertain state of the namespace. Could lead to potential bugs. Confusing both readers and many automated tools.
 
 9. [not-recommended] do not import from package, exporting using `__init__.py`
     - `+` shorter imports
@@ -105,11 +105,10 @@ Imports style and sorting: https://peps.python.org/pep-0008/#imports
     - `-` IDE (VSCode) actually suggest to import from the place where an entity is defined
     - `-` IDE (VSCode) cannot handle refactor (moving modules around)
 
-(this should be last one as an transition to the last part)
 10. [not-recommended] if TYPE_CHECKING: (do not use), why?
     - `-` hack to solve circular import
 
-IV. Imports structure impact on project architecture (5 minutes)
+### IV. Imports structure impact on a project architecture (5 minutes)
 
 1. Python is dynamic and flexible
     - if we want a structure we need to enforce it
@@ -117,8 +116,8 @@ IV. Imports structure impact on project architecture (5 minutes)
 2. Why you should care anyway?
     - https://www.piglei.com/articles/en-6-ways-to-improve-the-arch-of-you-py-project/
 
-![alt text](images/clean_architecture.png)
-[Clean Architecture](#clean_architecture)
+![alt text](images/clean_architecture.png)  
+Source: [Clean Architecture](#clean_architecture)
 
 3. circular imports most of the time indicate a wrong structure (`examples/graph`)
     - Lets say that we have 2 modules A and B. If we ever face need for a bidirectional dependency we should ask ourselves the following questions:
@@ -142,7 +141,7 @@ IV. Imports structure impact on project architecture (5 minutes)
     - layering based on abstraction level (database case): should a domain logic be concern about what DBMS is used? It most cases, no. It is a detail.
     - can a policy component access GUI component? God forbid.
 
-V. Consisted imports enforced in CI (5 minutes)
+### V. Consisted imports enforced in CI (5 minutes)
 
 1. linter settings
     - https://docs.astral.sh/ruff/rules/
@@ -151,7 +150,7 @@ V. Consisted imports enforced in CI (5 minutes)
 2. formatter settings
     - sorting
 
-VI. Margin + Questions (4 minutes) 
+### VI. Margin + Questions (4 minutes) 
 
 
 ## Bibliography
