@@ -9,8 +9,7 @@ TODO
 ### I. Why should we care? (1 minute)
 
 1. Consistency: not repeating same questions in CRs
-2. Is there something more in the proper importing than just a consistency?
-    - imports structure impact on a project architecture
+2. Is there something more in the proper importing than just a consistency? Imports structure impact on a project architecture.
 
 ### II. Creating a modular structure (10 minutes)
 
@@ -33,19 +32,20 @@ To support this, Python has a way to put definitions in a file and use them in a
     - just a directory with python modules
     - package vs namespace
     - `__init__.py` is executed on the package import (https://docs.python.org/3/tutorial/modules.html#packages) and module object is created with a `__init__.py` as a `__file__` attribute
-    - in the namespace context -> 
+    - namespace -> package without `__init__.py`
 
-4. `PYTHONPATH`
-    - how does it work?
+4. `sys.path`
+    - paths where python is looking for modules/packages
+    - use `PYTHONPATH` to add custom paths
 
-5. Importance of package/module naming because of import hierarchy
-    - stdlib vs your own package
-    - `time` vs `random` example.
+5. Importance of package/module naming because of imports hierarchy
+    - imports hierarchy: local modules firstly
+    - `time` vs `random` example (`examples/naming_hierarchy`)
 
-6. running python file as a script vs as a module (`examples/circular`)
-    - How does it affect PYTHONPATH?
+6. running python file as a script vs as a module (`examples/circular_import_work_around`)
+    - How does it affect `sys.path`?
     - https://stackoverflow.com/a/2997044/6718081
-    - running python package as module (`__main__.py` module)
+    - running python package as module (`__main__.py` module in the package directory)
 
 7. what happens when we import?
     - execution of a module
@@ -97,16 +97,17 @@ Imports style and sorting: https://peps.python.org/pep-0008/#imports
 
 9. [not-recommended] do not import from package, exporting using `__init__.py`
     - `+` shorter imports
-    - `+` kind of a package excapsulation (seems useful in case where you use private enitities and make then public by "importing as" in the init)
-    - `-` pretty weak encapsulation
+    - `+` enforcing better package structure (due to solving certain circular imports)
+    - `+` kind of a package excapsulation
+    - `-` pseudo encapsulation
+    - `-` can lead to extra circular import issue while working on a badly structured/legacy project (`examples/circular_import_through_init`)
     - `-` we execute all the modules (import lead to execution!)
     - `-` not explicite stated where the module comes from (the actual definition away from declaration)
     - `-` can be confusing for developers. "import always from place where it is defined" is more simple and clear
-    - `-` IDE (VSCode) actually suggest to import from the place where an entity is defined
-    - `-` IDE (VSCode) cannot handle refactor (moving modules around)
+    - `-` IDE (VSCode) cannot handle refactor (moving modules around) (`examples/refactor_issue`)
 
 10. [not-recommended] if TYPE_CHECKING: (do not use), why?
-    - `-` hack to solve circular import
+    - `-` another workaround to solve circular import
 
 ### IV. Imports structure impact on a project architecture (5 minutes)
 
@@ -119,14 +120,13 @@ Imports style and sorting: https://peps.python.org/pep-0008/#imports
 ![alt text](images/clean_architecture.png)  
 Source: [Clean Architecture](#clean_architecture)
 
-3. circular imports most of the time indicate a wrong structure (`examples/graph`)
+3. circular imports most of the time indicate a wrong structure (`examples/circular_import_error_on_graph`)
     - Lets say that we have 2 modules A and B. If we ever face need for a bidirectional dependency we should ask ourselves the following questions:
     - can A exist without B?
     - is A anyhow useful without B?
     - Can a node exists without an edge? Yes. An edge is not a node concern.
 
-4. circular imports (sub-package init circles, caused `__init__.py`)
-    - TODO example
+4. sub-package circular import error caused by`__init__.py` (`examples/circular_import_through_init`)
     - create `interface` package and put your imports there (https://www.youtube.com/watch?v=UnKa_t-M_kM, 5:30)
 
 5. circular imports solution: layered architecture
