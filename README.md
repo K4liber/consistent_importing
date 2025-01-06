@@ -97,11 +97,12 @@ Imports style and sorting: https://peps.python.org/pep-0008/#imports
 
 9. [not-recommended] do not import from package, exporting using `__init__.py`
     - `+` shorter imports
-    - `+` enforcing better package structure (due to solving certain circular imports)
+    - `+` enforcing better package structure (due to solving certain circular imports between PACKAGES)
     - `+` kind of a package excapsulation
     - `-` pseudo encapsulation
-    - `-` can lead to extra circular import issue while working on a badly structured/legacy project (`examples/circular_import_through_init`)
+    - `-` can lead to circular import issue (requires extra work to fix that) while working on a badly structured/legacy project (`examples/circular_import_on_package`)
     - `-` we execute all the modules (import lead to execution!)
+    - `-` forcing to use relative imports
     - `-` not explicite stated where the module comes from (the actual definition away from declaration)
     - `-` can be confusing for developers. "import always from place where it is defined" is more simple and clear
     - `-` IDE (VSCode) cannot handle refactor (moving modules around) (`examples/refactor_issue`)
@@ -117,17 +118,16 @@ Imports style and sorting: https://peps.python.org/pep-0008/#imports
 2. Why you should care anyway?
     - https://www.piglei.com/articles/en-6-ways-to-improve-the-arch-of-you-py-project/
 
-![alt text](images/clean_architecture.png)  
-Source: [Clean Architecture](#clean_architecture)
-
 3. circular imports most of the time indicate a wrong structure (`examples/circular_import_error_on_graph`)
     - Lets say that we have 2 modules A and B. If we ever face need for a bidirectional dependency we should ask ourselves the following questions:
     - can A exist without B?
     - is A anyhow useful without B?
     - Can a node exists without an edge? Yes. An edge is not a node concern.
 
-4. sub-package circular import error caused by`__init__.py` (`examples/circular_import_through_init`)
+4. sub-package circular import error caused by `__init__.py` (`examples/circular_import_on_package`)
     - create `interface` package and put your imports there (https://www.youtube.com/watch?v=UnKa_t-M_kM, 5:30)
+    - or refactor the packages structure
+    - or use absolute imports ...
 
 5. circular imports solution: layered architecture
     - Layered architecture, Kraken example (monolith with nearly 28k Python modules) https://blog.europython.eu/kraken-technologies-how-we-organize-our-very-large-pythonmonolith/
@@ -135,6 +135,9 @@ Source: [Clean Architecture](#clean_architecture)
     - Inversion of control, https://seddonym.me/2019/04/15/inversion-of-control/?ref=blog.europython.eu
     - https://en.wikipedia.org/wiki/Dependency_inversion_principle
     - https://docs.python-guide.org/writing/structure/
+
+![alt text](images/clean_architecture.png)  
+Source: [Clean Architecture](#clean_architecture)
 
 6. separation of concerns
     - "In computer science, separation of concerns (sometimes abbreviated as SoC) is a design principle for separating a computer program into distinct sections. Each section addresses a separate concern, a set of INFORMATION that affects the code of a computer program."
