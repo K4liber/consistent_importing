@@ -58,7 +58,13 @@ IV. How can we enforce the selected strategy in CI? (5 minutes)
 
 ## Why am I qualified to speak about this topic?
 
-I am currently working on Python project with around 100k lines of code. There were different strategies applied all around the repository when it comes to importing. I decided to understand deeply how importing works in Python and what is the best strategy for it. After reading some articles and watching videos (there were actually a few already on the importing topic on different Python conferences) I now understand a topic on a level when I can share the knowledge. For sure, I am not an expert, yet. But having in mind my lack of understanding before the research I would love to ensure that other Python developers experience a similar boost of knowledge in this topic. The presentation is not just a copy of previous speeches. It includes considerations about importing strategy impact on architecture and tips for CI setup to assure consistency.
+I am currently working on Python project with around 100k lines of code. There were different strategies applied all around the repository when it comes to importing. I decided to understand deeply how importing works in Python and what is the best strategy for it.
+
+After reading some articles and watching videos (there were actually a few already on the importing topic on different Python conferences) I now understand a topic on a level when I can share the knowledge. For sure, I am not an expert, yet. But having in mind my lack of understanding before the research I would love to ensure that other Python developers experience a similar boost of knowledge in this topic.
+
+The presentation is not just a copy of previous speeches. It includes considerations about importing strategy impact on architecture and tips for CI setup to assure consistency.
+
+Moreover, I recently started contributing to the import-linter package to put my knowledge into practice (PR: https://github.com/seddonym/import-linter/pull/250). I believe that in the coming months, I will continue to apply this knowledge, and my practical experience on the topic will improve. This will positively impact the quality of the final presentation.
 
 ## Abstract as a short post (max 150 characters)
 
