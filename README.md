@@ -1,10 +1,6 @@
 # Consistent importing
 
-## Abstract
-
-TODO
-
-## Outline
+## Detailed outline
 
 ### I. Why should we care? (1 minute)
 
