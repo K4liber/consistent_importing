@@ -16,7 +16,7 @@ The session will then explore how your importing structure affects the overall a
 
 Finally, we'll look at tools and techniques to enforce consistent importing practices. Learn how to integrate tools like Import Linter and Ruff into your CI pipeline to ensure adherence to your chosen strategy and avoid common pitfalls.
 
-Whether you’re a beginner or an experienced Python developer, this talk will help you streamline imports. In this talk, you’ll learn practical strategies and tools to enforce consistency, making your projects easier to scale and manage.
+Whether you are a beginner or an experienced Python developer, this talk will help you streamline imports. You will learn practical strategies and tools to enforce consistency, making your projects easier to scale and manage.
 
 ## Outline (max 1000 characters)
 
@@ -60,7 +60,7 @@ IV. How can we enforce the selected strategy in CI? (5 minutes)
 
 I am currently working on Python project with around 100k lines of code. There were different strategies applied all around the repository when it comes to importing. I decided to understand deeply how importing works in Python and what is the best strategy for it.
 
-After deep debugging, research (there were actually a few presentations on the importing topic on different Python conferences), and hours trial and error I feel understand a topic good enought to share the knowledge. For sure, I am not an expert, yet. Having in mind my shallow understanding before the research I would love to make other Python developers experience a similar boost of knowledge in this topic.
+After deep debugging, research (there were already a few presentations on the importing topic on different Python conferences), and hours trial and error I feel understand a topic good enough to share the knowledge. For sure, I am not an expert, yet. Having in mind my shallow understanding before the research I would love to make other Python developers experience a similar boost of knowledge in this topic.
 
 The presentation is not just a copy of previous speeches. It includes considerations about importing strategy impact on architecture and tips for CI setup to assure consistency.
 
