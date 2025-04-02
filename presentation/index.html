@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Consistent importing</title>
+  <link 
+    rel="icon" 
+    type="image/x-icon"
+    href="https://orstedcdn.azureedge.net/-/media/www/images/corp/graphics/icons/favicon.ico"
+  >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/theme/simple.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <link 
+    rel="preload"
+    href="https://orstedcdn.azureedge.net/Assets_/dist/fonts/OrstedSans-Regular.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin=""
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css"
+  />
+  <style>
+    :root {
+      --main-bg-color: white;
+      --main-text-color: black;
+      --heading-color: #4099da;
+      --link-color: #4099da;
+    }
+
+    ol {
+      font-size: 50%;
+    }
+
+    .reveal {
+      background-color: var(--main-bg-color);
+      color: var(--main-text-color);
+      font-family: "Orsted Sans", "Helvetica Neue", Arial, sans-serif !important;
+    }
+
+    .reveal h1,
+    .reveal h2,
+    .reveal h3,
+    .reveal h4,
+    .reveal h5,
+    .reveal h6 {
+      color: var(--heading-color);
+      font-family: "Orsted Sans", "Helvetica Neue", Arial, sans-serif !important;
+    }
+
+    .reveal a {
+      color: var(--link-color);
+    }
+
+    .reveal .slide-background {
+      padding-bottom: 50px;
+    }
+
+    .reveal footer.footer {
+      position: absolute;
+      bottom: var(--r-block-margin);
+      left: var(--r-block-margin);
+      right: calc(var(--r-block-margin) + 2 * 3.6em);
+      height: var(--r-main-font-size);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      font-size: calc(var(--r-main-font-size) * 0.4);
+    }
+
+    .reveal footer.footer img {
+      height: var(--r-main-font-size);
+      width: auto;
+      object-fit: contain;
+    }
+
+    @media print {
+      .reveal .footer {
+        position: fixed;
+      }
+    }
+
+    .image-text {
+      font-size: 0.7em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <footer class="footer">
+      <a href="https://orsted.com">
+        <img src="https://orstedcdn.azureedge.net/-/media/www/images/corp/graphics/icons/favicon.ico" alt="Orsted logo">
+      </a>
+      <span>Consistent importing, May 2025</span>
+    </footer>
+    <div class="slides">
+      <!-- main section --> 
+      <section>
+        <h4>Consistent importing</h4>
+        <p style="font-size: 0.8em;">CoP Python, May 2025, Orsted</p>
+      </section>
+      <!-- main section --> 
+      <section>
+        <h3>Agenda</h3>
+        <ol style="font-size: 1em;">
+          <li>How does importing in Python actually works?</li>
+          <li>What is the best importing strategy?</li>
+          <li>How does modularization and packaging strategy impact a Python project architecture?</li>
+          <li>How can we enforce the selected strategy in CI?</li>
+        </ol>
+      </section>
+      <!-- main section --> 
+      <section>
+        <h4>How does importing in Python actually works?</h4>
+        <img style="height: 10em;" data-src="./img/importing_in_python.png" />
+      </section>
+      <!-- main section --> 
+      <section>
+        <!-- sub section --> 
+        <section>
+          <h4>How does modularization and packaging strategy impact a Python project architecture?</h4>
+          <img style="height: 11em;" data-src="./img/impact_on_architecture.png" />
+        </section>
+        <!-- sub section --> 
+        <section>
+          <h4>Clean architecture</h4>
+          <img style="height: 10em;" data-src="../images/clean_architecture.png" />
+          <div class="image-text" style="float: left;">
+            TODO text here ...
+          </div>
+        </section>
+
+      </section>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/highlight/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/markdown/markdown.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      center: true,
+      hash: true,
+      plugins: [RevealHighlight, RevealNotes, RevealMarkdown]
+    });
+
+  </script>
+</body>
