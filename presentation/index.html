@@ -100,6 +100,9 @@
       list-style-type: upper-roman;
     }
 
+    .slides {
+      width: 90%;
+    }
   </style>
 </head>
 
@@ -137,16 +140,45 @@
 
         <section>
           <h5>1. Python module</h5>
-          <div class="image-text" style="float: left;">
-            Any python file (.py) is a module
-          </div>
+          <pre><code data-trim data-noescape class="language-bash">
+          (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
+          Python 3.12.8 [GCC 11.2.0] on linux
+          >>> def hello_world() -> None:
+          ...     print("Hello world!")
+          ... 
+          >>> hello_world()
+          Hello world!
+          >>> exit()
+          (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
+          Python 3.12.8 [GCC 11.2.0] on linux
+          >>> hello_world()
+          Traceback (most recent call last):
+            File "<stdin>", line 1, in <module>
+          NameError: name 'hello_world' is not defined
+          >>> 
+          </code></pre>
         </section>
 
         <section>
           <h5>1. Python module</h5>
-          <div class="image-text" style="float: left;">
-            TODO slide 2 text here ...
-          </div>
+          <pre><code data-trim data-noescape class="language-python">
+          # my_module.py
+
+          def hello_world() -> None:
+            print("Hello world!")
+          </code></pre>
+          <pre><code data-trim data-noescape class="language-bash">
+          (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
+          Python 3.12.8 [GCC 11.2.0] on linux
+          >>> import my_module
+          >>> dir(my_module)
+          [..., '__name__', '__package__', '__spec__', 'hello_world']
+          >>> type(my_module.hello_world)
+          <class 'function'>
+          >>> my_module.hello_world()
+          Hello world!
+          >>> 
+          </code></pre>
         </section>
 
       </section>
