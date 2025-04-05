@@ -35,10 +35,6 @@
       --link-color: #4099da;
     }
 
-    ol {
-      font-size: 50%;
-    }
-
     .reveal {
       background-color: var(--main-bg-color);
       color: var(--main-text-color);
@@ -53,6 +49,13 @@
     .reveal h6 {
       color: var(--heading-color);
       font-family: "Orsted Sans", "Helvetica Neue", Arial, sans-serif !important;
+    }
+    
+    .reveal h5 {
+      position: fixed;
+      top: 50px;
+      text-align: center;
+      width: 100%;
     }
 
     .reveal a {
@@ -92,6 +95,11 @@
     .image-text {
       font-size: 0.7em;
     }
+
+    ol.upper-roman {
+      list-style-type: upper-roman;
+    }
+
   </style>
 </head>
 
@@ -106,14 +114,14 @@
     <div class="slides">
       <!-- main section --> 
       <section>
-        <h4>Consistent importing</h4>
+        <h2>Consistent importing</h2>
         <p style="font-size: 0.8em;">CoP Python, May 2025, Orsted</p>
       </section>
       <!-- main section --> 
       <section>
         <h3>Agenda</h3>
-        <ol style="font-size: 1em;">
-          <li>How does importing in Python actually works?</li>
+        <ol class="upper-roman" style="font-size: 1em;">
+          <li>How does importing in Python works?</li>
           <li>What is the best importing strategy?</li>
           <li>How does modularization and packaging strategy impact a Python project architecture?</li>
           <li>How can we enforce the selected strategy in CI?</li>
@@ -121,25 +129,82 @@
       </section>
       <!-- main section --> 
       <section>
-        <h4>How does importing in Python actually works?</h4>
+        <h4>I. How does importing in Python actually works?</h4>
         <img style="height: 10em;" data-src="./img/importing_in_python.png" />
+      </section>
+      <!-- sub section-->
+      <section>
+
+        <section>
+          <h5>1. Python module</h5>
+          <div class="image-text" style="float: left;">
+            Any python file (.py) is a module
+          </div>
+        </section>
+
+        <section>
+          <h5>1. Python module</h5>
+          <div class="image-text" style="float: left;">
+            TODO slide 2 text here ...
+          </div>
+        </section>
+
       </section>
       <!-- main section --> 
       <section>
-        <!-- sub section --> 
+        <h4>II. What is the best importing strategy?</h4>
+        <img style="height: 10em;" data-src="./img/what_strategy.png" />
+      </section>
+      <!-- sub section-->
+      <section>
+
         <section>
-          <h4>How does modularization and packaging strategy impact a Python project architecture?</h4>
-          <img style="height: 11em;" data-src="./img/impact_on_architecture.png" />
-        </section>
-        <!-- sub section --> 
-        <section>
-          <h4>Clean architecture</h4>
-          <img style="height: 10em;" data-src="../images/clean_architecture.png" />
+          <h5>0. Typing</h5>
           <div class="image-text" style="float: left;">
             TODO text here ...
           </div>
         </section>
 
+      </section>
+      <!-- main section --> 
+      <section>
+        <h4>III. How does modularization and packaging strategy impact a Python project architecture?</h4>
+        <img style="height: 11em;" data-src="./img/impact_on_architecture.png" />
+      </section>
+      <!-- sub section-->
+      <section>
+
+        <section>
+          <h5>5. Layered architecture</h5>
+          <img style="height: 10em;" data-src="../images/clean_architecture.png" />
+          <div class="image-text" style="float: left;">
+            TODO text here ...
+          </div>
+        </section>
+      
+      </section>
+      <!-- main section --> 
+      <section>
+        <h4>IV. How can we enforce the selected strategy in CI?</h4>
+        <img style="height: 10em;" data-src="./img/importing_in_ci.png" />
+      </section>
+      <!-- sub section-->
+      <section>
+
+        <section>
+          <h5>1. Import Linter</h5>
+          <div class="image-text" style="float: left;">
+            TODO text here ...
+          </div>
+        </section>
+
+      </section>
+      <!-- main section --> 
+      <section>
+        <h3>Bibliography</h3>
+        <ol style="font-size: 0.5em;">
+          <li>TODO</li>
+        </ol>
       </section>
     </div>
   </div>
@@ -156,6 +221,12 @@
       hash: true,
       plugins: [RevealHighlight, RevealNotes, RevealMarkdown]
     });
-
+    // Disable transition for vertical navigation
+    Reveal.on('slidetransitionend', () => {
+      const verticalSlides = document.querySelectorAll('.reveal .slides > section > section');
+      verticalSlides.forEach(slide => {
+        slide.style.transition = 'none';
+      });
+    });
   </script>
 </body>

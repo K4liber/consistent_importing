@@ -20,7 +20,7 @@ Whether you are a beginner or an experienced Python developer, this talk will he
 
 ## Outline (max 1000 characters)
 
-I. How does importing in Python actually works? (10 minutes)
+I. How does importing in Python works? (10 minutes)
 
 1. Python module
 2. Why modular structure?
