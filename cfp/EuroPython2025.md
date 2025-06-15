@@ -20,7 +20,7 @@ Whether you are a beginner or an experienced Python developer, this talk will he
 
 ## Outline (max 1000 characters)
 
-I. How does importing in Python works? (10 minutes)
+I. How importing in Python works? (10 minutes)
 
 1. Python module
 2. Why modular structure?
@@ -30,29 +30,30 @@ I. How does importing in Python works? (10 minutes)
 6. Execute a script vs execute a module
 7. What actually happens when we do import?
 
-II. What is the best importing strategy? (5 minutes)
+II. How to import in a consistent way? (5 minutes)
 
-0. Typing
 1. Imports on separate lines
 2. Imports at the top of the file
 3. Lazy import of heavy modules
 4. Absolute imports
+- Relative imports in an encapsulated package
 5. From module import entity
 6. Package vs namespace
 7. import module
 8. Wildcard imports
 9. Import from package 
-10. if TYPE_CHECKING
+10. Typing, if TYPE_CHECKING
 
-III. How does modularization and packaging strategy impact a Python project architecture? (5 minutes)
+III. How internal dependencies impact a codebase architecture? (5 minutes)
 
 1. Python as dynamic and flexible language
-2. Circular modules dependencies
-3. Circular package dependencies
+2. Circular dependencies
+- "... (most likely due to a circular import)" as a feature
+3. Acyclic dependencies principle
 4. Separation of concerns
 5. Layered architecture
 
-IV. How can we enforce the selected strategy in CI? (5 minutes)
+IV. How we can enforce the selected strategy in CI? (5 minutes)
 1. Import Linter
 2. Ruff setup
 
