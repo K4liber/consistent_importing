@@ -25,33 +25,52 @@ I. How importing in Python works? (10 minutes)
 1. Python module
 2. Why modular structure?
 3. Python package
-4. sys.path
-5. Importance of package/module naming
+4. Importance of package/module naming
+5. sys.path
 6. Execute a script vs execute a module
 7. What actually happens when we do import?
 
 II. How to import in a consistent way? (5 minutes)
 
+0. Consistency advantages
+- no need to think about the same thing twice
+- creating space for automation
 1. Imports on separate lines
+- reduction of version control conflicts
 2. Imports at the top of the file
-3. Lazy import of heavy modules
+- clear dependencies
+3. Lazy imports of heavy modules
+- improve startup time
 4. Absolute imports
-- Relative imports in an encapsulated package
+- avoiding ambiguity
+- (exception) relative imports in an encapsulated package
 5. From module import entity
+- avoiding namespace pollution
 6. Package vs namespace
-7. import module
+- understanding the difference
+7. import module (as ...)
+- pandas/numpy as an example
 8. Wildcard imports
-9. Import from package 
+- avoiding namespace pollution
+- avoiding ambiguity
+9. Import from package
+- avoiding ambiguity
+- (exception) an encapsulated package
 10. Typing, if TYPE_CHECKING
+- avoiding circular dependencies
 
 III. How internal dependencies impact a codebase architecture? (5 minutes)
 
 1. Python as dynamic and flexible language
-2. Circular dependencies
+- a lot of freedom in importing
 - "... (most likely due to a circular import)" as a feature
-3. Acyclic dependencies principle
-4. Separation of concerns
-5. Layered architecture
+- thinking about hierarchy of dependencies while importing
+2. SOLID, DRY, KISS, ... ADP principles
+- avoiding italian pasta code
+- automating architecture checks
+3. Acyclic dependencies principle (ADP)
+- using import statements to extract dependency graph
+- following ADP to improve architecture
 
 IV. How we can enforce the selected strategy in CI? (5 minutes)
 1. Import Linter
