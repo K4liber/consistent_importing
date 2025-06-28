@@ -23,7 +23,14 @@ Whether you are a beginner or an experienced Python developer, this talk will he
 I. How importing in Python works? (10 minutes)
 
 1. Python module
+- using Python interpreter with raw code
+- keeping code in files
 2. Why modular structure?
+- reusability
+- readability
+- separation of concerns
+- maintainability
+- testing
 3. Python package
 4. Importance of package/module naming
 5. sys.path
@@ -61,16 +68,18 @@ II. How to import in a consistent way? (5 minutes)
 
 III. How internal dependencies impact a codebase architecture? (5 minutes)
 
-1. Python as dynamic and flexible language
-- a lot of freedom in importing
+1. Python vs other languages
+- Python's flexibility in importing
 - "... (most likely due to a circular import)" as a feature
-- thinking about hierarchy of dependencies while importing
 2. SOLID, DRY, KISS, ... ADP principles
-- avoiding italian pasta code
-- automating architecture checks
+- Robert C. Martin's "clean code" principles
+- effort vs benefit of applying principles (presented on XY chart)
+- automating architecture checks reducing the effort (presented on XY chart)
 3. Acyclic dependencies principle (ADP)
-- using import statements to extract dependency graph
 - following ADP to improve architecture
+- avoiding italian pasta code
+- thinking about hierarchy of dependencies while importing
+- using import statements to extract dependency graph
 
 IV. How we can enforce the selected strategy in CI? (5 minutes)
 1. Import Linter
