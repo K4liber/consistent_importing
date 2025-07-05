@@ -20,6 +20,10 @@ Whether you are a beginner or an experienced Python developer, this talk will he
 
 ## Outline (max 1000 characters)
 
+0. Why this topic?
+- Interesting import approach in a legacy codebase
+- Why do successful people wear the same outfits every day?
+
 I. How importing in Python works? (10 minutes)
 
 1. Python module

@@ -7,7 +7,7 @@
   <link 
     rel="icon" 
     type="image/x-icon"
-    href="https://orstedcdn.azureedge.net/-/media/www/images/corp/graphics/icons/favicon.ico"
+    href="img/pycon_gr.svg"
   >
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/theme/simple.min.css">
@@ -109,21 +109,31 @@
 <body>
   <div class="reveal">
     <footer class="footer">
-      <a href="https://orsted.com">
-        <img src="https://orstedcdn.azureedge.net/-/media/www/images/corp/graphics/icons/favicon.ico" alt="Orsted logo">
+      <a href="https://2025.pycon.gr/">
+        <img src="img/pycon_gr.svg" alt="Orsted logo">
       </a>
-      <span>Consistent importing, May 2025</span>
+      <span>Consistent importing, PyCon Greece, August 2025</span>
     </footer>
     <div class="slides">
       <!-- main section --> 
-      <section>
+      <section
+        data-background-image="./img/pycon_greece_background.png"
+        data-background-size="cover"
+      >
         <h2>Consistent importing</h2>
-        <p style="font-size: 0.8em;">CoP Python, May 2025, Orsted</p>
+        <p style="font-size: 0.8em;">PyCon Greece, August 2025</p>
+      </section>
+      <!-- main section --> 
+      <section>
+        <h2>About</h2>
+        <p style="font-size: 0.8em;">About me</p>
+        <p style="font-size: 0.8em;">About Orsted</p>
       </section>
       <!-- main section --> 
       <section>
         <h3>Agenda</h3>
-        <ol class="upper-roman" style="font-size: 1em;">
+        <ol class="upper-roman" style="font-size: 1em;" start="0">
+          <li>Why am I talking about this?</li>
           <li>How importing in Python works?</li>
           <li>How to import in a consistent way?</li>
           <li>How internal dependencies impact a codebase architecture?</li>
@@ -132,14 +142,35 @@
       </section>
       <!-- main section --> 
       <section>
-        <h4>I. How importing in Python works?</h4>
+        <h4>Why ...?</h4>
+        <img style="height: 10em;" data-src="./img/why.jpeg" />
+      </section>
+      <!-- sub sections-->
+      <section>
+        <section>
+          <h5>Interesting importing approach</h5>
+          ... (TODO describe Jacktop case here) ...
+        </section>
+        <section>
+          <h5>Consistency</h5>
+          <img style="height: 8em;" data-src="./img/zuck.webp" />
+          <p style="font-size: 0.5em;">
+            "... dressing the same way every day allows 
+            him to save his mental capacity for making more significant decisions at work"[1].
+            (https://www.todaywellspent.com/blogs/articles/why-do-successful-people-wear-the-same-outfits-every-day)
+          </p>
+        </section>
+      </section>
+      <!-- main section --> 
+      <section>
+        <h4>How importing in Python works?</h4>
         <img style="height: 10em;" data-src="./img/importing_in_python.png" />
       </section>
       <!-- sub section-->
       <section>
 
         <section>
-          <h5>1. Python module</h5>
+          <h5>Python module</h5>
           <pre><code data-trim data-noescape class="language-bash">
           (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
           Python 3.12.8 [GCC 11.2.0] on linux
@@ -251,7 +282,8 @@
       progress: true,
       center: true,
       hash: true,
-      plugins: [RevealHighlight, RevealNotes, RevealMarkdown]
+      plugins: [RevealHighlight, RevealNotes, RevealMarkdown],
+      slideNumber: true
     });
     // Disable transition for vertical navigation
     Reveal.on('slidetransitionend', () => {
