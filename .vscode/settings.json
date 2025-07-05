@@ -3,5 +3,10 @@
         "examples"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#101D84",
+        "titleBar.activeBackground": "#1629B9",
+        "titleBar.activeForeground": "#F9FAFE"
+    }
 }

@@ -79,7 +79,7 @@
 
       font-size: calc(var(--r-main-font-size) * 0.4);
     }
-
+  
     .reveal footer.footer img {
       height: var(--r-main-font-size);
       width: auto;
@@ -103,6 +103,21 @@
     .slides {
       width: 90%;
     }
+
+    /* Custom slide number styling */
+    .reveal .slide-number {
+      position: fixed !important;
+      top: 20px !important;
+      right: 20px !important;
+      bottom: auto !important;
+      left: auto !important;
+      font-size: 0.5em !important;
+      background: var(--heading-color) !important;
+      padding: 8px 8px !important;
+      border-radius: 4px !important;
+      color: rgba(255, 255, 255, 0.8) !important;
+      font-weight: bold !important;
+    }
   </style>
 </head>
 
@@ -110,7 +125,7 @@
   <div class="reveal">
     <footer class="footer">
       <a href="https://2025.pycon.gr/">
-        <img src="img/pycon_gr.svg" alt="Orsted logo">
+        <img src="img/pycon_gr.svg" alt="Orsted logo" style="z-index: 1000;">
       </a>
       <span>Consistent importing, PyCon Greece, August 2025</span>
     </footer>
@@ -121,7 +136,7 @@
         data-background-size="cover"
       >
         <h2>Consistent importing</h2>
-        <p style="font-size: 0.8em;">PyCon Greece, August 2025</p>
+        <h4>Jan Bielecki</h4>
       </section>
       <!-- main section --> 
       <section>
@@ -153,7 +168,7 @@
         </section>
         <section>
           <h5>Consistency</h5>
-          <img style="height: 8em;" data-src="./img/zuck.webp" />
+          <img style="height: 8em;" data-src="./img/zuck.png" />
           <p style="font-size: 0.5em;">
             "... dressing the same way every day allows 
             him to save his mental capacity for making more significant decisions at work"[1].
@@ -291,6 +306,34 @@
       verticalSlides.forEach(slide => {
         slide.style.transition = 'none';
       });
+    });
+    // Hide footer, slide number, and controls on first slide
+    Reveal.on('slidechanged', event => {
+      const footer = document.querySelector('.footer');
+      const slideNumber = document.querySelector('.slide-number');
+      const controls = document.querySelector('.reveal .controls');
+      
+      if (event.indexh === 0) {
+        footer.style.display = 'none';
+        slideNumber.style.display = 'none';
+        controls.style.display = 'none';
+      } else {
+        footer.style.display = 'flex';
+        slideNumber.style.display = 'block';
+        controls.style.display = 'block';
+      }
+    });
+    // Hide footer, slide number, and controls on initial load if on first slide
+    Reveal.on('ready', event => {
+      const footer = document.querySelector('.footer');
+      const slideNumber = document.querySelector('.slide-number');
+      const controls = document.querySelector('.reveal .controls');
+      
+      if (event.indexh === 0) {
+        footer.style.display = 'none';
+        slideNumber.style.display = 'none';
+        controls.style.display = 'none';
+      }
     });
   </script>
 </body>
