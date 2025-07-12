@@ -157,14 +157,45 @@
       </section>
       <!-- main section --> 
       <section>
-        <h4>Why ...?</h4>
+        <h4>Consistent importing</h4>
         <img style="height: 10em;" data-src="./img/why.jpeg" />
       </section>
       <!-- sub sections-->
-      <section>
-        <section>
-          <h5>Interesting importing approach</h5>
-          ... (TODO describe Jacktop case here) ...
+      <section>        <section>
+          <h5>Interesting exporting strategy</h5>
+          <div style="text-align: left; font-size: 0.7em;">
+            <p><strong>The strategy:</strong> Re-export everything through <code>__init__.py</code></p>
+            <pre><code data-trim data-noescape class="language-python">
+# package/subpackage/__init__.py
+from .module_a import ClassA, function_a
+from .module_b import ClassB, function_b
+from .module_c import *
+
+# package/__init__.py  
+from .subpackage import ClassA, ClassB, function_a, function_b
+from .other_module import SomeOtherClass
+
+# other_package/some_subpackage.py
+from package import ClassA, ClassB, function_a, SomeOtherClass
+            </code></pre>            <div style="margin-top: 1em; display: flex; justify-content: space-between;">
+              <div style="width: 48%;">
+                <p style="color: #28a745; font-weight: bold; margin-bottom: 0.5em;">✓ Pros:</p>
+                <ul style="margin: 0; padding-left: 1em;">
+                  <li>Encapsulation</li>
+                  <li>Single entry point</li>
+                  <li>Short imports</li>
+                </ul>
+              </div>
+              <div style="width: 48%;">
+                <p style="color: #dc3545; font-weight: bold; margin-bottom: 0.5em;">✗ Cons:</p>
+                <ul style="margin: 0; padding-left: 1em;">
+                  <li>Maintenance overhead</li>
+                  <li>IDE ambiguous suggestions</li>
+                  <li>Hard to enforce consistency</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </section>
         <section>
           <h5>Consistency</h5>
@@ -174,6 +205,10 @@
             him to save his mental capacity for making more significant decisions at work"[1].
             (https://www.todaywellspent.com/blogs/articles/why-do-successful-people-wear-the-same-outfits-every-day)
           </p>
+        </section>
+        <section>
+          <h5>Python importing without consistency</h5>
+          <img style="height: 10em;" data-src="./img/colorful_dressing_room.webp" />
         </section>
       </section>
       <!-- main section --> 
