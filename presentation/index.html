@@ -161,7 +161,8 @@
         <img style="height: 10em;" data-src="./img/why.jpeg" />
       </section>
       <!-- sub sections-->
-      <section>        <section>
+      <section>
+        <section>
           <h5>Interesting exporting strategy</h5>
           <div style="text-align: left; font-size: 0.7em;">
             <p><strong>The strategy:</strong> Re-export everything through <code>__init__.py</code></p>
@@ -218,7 +219,6 @@ from package import ClassA, ClassB, function_a, SomeOtherClass
       </section>
       <!-- sub section-->
       <section>
-
         <section>
           <h5>Python module</h5>
           <pre><code data-trim data-noescape class="language-bash">
@@ -288,10 +288,21 @@ from package import ClassA, ClassB, function_a, SomeOtherClass
       <section>
 
         <section>
-          <h5>5. Layered architecture</h5>
-          <img style="height: 10em;" data-src="../images/clean_architecture.png" />
+          <h5>Python circular imports -> bug or a feature?</h5>
           <div class="image-text" style="float: left;">
-            TODO text here ...
+            TODO text/image here ...
+          </div>
+        </section>
+
+        <section>
+          <h5>Circular package dependencies</h5>
+          <div class="image-text" style="float: left;">
+            TODO text/image here ... Create an image that will visualize circular dependencies between packages.
+
+            On the right side we have a first package that imports from subpackage and so on ...
+            On the left side we have another package that imports from subpackages and from the first package.
+            Now we cannot create a dependency from the first package to second without creating a circular dependency.
+
           </div>
         </section>
       
