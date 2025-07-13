@@ -85,7 +85,7 @@ III. How internal dependencies impact a codebase architecture? (5 minutes)
 - thinking about hierarchy of dependencies while importing
 - using import statements to extract dependency graph
 
-IV. How we can enforce the selected strategy in CI? (5 minutes)
+IV. How we can enforce the selected importing strategy in CI? (5 minutes)
 1. Import Linter
 2. Ruff setup
 

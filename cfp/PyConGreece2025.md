@@ -11,4 +11,4 @@ I have used ChatGPT to improve the grammar.
 
 ## Biography
 
-Senior Full Stack Developer at Ørsted with 6 years of professional experience in software development. Interested in physics, software engineering, power engineering, sports, music and black comedy.
+Senior Full Stack Developer at Ørsted with 6 years of professional experience in software development. Interested in science, digitalization, electrification, sports, music and comedy.

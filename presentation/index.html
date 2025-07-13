@@ -147,12 +147,11 @@
       <!-- main section --> 
       <section>
         <h3>Agenda</h3>
-        <ol class="upper-roman" style="font-size: 1em;" start="0">
-          <li>Why am I talking about this?</li>
+        <ol class="upper-roman" style="font-size: 1em;" start="1">
           <li>How importing in Python works?</li>
           <li>How to import in a consistent way?</li>
           <li>How internal dependencies impact a codebase architecture?</li>
-          <li>How we can enforce the selected strategy in CI?</li>
+          <li>How we can enforce the selected importing strategy in CI?</li>
         </ol>
       </section>
       <!-- main section --> 
@@ -163,22 +162,24 @@
       <!-- sub sections-->
       <section>
         <section>
-          <h5>Interesting exporting strategy</h5>
+          <h5>Re-exporting entities through __init__.py</h5>
           <div style="text-align: left; font-size: 0.7em;">
-            <p><strong>The strategy:</strong> Re-export everything through <code>__init__.py</code></p>
             <pre><code data-trim data-noescape class="language-python">
-# package/subpackage/__init__.py
-from .module_a import ClassA, function_a
-from .module_b import ClassB, function_b
-from .module_c import *
+# model/geometry/node.py
+class Node: ...
 
-# package/__init__.py  
-from .subpackage import ClassA, ClassB, function_a, function_b
+# model/geometry/__init__.py
+from .node import Node, function_a
+from .edge import Edge, function_b
+
+# model/__init__.py
+from .geometry import Node, Edge, function_a, function_b
 from .other_module import SomeOtherClass
 
-# other_package/some_subpackage.py
-from package import ClassA, ClassB, function_a, SomeOtherClass
-            </code></pre>            <div style="margin-top: 1em; display: flex; justify-content: space-between;">
+# gui/__init__.py
+from model import Node, Edge, function_a, function_b, SomeOtherClass
+            </code></pre>            
+            <div style="margin-top: 1em; display: flex; justify-content: space-between;">
               <div style="width: 48%;">
                 <p style="color: #28a745; font-weight: bold; margin-bottom: 0.5em;">✓ Pros:</p>
                 <ul style="margin: 0; padding-left: 1em;">
@@ -192,7 +193,7 @@ from package import ClassA, ClassB, function_a, SomeOtherClass
                 <ul style="margin: 0; padding-left: 1em;">
                   <li>Maintenance overhead</li>
                   <li>IDE ambiguous suggestions</li>
-                  <li>Hard to enforce consistency</li>
+                  <li>Hard to automate consistency</li>
                 </ul>
               </div>
             </div>
@@ -226,7 +227,7 @@ from package import ClassA, ClassB, function_a, SomeOtherClass
           Python 3.12.8 [GCC 11.2.0] on linux
           >>> def hello_world() -> None:
           ...     print("Hello world!")
-          ... 
+          ...
           >>> hello_world()
           Hello world!
           >>> exit()
@@ -244,18 +245,18 @@ from package import ClassA, ClassB, function_a, SomeOtherClass
           <h5>1. Python module</h5>
           <pre><code data-trim data-noescape class="language-python">
           # my_module.py
-
           def hello_world() -> None:
             print("Hello world!")
+          
+          print("Hello from my_module!")
           </code></pre>
           <pre><code data-trim data-noescape class="language-bash">
           (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
           Python 3.12.8 [GCC 11.2.0] on linux
           >>> import my_module
+          Hello from my_module!
           >>> dir(my_module)
           [..., '__name__', '__package__', '__spec__', 'hello_world']
-          >>> type(my_module.hello_world)
-          <class 'function'>
           >>> my_module.hello_world()
           Hello world!
           >>> 
@@ -281,7 +282,7 @@ from package import ClassA, ClassB, function_a, SomeOtherClass
       </section>
       <!-- main section --> 
       <section>
-        <h4>III. How does modularization and packaging strategy impact a Python project architecture?</h4>
+        <h4>III. How internal dependencies impact a codebase architecture?</h4>
         <img style="height: 11em;" data-src="./img/impact_on_architecture.png" />
       </section>
       <!-- sub section-->
@@ -290,20 +291,190 @@ from package import ClassA, ClassB, function_a, SomeOtherClass
         <section>
           <h5>Python circular imports -> bug or a feature?</h5>
           <div class="image-text" style="float: left;">
-            TODO text/image here ...
+            <img style="height: 14em;" src="./img/impact_on_architecture.png" alt="Circular import illustration" />
+            <div style="font-size: 0.8em; margin-top: 0.5em;">
+              Circular imports can be both a bug and a feature: they often signal a design issue, but sometimes are used intentionally for plugin systems or late binding. In most cases, refactoring to avoid them leads to clearer architecture.
+            </div>
           </div>
         </section>
 
         <section>
-          <h5>Circular package dependencies</h5>
+          <h5>Circular dependencies between packages</h5>
           <div class="image-text" style="float: left;">
-            TODO text/image here ... Create an image that will visualize circular dependencies between packages.
+            <svg width="700" height="310" style="background: #f9f9f9; border-radius: 8px; margin-left: 10px; margin-right: 10px;">
+              <!-- Packages: aligned horizontally, minimal top margin -->
+              <rect x="525" y="15" width="165" height="48" rx="9" fill="#4099da" opacity="0.15" />
+              <text x="607" y="45" text-anchor="middle" font-size="16" fill="#4099da">model</text>
+              <rect x="525" y="135" width="165" height="48" rx="9" fill="#4099da" opacity="0.10" />
+              <text x="607" y="165" text-anchor="middle" font-size="16" fill="#4099da">model.geometry</text>
+              <rect x="525" y="255" width="165" height="48" rx="9" fill="#4099da" opacity="0.08" />
+              <text x="607" y="285" text-anchor="middle" font-size="16" fill="#4099da">model.geometry.node</text>
 
-            On the right side we have a first package that imports from subpackage and so on ...
-            On the left side we have another package that imports from subpackages and from the first package.
-            Now we cannot create a dependency from the first package to second without creating a circular dependency.
+              <rect x="15" y="15" width="165" height="48" rx="12" fill="#28a745" opacity="0.15" />
+              <text x="97" y="45" text-anchor="middle" font-size="16" fill="#28a745">gui</text>
+              <rect x="15" y="135" width="165" height="48" rx="9" fill="#28a745" opacity="0.10" />
+              <text x="97" y="165" text-anchor="middle" font-size="16" fill="#28a745">gui.plots</text>
+              <rect x="15" y="255" width="165" height="48" rx="8" fill="#28a745" opacity="0.08" />
+              <text x="97" y="282" text-anchor="middle" font-size="16" fill="#28a745">gui.plots.graph</text>
 
+              <!-- Arrows: A imports from subpackages (vertical lines) -->
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#4099da" />
+                </marker>
+                <marker id="arrowB" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#28a745" />
+                </marker>
+                <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#dc3545" />
+                </marker>
+              </defs>
+              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- B imports from subpackages (vertical lines) -->
+              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+
+              <!-- B imports from A (allowed) -->
+              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrow)" />
+
+            </svg>
+            <div>
+              Packages "model" and "gui" re-exporting everything through __init__.py.
+              Package "gui" imports from "model".
+            </div>
           </div>
+        </section>
+
+        <section>
+          <h5>Circular dependencies between packages</h5>
+          <div class="image-text" style="float: left;">
+            <svg width="700" height="310" style="background: #f9f9f9; border-radius: 8px; margin-left: 10px; margin-right: 10px;">
+              <!-- Packages: aligned horizontally, minimal top margin -->
+              <rect x="525" y="15" width="165" height="48" rx="9" fill="#4099da" opacity="0.15" />
+              <text x="607" y="45" text-anchor="middle" font-size="16" fill="#4099da">model</text>
+              <rect x="525" y="135" width="165" height="48" rx="9" fill="#4099da" opacity="0.10" />
+              <text x="607" y="165" text-anchor="middle" font-size="16" fill="#4099da">model.geometry</text>
+              <rect x="525" y="255" width="165" height="48" rx="9" fill="#4099da" opacity="0.08" />
+              <text x="607" y="285" text-anchor="middle" font-size="16" fill="#4099da">model.geometry.node</text>
+
+              <rect x="15" y="15" width="165" height="48" rx="12" fill="#28a745" opacity="0.15" />
+              <text x="97" y="45" text-anchor="middle" font-size="16" fill="#28a745">gui</text>
+              <rect x="15" y="135" width="165" height="48" rx="9" fill="#28a745" opacity="0.10" />
+              <text x="97" y="165" text-anchor="middle" font-size="16" fill="#28a745">gui.plots</text>
+              <rect x="15" y="255" width="165" height="48" rx="8" fill="#28a745" opacity="0.08" />
+              <text x="97" y="282" text-anchor="middle" font-size="16" fill="#28a745">gui.plots.graph</text>
+
+              <!-- Arrows: A imports from subpackages (vertical lines) -->
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#4099da" />
+                </marker>
+                <marker id="arrowB" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#28a745" />
+                </marker>
+                <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#dc3545" />
+                </marker>
+              </defs>
+              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- B imports from subpackages (vertical lines) -->
+              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+
+              <!-- B imports from A (allowed) -->
+              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- Attempted dependency from B2 to A1 (circular, not allowed) -->
+              <line x1="525" y1="165" x2="175" y2="282" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed)" stroke-dasharray="6,4" />
+            </svg>
+            <div>
+              Attempting to add a dependency from "model" to "gui" directly from the the module "gui.plots.graph".
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Circular dependencies between packages</h5>
+          <div class="image-text" style="float: left;">
+            <svg width="700" height="310" style="background: #f9f9f9; border-radius: 8px; margin-left: 10px; margin-right: 10px;">
+              <!-- Packages: aligned horizontally, minimal top margin -->
+              <rect x="525" y="15" width="165" height="48" rx="9" fill="#4099da" opacity="0.15" />
+              <text x="607" y="45" text-anchor="middle" font-size="16" fill="#4099da">model</text>
+              <rect x="525" y="135" width="165" height="48" rx="9" fill="#4099da" opacity="0.10" />
+              <text x="607" y="165" text-anchor="middle" font-size="16" fill="#4099da">model.geometry</text>
+              <rect x="525" y="255" width="165" height="48" rx="9" fill="#4099da" opacity="0.08" />
+              <text x="607" y="285" text-anchor="middle" font-size="16" fill="#4099da">model.geometry.node</text>
+
+              <rect x="15" y="15" width="165" height="48" rx="12" fill="#28a745" opacity="0.15" />
+              <text x="97" y="45" text-anchor="middle" font-size="16" fill="#28a745">gui</text>
+              <rect x="15" y="135" width="165" height="48" rx="9" fill="#28a745" opacity="0.10" />
+              <text x="97" y="165" text-anchor="middle" font-size="16" fill="#28a745">gui.plots</text>
+              <rect x="15" y="255" width="165" height="48" rx="8" fill="#28a745" opacity="0.08" />
+              <text x="97" y="282" text-anchor="middle" font-size="16" fill="#28a745">gui.plots.graph</text>
+
+              <!-- Arrows: A imports from subpackages (vertical lines) -->
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#4099da" />
+                </marker>
+                <marker id="arrowB" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#28a745" />
+                </marker>
+                <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#dc3545" />
+                </marker>
+              </defs>
+              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- B imports from subpackages (vertical lines) -->
+              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+
+              <!-- B imports from A (allowed) -->
+              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- Attempted dependency from B2 to A1 (circular, not allowed) -->
+              <line x1="525" y1="165" x2="175" y2="45" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed)" stroke-dasharray="6,4" />
+            </svg>
+            <div>
+              Attempting to add a dependency from "model" to "gui", using re-exported entity, creates a circular dependency.
+            </div>
+          </div>
+        </section>
+        <section>
+          <h5>Circular dependencies between packages</h5>
+          <div style="text-align: left; font-size: 0.7em;">
+            <pre><code data-trim data-noescape class="language-python">
+# model/geometry/node.py
+class Node: ...
+
+# model/geometry/__init__.py
+from .node import Node
+
+# model/__init__.py
+from .geometry import Node
+
+# gui/__init__.py
+from model import Node
+
+# model/geometry/__init__.py
+from gui import Graph
+            </code></pre>
+            <pre><code data-trim data-noescape class="language-bash">
+File "gui/__init__.py", line 1, in <module>
+    from model import Node
+  File "model/__init__.py", line 1, in <module>
+    from .geometry import Node
+  File "model/geometry/__init__.py", line 3, in <module>
+    from gui import Graph
+    ^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'Graph' from partially initialized module 'gui' 
+(most likely due to a circular import) (/gui/__init__.py)</code></pre>
         </section>
       
       </section>
