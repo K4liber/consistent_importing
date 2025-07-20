@@ -50,8 +50,7 @@
       color: var(--heading-color);
       font-family: "Orsted Sans", "Helvetica Neue", Arial, sans-serif !important;
     }
-    
-    .reveal h5 {
+      .reveal h5 {
       position: fixed;
       top: 50px;
       text-align: center;
@@ -89,6 +88,31 @@
     @media print {
       .reveal .footer {
         position: fixed;
+      }
+      
+      /* Fix h5 positioning for print mode */
+      .reveal h5 {
+        position: static !important;
+        top: auto !important;
+        text-align: center;
+        width: auto !important;
+        margin-top: 0;
+        margin-bottom: 1em;
+      }
+      
+      /* Ensure proper slide separation in print */
+      .reveal .slides section {
+        page-break-after: always;
+        page-break-inside: avoid;
+        height: auto !important;
+        min-height: 0 !important;
+      }
+      
+      /* Hide slide controls and navigation in print */
+      .reveal .controls,
+      .reveal .progress,
+      .reveal .slide-number {
+        display: none !important;
       }
     }
 
@@ -138,22 +162,49 @@
         <h2>Consistent importing</h2>
         <h4>Jan Bielecki</h4>
       </section>
-      <!-- main section --> 
+      <!-- main section -->
       <section>
-        <h2>About</h2>
-        <p style="font-size: 0.8em;">About me</p>
-        <p style="font-size: 0.8em;">About Orsted</p>
-      </section>
-      <!-- main section --> 
-      <section>
-        <h3>Agenda</h3>
-        <ol class="upper-roman" style="font-size: 1em;" start="1">
-          <li>How importing in Python works?</li>
-          <li>How to import in a consistent way?</li>
-          <li>How internal dependencies impact a codebase architecture?</li>
-          <li>How we can enforce the selected importing strategy in CI?</li>
-        </ol>
-      </section>
+        <h3>Intro</h3>
+      </section>      <!-- sub sections -->
+      <section>        <section>
+          <h5>Intro</h5>
+          <div style="display: flex; align-items: center; height: 75vh; margin-top: -1em;">
+            <!-- Left side: Photo and description -->
+            <div style="width: 65%; text-align: center; padding-right: 1.5em;">
+              <img src="./img/me.jpg" alt="Jan Bielecki" style="width: 280px; height: 280px; border-radius: 50%; object-fit: cover; margin-bottom: 0.8em; border: 3px solid var(--heading-color);">
+              <p style="font-size: 0.9em; margin-bottom: 0.5em;"><strong>Software Engineer at Ørsted</strong></p>
+              <p style="font-size: 0.3em; line-height: 1.5; text-align: left; max-width: 350px; margin: 0 auto;">
+                Passionate about clean code, Python best practices, and sustainable software architecture. 
+                Working on renewable energy solutions at Ørsted, focusing on maintainable codebases 
+                and developer experience.
+              </p>
+            </div>
+            
+            <!-- Right side: QR code -->
+            <div style="width: 35%; text-align: center; padding-left: 1em;">
+              <div style="background: white; padding: 1.5em; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block;">
+                <img src="./img/presentation_qr.png" alt="QR Code to full presentation" style="width: 140px; height: 140px; margin-bottom: 0.8em;">
+                <p style="font-size: 0.6em; color: #666; margin: 0;">Scan for full presentation</p>
+                <p style="font-size: 0.5em; color: #888; margin: 0.5em 0 0 0;">github.com/jbielecki/consistent_importing</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h5>Orsted</h5>
+          <p style="font-size: 0.8em;">About Orsted</p>
+          <p style="font-size: 0.8em;">About me</p>
+        </section>
+        <section>
+          <h3>Agenda</h3>
+          <ol class="upper-roman" style="font-size: 1em;" start="1">
+            <li>How importing in Python works?</li>
+            <li>How to import in a consistent way?</li>
+            <li>How internal dependencies impact a codebase architecture?</li>
+            <li>How we can enforce the selected importing strategy in CI?</li>
+          </ol>
+        </section>
+      </section> 
       <!-- main section --> 
       <section>
         <h4>Consistent importing</h4>
@@ -477,6 +528,20 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
 (most likely due to a circular import) (/gui/__init__.py)</code></pre>
         </section>
       
+      </section>
+
+      <!-- sub section-->
+      <section>
+
+        <section>
+          <h5>Acyclic dependencies principle (ADP)</h5>
+          <div class="image-text" style="float: left;">
+            <div style="font-size: 0.8em; margin-top: 0.5em;">
+              
+            </div>
+          </div>
+        </section>
+
       </section>
       <!-- main section --> 
       <section>
