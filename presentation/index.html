@@ -165,35 +165,48 @@
       <!-- main section -->
       <section>
         <h3>Intro</h3>
-      </section>      <!-- sub sections -->
-      <section>        <section>
-          <h5>Intro</h5>
+      </section>      
+      <!-- sub sections -->
+      <section>        
+        <section>
           <div style="display: flex; align-items: center; height: 75vh; margin-top: -1em;">
             <!-- Left side: Photo and description -->
-            <div style="width: 65%; text-align: center; padding-right: 1.5em;">
+            <div style="width: 60%; text-align: center; padding-right: 1.5em;">
               <img src="./img/me.jpg" alt="Jan Bielecki" style="width: 280px; height: 280px; border-radius: 50%; object-fit: cover; margin-bottom: 0.8em; border: 3px solid var(--heading-color);">
-              <p style="font-size: 0.9em; margin-bottom: 0.5em;"><strong>Software Engineer at Ørsted</strong></p>
-              <p style="font-size: 0.3em; line-height: 1.5; text-align: left; max-width: 350px; margin: 0 auto;">
-                Passionate about clean code, Python best practices, and sustainable software architecture. 
-                Working on renewable energy solutions at Ørsted, focusing on maintainable codebases 
-                and developer experience.
+              <p style="font-size: 0.9em; margin-bottom: 0.5em;"><strong>Jan Bielecki</strong></p>
+              <p style="font-size: 0.5em; line-height: 1.5; text-align: left; margin: 0 auto;">
+                Senior Full Stack Developer at Ørsted with 6 years of professional experience in software development. Interested in science, digitalization, electrification, sports, music and comedy.
               </p>
             </div>
-            
             <!-- Right side: QR code -->
-            <div style="width: 35%; text-align: center; padding-left: 1em;">
+            <div style="width: 40%; text-align: center; padding-left: 0.02em;">
               <div style="background: white; padding: 1.5em; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block;">
-                <img src="./img/presentation_qr.png" alt="QR Code to full presentation" style="width: 140px; height: 140px; margin-bottom: 0.8em;">
+                <img src="./img/all_slides_pdf_qr_code.png" alt="QR Code to full presentation" style="width: 350px; height: 350px; margin-bottom: 0.1em;">
                 <p style="font-size: 0.6em; color: #666; margin: 0;">Scan for full presentation</p>
-                <p style="font-size: 0.5em; color: #888; margin: 0.5em 0 0 0;">github.com/jbielecki/consistent_importing</p>
+                <p style="font-size: 0.5em; color: #888; margin: 0.1em 0 0 0;">consistent_importing_all_slides.pdf</p>
               </div>
             </div>
           </div>
         </section>
         <section>
-          <h5>Orsted</h5>
-          <p style="font-size: 0.8em;">About Orsted</p>
-          <p style="font-size: 0.8em;">About me</p>
+          <div style="display: flex; align-items: center; height: 75vh; margin-top: -1em;">
+            <!-- Left side: Photo and description -->
+            <div style="width: 60%; text-align: center; padding-right: 1.5em;">
+              <img src="./img/changua.webp" alt="Ørsted" style="width: 280px; height: 280px; object-fit: cover; margin-bottom: 0.8em; border: 3px solid var(--heading-color);">
+              <p style="font-size: 0.9em; margin-bottom: 0.5em;"><strong>Ørsted</strong></p>
+              <p style="font-size: 0.5em; line-height: 1.5; text-align: left; margin: 0 auto;">
+                Ørsted is a Danish multinational power company and a global leader in renewable energy. The company is committed to sustainability and aims to create a world that runs entirely on green energy.[1]
+              </p>
+            </div>
+            <!-- Right side: QR code -->
+            <div style="width: 40%; text-align: center; padding-left: 0.02em;">
+              <div style="background: white; padding: 1.5em; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block;">
+                <img src="./img/all_slides_pdf_qr_code.png" alt="QR Code to full presentation" style="width: 350px; height: 350px; margin-bottom: 0.1em;">
+                <p style="font-size: 0.6em; color: #666; margin: 0;">Scan for full presentation</p>
+                <p style="font-size: 0.5em; color: #888; margin: 0.1em 0 0 0;">consistent_importing_all_slides.pdf</p>
+              </div>
+            </div>
+          </div>
         </section>
         <section>
           <h3>Agenda</h3>
@@ -210,7 +223,7 @@
         <h4>Consistent importing</h4>
         <img style="height: 10em;" data-src="./img/why.jpeg" />
       </section>
-      <!-- sub sections-->
+      <!-- sub sections -->
       <section>
         <section>
           <h5>Re-exporting entities through __init__.py</h5>
@@ -251,12 +264,10 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
           </div>
         </section>
         <section>
-          <h5>Consistency</h5>
-          <img style="height: 8em;" data-src="./img/zuck.png" />
-          <p style="font-size: 0.5em;">
-            "... dressing the same way every day allows 
-            him to save his mental capacity for making more significant decisions at work"[1].
-            (https://www.todaywellspent.com/blogs/articles/why-do-successful-people-wear-the-same-outfits-every-day)
+          <h5>Consistency reduces decision fatigue</h5>
+          <img style="height: 9em;" data-src="./img/zuck.png" />
+          <p style="font-size: 0.7em;">
+            "the more decisions you make throughout the day, the worse you are at making them"[2]
           </p>
         </section>
         <section>
@@ -563,7 +574,8 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
       <section>
         <h3>Bibliography</h3>
         <ol style="font-size: 0.5em;">
-          <li>TODO</li>
+          <li>Photo by Lester Hsu, https://orsted.com/en/media/news/2022/04/20220421515811</li>
+          <li>https://www.todaywellspent.com/blogs/articles/why-do-successful-people-wear-the-same-outfits-every-day</li>
         </ol>
       </section>
     </div>
