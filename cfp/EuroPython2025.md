@@ -26,20 +26,21 @@ Whether you are a beginner or an experienced Python developer, this talk will he
 
 I. How importing in Python works? (10 minutes)
 
-1. Python module
+1. Python interpreter
+2. Python module
 - using Python interpreter with raw code
 - keeping code in files
-2. Why modular structure?
+3. Python package
+4. Why modular structure?
 - reusability
 - readability
 - separation of concerns
 - maintainability
 - testing
-3. Python package
-4. Importance of package/module naming
-5. sys.path
-6. Execute a script vs execute a module
-7. What actually happens when we do import?
+5. Importance of package/module naming
+6. sys.path
+7. Execute a script vs execute a module
+8. What actually happens when we do import?
 
 II. How to import in a consistent way? (5 minutes)
 

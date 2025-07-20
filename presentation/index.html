@@ -283,7 +283,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
       <!-- sub section-->
       <section>
         <section>
-          <h5>Python module</h5>
+          <h5>Python interpreter</h5>
           <pre><code data-trim data-noescape class="language-bash">
           (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
           Python 3.12.8 [GCC 11.2.0] on linux
@@ -304,7 +304,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
         </section>
 
         <section>
-          <h5>1. Python module</h5>
+          <h5>Python module</h5>
           <pre><code data-trim data-noescape class="language-python">
           # my_module.py
           def hello_world() -> None:
@@ -317,12 +317,65 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
           Python 3.12.8 [GCC 11.2.0] on linux
           >>> import my_module
           Hello from my_module!
-          >>> dir(my_module)
+          >>> dir(my_module)  # all properties and methods of the object
           [..., '__name__', '__package__', '__spec__', 'hello_world']
           >>> my_module.hello_world()
           Hello world!
           >>> 
           </code></pre>
+        </section>
+
+        <section>
+          <h5>Python package</h5>
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 1em; letter-spacing: 0.0em;">
+(base) jan@jan-Inspiron-3543:~/consistent_importing$ tree /f   
+   
+│   main.py
+├───gui
+│   │   __init__.py
+│   └───plots
+│       │   __init__.py
+│       └───graph
+│               __init__.py
+└───model
+    │   __init__.py
+    └───geometry
+            node.py
+            edge.py
+            __init__.py
+</code></pre>
+        </section>        <section>
+          <h5>Why modular structure?</h5>
+          <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
+            <div style="width: 60%; padding-left: 0.1em;">
+              <pre><code data-trim data-noescape class="language-python" style="font-size: 0.7em;">
+# >>>>> Without modularity - all in one file
+def calculate_distance(p1, p2): ...
+def create_node(x, y): ...
+def add_edge(graph, n1, n2): ...
+def plot_graph(graph): ...
+def validate_input(data): ...
+# ... 500+ more lines
+# >>>>> With modularity - organized structure
+# model/geometry/node.py
+class Node:
+    def __init__(self, x, y): ...
+
+# gui/plots/graph.py
+class GraphPlotter:
+    def plot(self, graph): ...
+              </code></pre>
+            </div>
+            <div style="width: 40%; padding-right: 0.01em; padding-top: 20vh;">
+              <ul style="font-size: 0.6em; line-height: 1.2;">
+                <li>Reusability</li>
+                <li><b>Readability</b></li>
+                <li>Separation of concerns</li>
+                <li>Encapsulation</li>
+                <li>Maintainability</li>
+              </ul>
+            </div>
+          </div>
         </section>
 
       </section>
