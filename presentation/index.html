@@ -344,10 +344,42 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
             edge.py
             __init__.py
 </code></pre>
-        </section>        <section>
+        </section>        
+        <section>
           <h5>Why modular structure?</h5>
           <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
-            <div style="width: 60%; padding-left: 0.1em;">
+            <div style="width: 50%; padding-left: 0.1em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em;">
+          (base) jan@jan-Inspiron-3543:~/$ python
+          Python 3.12.8 [GCC 11.2.0] on linux
+          >>> def hello_world() -> None:
+          ...     print("Hello world!")
+          ...
+          >>> hello_world()
+          Hello world!
+          >>> exit()
+          (base) jan@jan-Inspiron-3543:~/$ python
+          Python 3.12.8 [GCC 11.2.0] on linux
+          >>> hello_world()
+          Traceback (most recent call last):
+            File "<stdin>", line 1, in <module>
+          NameError: name 'hello_world' is not defined
+          >>> 
+          </code></pre>
+            </div>
+            <div style="width: 50%; padding-right: 0.01em; padding-top: 10vh;">
+                <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Reusability</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Readability</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Encapsulation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h5>Why modular structure?</h5>
+          <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
+            <div style="width: 50%; padding-left: 0.1em;">
               <pre><code data-trim data-noescape class="language-python" style="font-size: 0.7em;">
 # >>>>> Without modularity - all in one file
 def calculate_distance(p1, p2): ...
@@ -366,18 +398,105 @@ class GraphPlotter:
     def plot(self, graph): ...
               </code></pre>
             </div>
-            <div style="width: 40%; padding-right: 0.01em; padding-top: 20vh;">
-              <ul style="font-size: 0.6em; line-height: 1.2;">
-                <li>Reusability</li>
-                <li><b>Readability</b></li>
-                <li>Separation of concerns</li>
-                <li>Encapsulation</li>
-                <li>Maintainability</li>
-              </ul>
+            <div style="width: 50%; padding-right: 0.01em; padding-top: 10vh;">
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Reusability</span></div>
+                <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Readability</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Encapsulation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
             </div>
           </div>
         </section>
+        <section>
+          <h5>Why modular structure?</h5>
+          <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
+            <div style="width: 50%; padding-left: 0.1em;">
+              <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: 0.0em; line-height: 1.1em; margin-top: 2em;">
+(base) jan@jan-Inspiron-3543:~/$ tree /f   
+│   main.py
+├───gui
+│   │   __init__.py
+│   └───plots
+│       │   __init__.py
+│       └───graph
+│               __init__.py
+└───model
+    │   __init__.py
+    └───geometry
+            node.py
+            edge.py
+            __init__.py
+              </code></pre>
+              <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em;">
+# running tests inside a specific package
+python -m pytest model/geometry
+# linting a specific package
+ruff check gui/plots
 
+
+              </code></pre>
+            </div>
+            <div style="width: 50%; padding-right: 0.01em; padding-top: 10vh;">
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Reusability</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Readability</span></div>
+                <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Encapsulation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h5>Why modular structure?</h5>
+          <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
+            <div style="width: 50%; padding-left: 0.1em;">
+              <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: 0em; line-height: 1.1em;">
+(base) jan@jan-Inspiron-3543:~/$ tree /f   
+│   main.py
+├── os
+│   ├── _windows
+│   │   │  __init__.py
+│   │   │  path.py
+│   │   │  ...
+│   │
+│   ├── _linux
+│   │   │  __init__.py
+│   │   │  path.py
+│   │   │  ...
+│   ├── __init__.py
+│   ├── path.py
+│   └──   ...
+└─ __init__.py
+              </code></pre>
+              <pre><code data-trim data-noescape class="language-python" style="font-size: 0.7em;">
+from os.path import copy_file
+
+copy_file("source.txt", "destination.txt")
+              </code></pre>
+            </div>
+            <div style="width: 50%; padding-right: 0.01em; padding-top: 10vh;">
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Reusability</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Readability</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
+                <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Encapsulation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h5>Why modular structure?</h5>
+          <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
+            <div style="width: 50%; padding-left: 0.1em;">
+              TODO sth here about dependencies management?
+            </div>
+            <div style="width: 50%; padding-right: 0.01em; padding-top: 10vh;">
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Reusability</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Readability</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Encapsulation</span></div>
+                <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
+            </div>
+          </div>
+        </section>
       </section>
       <!-- main section --> 
       <section>
