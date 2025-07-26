@@ -38,35 +38,36 @@ I. How importing in Python works? (10 minutes)
 - maintainability
 - testing
 5. Importance of package/module naming
+- utils as a root package name
 6. sys.path
 7. Execute a script vs execute a module
-8. What actually happens when we do import?
+8. Package vs namespace
+9. What actually happens when we do import?
 
 II. How to import in a consistent way? (5 minutes)
 
-0. Consistency advantages
-- no need to think about the same thing twice
-- creating space for automation
-1. Imports on separate lines
+1. Import one definition per line
 - reduction of version control conflicts
 2. Imports at the top of the file
-- clear dependencies
+- clear and evident set of dependencies
 3. Lazy imports of heavy modules
 - improve startup time
 4. Absolute imports
-- avoiding ambiguity
+- avoiding ambiguity (we can be sure what we import)
+- IDEs are handling absolute imports better
 - (exception) relative imports in an encapsulated package
-5. From module import entity
-- avoiding namespace pollution
-6. Package vs namespace
-- understanding the difference
-7. import module (as ...)
+- recommendation: use absolute imports by default
+5. from module import definition
+- the most clear and evident way to import specific definition
+- recommendation: use from module import definition by default
+6. import module (as ...)
 - pandas/numpy as an example
+7. Package vs namespace
+- create package as default, namespace only when needed
 8. Wildcard imports
 - avoiding namespace pollution
 - avoiding ambiguity
-9. Import from package
-- avoiding ambiguity
+9. from package import definition (from __init__.py)
 - (exception) an encapsulated package
 10. Typing, if TYPE_CHECKING
 - avoiding circular dependencies
@@ -87,8 +88,8 @@ III. How internal dependencies impact a codebase architecture? (5 minutes)
 - using import statements to extract dependency graph
 
 IV. How we can enforce the selected importing strategy in CI? (5 minutes)
-1. Import Linter
-2. Ruff setup
+1. Ruff
+2. Import Linter
 
 ## Why am I qualified to speak about this topic?
 

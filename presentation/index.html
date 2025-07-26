@@ -226,7 +226,7 @@
       <!-- sub sections -->
       <section>
         <section>
-          <h5>Re-exporting entities through __init__.py</h5>
+          <h5>Re-exporting definitions through __init__.py</h5>
           <div style="text-align: left; font-size: 0.7em;">
             <pre><code data-trim data-noescape class="language-python">
 # model/geometry/node.py
@@ -507,9 +507,96 @@ copy_file("source.txt", "destination.txt")
       <section>
 
         <section>
-          <h5>0. Typing</h5>
+          <h5>1. Import one definition per line</h5>
+          <div class="image-text" style="float: left;">
+            TODO meme here ...
+            - reduction of version control conflicts
+          </div>
+        </section>
+
+        <section>
+          <h5>2. Imports at the top of the file</h5>
+          <div class="image-text" style="float: left;">
+            TODO ...
+            - clear and evident set of dependencies
+          </div>
+        </section>
+
+        <section>
+          <h5>3. Lazy imports of heavy modules</h5>
+          <div class="image-text" style="float: left;">
+            TODO something about "performance optimization" and exception of "imports at the top of the file"
+            - improve startup time
+          </div>
+        </section>
+
+        <section>
+          <h5>4. Absolute imports</h5>
+          <div class="image-text" style="float: left;">
+            TODO ...
+            - avoiding ambiguity (we can be sure what we import)
+            - IDEs are handling absolute imports better
+            - (exception) relative imports in an encapsulated package
+            - recommendation: use absolute imports by default
+          </div>
+        </section>
+
+        <section>
+          <h5>5. from module import definition</h5>
           <div class="image-text" style="float: left;">
             TODO text here ...
+
+            - the most clear and evident way to import specific definition
+            - recommendation: use from module import definition by default
+          </div>
+        </section>
+
+        <section>
+          <h5>6. import module as abbreviation</h5>
+          <div class="image-text" style="float: left;">
+            TODO ...
+            - numpy as np, pandas as pd, matplotlib.pyplot as plt
+            - recommendation: use import module as abbreviation for well-known abbreviations of libraries
+          </div>
+        </section>
+
+        <section>
+          <h5>7. Package vs namespace</h5>
+          <div class="image-text" style="float: left;">
+            TODO text here ...
+
+            - what is the difference between package and namespace?
+            - recommendation: use packages as default, namespaces only when needed
+          </div>
+        </section>
+
+        <section>
+          <h5>8. Wildcard imports</h5>
+          <div class="image-text" style="float: left;">
+            TODO text here ...
+
+            - avoiding namespace pollution
+            - avoiding ambiguity
+            - recommendation: do not use wildcard imports at all
+          </div>
+        </section>
+
+        <section>
+          <h5>9. from package import definition (from __init__.py)</h5>
+          <div class="image-text" style="float: left;">
+            TODO ... add a code snippet with re-exporting definitions through __init__.py
+            and renaming from private to public (`from ._windows import _copy_file as copy_file`)
+
+            - recommendation: use for an encapsulated logic
+          </div>
+        </section>
+
+        <section>
+          <h5>10. Typing, if TYPE_CHECKING</h5>
+          <div class="image-text" style="float: left;">
+            TODO ... Code snippet with typing and if TYPE_CHECKING
+
+            - recommendation: solve your circular dependencies and do not use 
           </div>
         </section>
 
@@ -735,7 +822,14 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
       <section>
 
         <section>
-          <h5>1. Import Linter</h5>
+          <h5>1. Ruff</h5>
+          <div class="image-text" style="float: left;">
+            TODO text here ...
+          </div>
+        </section>
+
+        <section>
+          <h5>2. Import Linter</h5>
           <div class="image-text" style="float: left;">
             TODO text here ...
           </div>
