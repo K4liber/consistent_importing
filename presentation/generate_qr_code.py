@@ -1,5 +1,8 @@
 import qrcode
 
+# npm run dev
+# http://127.0.0.1:3000/?print-pdf
+
 # Replace with your PDF download URL
 pdf_url = "https://raw.githubusercontent.com/K4liber/consistent_importing/presentation/presentation/consistent_importing_all_slides.pdf"
 

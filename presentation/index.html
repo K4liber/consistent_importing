@@ -227,6 +227,11 @@
       <section>
         <section>
           <h5>Re-exporting definitions through __init__.py</h5>
+          <aside class="notes">
+            - rise up a definition to the package level
+            - rise up all definitions from __init__ to parent package level
+            - re-exporting strategy trade-offs
+          </aside>
           <div style="text-align: left; font-size: 0.7em;">
             <pre><code data-trim data-noescape class="language-python">
 # model/geometry/node.py
@@ -566,6 +571,7 @@ copy_file("source.txt", "destination.txt")
             TODO text here ...
 
             - what is the difference between package and namespace?
+            - naming matters -> maybe example with "utils" package in ori?
             - recommendation: use packages as default, namespaces only when needed
           </div>
         </section>
@@ -770,6 +776,9 @@ copy_file("source.txt", "destination.txt")
         <section>
           <h5>Circular dependencies between packages</h5>
           <div style="text-align: left; font-size: 0.7em;">
+            <aside class="notes">
+            - proof of a circular import error using re-exporting strategy
+          </aside>
             <pre><code data-trim data-noescape class="language-python">
 # model/geometry/node.py
 class Node: ...
@@ -804,11 +813,44 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
       <section>
 
         <section>
+          <div class="image-text" style="float: center;">
+            <img style="height: 15em;" data-src="./img/italian_pasta.jpeg" />
+          </div>
+          <p style="font-size: 0.7em;">
+            Using Python, it is easy to cook some italian pasta code [3]
+          </p>
+        </section>
+        
+        <section>
+          <h5>Clean code principles</h5>
+          <div class="image-text" style="float: left;">
+            TODO ... content
+
+          </div>
+        </section>
+
+        <section>
           <h5>Acyclic dependencies principle (ADP)</h5>
           <div class="image-text" style="float: left;">
             <div style="font-size: 0.8em; margin-top: 0.5em;">
-              
+              TODO content ...
             </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Effort vs benefit of applying clean code principles</h5>
+          <div class="image-text" style="float: left;">
+            TODO ... content
+
+          </div>
+        </section>
+
+        <section>
+          <h5>Automated checks of clean code principles violations</h5>
+          <div class="image-text" style="float: left;">
+            TODO ... content
+
           </div>
         </section>
 
@@ -822,14 +864,28 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
       <section>
 
         <section>
-          <h5>1. Ruff</h5>
+          <h5>Ruff</h5>
           <div class="image-text" style="float: left;">
             TODO text here ...
           </div>
         </section>
 
         <section>
-          <h5>2. Import Linter</h5>
+          <h5>Import Linter</h5>
+          <div class="image-text" style="float: left;">
+            TODO text here ...
+          </div>
+        </section>
+
+        <section>
+          <h5>AcyclicContract</h5>
+          <div class="image-text" style="float: left;">
+            TODO text here ...
+          </div>
+        </section>
+
+        <section>
+          <h5>Check upholding of AcyclicContract in django</h5>
           <div class="image-text" style="float: left;">
             TODO text here ...
           </div>
@@ -842,6 +898,7 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
         <ol style="font-size: 0.5em;">
           <li>Photo by Lester Hsu, https://orsted.com/en/media/news/2022/04/20220421515811</li>
           <li>https://www.todaywellspent.com/blogs/articles/why-do-successful-people-wear-the-same-outfits-every-day</li>
+          <li>Italian pasta code, Lynn (Yu Ling) Wang, https://www.linkedin.com/in/yuling-wang-jobmenta/ </li>
         </ol>
       </section>
     </div>
