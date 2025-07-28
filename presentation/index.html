@@ -377,6 +377,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Readability</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Encapsulation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Collaboration</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
             </div>
           </div>
@@ -408,6 +409,7 @@ class GraphPlotter:
                 <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Readability</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Encapsulation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Collaboration</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
             </div>
           </div>
@@ -446,6 +448,7 @@ ruff check gui/plots
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Readability</span></div>
                 <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Encapsulation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Collaboration</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
             </div>
           </div>
@@ -483,10 +486,29 @@ copy_file("source.txt", "destination.txt")
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Readability</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
                 <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Encapsulation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Collaboration</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
             </div>
           </div>
         </section>
+
+        <section>
+          <h5>Why modular structure?</h5>
+          <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
+            <div style="width: 50%; padding-left: 0.1em;">
+              <img style="height: 8em; padding-top: 8vh;" data-src="./img/merge_conflicts.webp" />
+            </div>
+            <div style="width: 50%; padding-right: 0.01em; padding-top: 10vh;">
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Reusability</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Readability</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Encapsulation</span></div>
+                <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Collaboration</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
+            </div>
+          </div>
+        </section>
+
         <section>
           <h5>Why modular structure?</h5>
           <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
@@ -498,10 +520,37 @@ copy_file("source.txt", "destination.txt")
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Readability</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Encapsulation</span></div>
+                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Collaboration</span></div>
                 <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
             </div>
           </div>
         </section>
+
+        <section>
+          <h5>Package vs namespace</h5>
+          TODO content here
+        </section>
+
+        <section>
+          <h5>Importance of package/module naming</h5>
+          TODO content here ... something about naming the root packages and pushing those packages to PyPI (ori utils case)
+        </section>
+
+        <section>
+          <h5>sys.path</h5>
+          TODO content here ... What is there? How we can modify it?
+        </section>  
+
+        <section>
+          <h5>Execute a script vs execute a module</h5>
+          TODO content here ...
+        </section>
+
+        <section>
+          <h5>What actually happens when we do import?</h5>
+          TODO content here ... about execution of a module on import, only definitions signatures are executed.
+        </section>
+
       </section>
       <!-- main section --> 
       <section>
@@ -570,8 +619,6 @@ copy_file("source.txt", "destination.txt")
           <div class="image-text" style="float: left;">
             TODO text here ...
 
-            - what is the difference between package and namespace?
-            - naming matters -> maybe example with "utils" package in ori?
             - recommendation: use packages as default, namespaces only when needed
           </div>
         </section>
