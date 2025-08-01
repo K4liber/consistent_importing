@@ -912,15 +912,42 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
 
         <section>
           <h5>Ruff</h5>
-          <div class="image-text" style="float: left;">
-            TODO text here ...
+          <div class="image-text" style="float: left; width: 80%;">
+            <pre><code data-trim data-noescape class="language-python">
+TODO some beautiful import sections here ...
+            </code></pre>
+            <pre><code data-trim data-noescape class="language-toml">
+[lint]
+select = [
+    "I",  # isort
+]
+
+[lint.isort]
+force-single-line = true
+known-first-party = ["my_another_package"]
+</code></pre>
+
           </div>
         </section>
 
         <section>
           <h5>Import Linter</h5>
           <div class="image-text" style="float: left;">
-            TODO text here ...
+            Import Linter allows you to define and enforce rules for the internal and external imports within your Python project.
+
+            <pre><code data-trim data-noescape class="language-toml">
+[importlinter]
+root_package = myproject
+
+[importlinter:contract:1]
+name=Foo cannot import bar or baz
+type=forbidden
+source_modules=
+    myproject.foo
+forbidden_modules=
+    myproject.bar
+    myproject.baz
+</code></pre>
           </div>
         </section>
 
@@ -933,8 +960,36 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
 
         <section>
           <h5>Check upholding of AcyclicContract in django</h5>
-          <div class="image-text" style="float: left;">
-            TODO text here ...
+          <div style="text-align: left; font-size: 0.6em;">
+            <pre><code data-trim data-noescape class="language-bash">
+...
+
+>>>> Cycles family for parent module 'django'
+
+Sibilings:
+(
+  django.apps
+  django.core
+)
+
+Number of cycles: 1
+
+Cycle 1 (package dependency):
+
+(
+ -> django.apps (full path: 'django.apps.config')
+ -> django.core (full path: 'django.core.exceptions')
+ -> django.core (full path: 'django.core.checks.model_checks')
+ -> django.apps
+)
+
+<<<< Cycles family for parent module 'django'
+
+Number of cycle families found for a contract 'AcyclicDependencies': 167
+Number of cycle families with package dependencies: 88
+</code></pre>
+
+
           </div>
         </section>
 
