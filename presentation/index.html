@@ -162,10 +162,7 @@
         <h2>Consistent importing</h2>
         <h4>Jan Bielecki</h4>
       </section>
-      <!-- main section -->
-      <section>
-        <h3>Intro</h3>
-      </section>      
+  
       <!-- sub sections -->
       <section>        
         <section>
@@ -861,13 +858,22 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
 
         <section>
           <div class="image-text" style="float: center;">
+            <img style="height: 15em;" data-src="./img/changing_requirements.jpg" />
+          </div>
+          <p style="font-size: 0.7em;">
+            Creating software that can adapt to changing requirements
+          </p>
+        </section>
+
+        <section>
+          <div class="image-text" style="float: center;">
             <img style="height: 15em;" data-src="./img/italian_pasta.jpeg" />
           </div>
           <p style="font-size: 0.7em;">
             Using Python, it is easy to cook some italian pasta code [3]
           </p>
         </section>
-        
+
         <section>
           <h5>Clean code principles</h5>
           <div class="image-text" style="float: left;">
@@ -886,19 +892,21 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
         </section>
 
         <section>
-          <h5>Effort vs benefit of applying clean code principles</h5>
-          <div class="image-text" style="float: left;">
-            TODO ... content
-
+          <div class="image-text" style="float: center;">
+            <img style="height: 15em;" data-src="./img/code_flexibility_vs_effort.png" />
           </div>
+          <p style="font-size: 0.7em;">
+            Effort vs benefit of applying clean code principles
+          </p>
         </section>
 
         <section>
-          <h5>Automated checks of clean code principles violations</h5>
-          <div class="image-text" style="float: left;">
-            TODO ... content
-
+          <div class="image-text" style="float: center;">
+            <img style="height: 15em;" data-src="./img/code_flexibility_vs_effort_part_2.png" />
           </div>
+          <p style="font-size: 0.7em;">
+            Automated checks of clean code principles violations
+          </p>
         </section>
 
       </section>
@@ -932,9 +940,7 @@ known-first-party = ["my_another_package"]
 
         <section>
           <h5>Import Linter</h5>
-          <div class="image-text" style="float: left;">
-            Import Linter allows you to define and enforce rules for the internal and external imports within your Python project.
-
+          <div class="image-text" style="float: center;">
             <pre><code data-trim data-noescape class="language-toml">
 [importlinter]
 root_package = myproject
@@ -949,6 +955,9 @@ forbidden_modules=
     myproject.baz
 </code></pre>
           </div>
+          <p style="font-size: 0.7em; font-style: italic;">
+            "Import Linter allows you to define and enforce rules for the internal and external imports within your Python project."[4]
+          </p>
         </section>
 
         <section>
