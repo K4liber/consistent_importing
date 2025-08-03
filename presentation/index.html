@@ -857,12 +857,10 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
       <section>
 
         <section>
+          <h4>IIIa. Python code that can adapt to changing requirements</h4>
           <div class="image-text" style="float: center;">
             <img style="height: 15em;" data-src="./img/changing_requirements.jpg" />
           </div>
-          <p style="font-size: 0.7em;">
-            Creating software that can adapt to changing requirements
-          </p>
         </section>
 
         <section>
@@ -919,12 +917,25 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
       <section>
 
         <section>
-          <h5>Ruff</h5>
+          <h5>Ruff[4]</h5>
           <div class="image-text" style="float: left; width: 80%;">
             <pre><code data-trim data-noescape class="language-python">
-TODO some beautiful import sections here ...
+import os
+import sys
+from functools import partial
+
+import pandas as pd
+from pydantic import BaseModel
+from pydantic import Field
+
+from my_another_package.graph import Graph
+from my_another_package.graph import Node
+from my_package.model import model
+
             </code></pre>
             <pre><code data-trim data-noescape class="language-toml">
+# ruff.toml
+
 [lint]
 select = [
     "I",  # isort
@@ -939,9 +950,18 @@ known-first-party = ["my_another_package"]
         </section>
 
         <section>
-          <h5>Import Linter</h5>
+          <h5>Import Linter[5]</h5>
+          <img style="height: 8em;" data-src="./img/import-linter.png" />
+          <p style="font-size: 0.7em; font-style: italic;">
+            "Import Linter allows you to define and enforce rules for the internal and external imports within your Python project."
+          </p>
+        </section>
+
+        <section>
           <div class="image-text" style="float: center;">
             <pre><code data-trim data-noescape class="language-toml">
+# .importlinter
+
 [importlinter]
 root_package = myproject
 
@@ -954,16 +974,53 @@ forbidden_modules=
     myproject.bar
     myproject.baz
 </code></pre>
+<pre><code data-trim data-noescape class="language-python">
+(myproject) jan@jan-Inspiron-3543:~$ lint-imports
+=============
+Import Linter
+=============
+
+---------
+Contracts
+---------
+
+Analyzed 134 files, 699 dependencies.
+-------------------------------------
+
+Foo cannot import bar or baz KEPT
+
+Contracts: 1 kept, 0 broken.
+            </code></pre>
           </div>
-          <p style="font-size: 0.7em; font-style: italic;">
-            "Import Linter allows you to define and enforce rules for the internal and external imports within your Python project."[4]
-          </p>
+
         </section>
 
         <section>
           <h5>AcyclicContract</h5>
-          <div class="image-text" style="float: left;">
-            TODO text here ...
+          <div class="image-text" style="float: left; width: 110%;">
+            <pre><code data-trim data-noescape class="language-bash">
+pip install import-linter@git+https://github.com/K4liber/import-linter@issue/221_tree_contract
+</code></pre>
+            <pre><code data-trim data-noescape class="language-toml">
+# .importlinter
+          
+[importlinter]
+root_packages = 
+  django
+
+[importlinter:contract:1]
+name=Acyclic
+type=acyclic
+consider_package_dependencies=true
+max_cycle_families=1
+exclude_parents=
+  django.test
+
+            </code></pre>
+            <pre><code data-trim data-noescape class="language-bash">
+(django) jan@jan-Inspiron-3543:~$ lint-imports
+</code></pre>
+
           </div>
         </section>
 
