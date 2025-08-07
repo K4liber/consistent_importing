@@ -510,7 +510,7 @@ copy_file("source.txt", "destination.txt")
           <h5>Why modular structure?</h5>
           <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
             <div style="width: 50%; padding-left: 0.1em;">
-              TODO sth here about dependencies management?
+              <img style="height: 8em; padding-top: 2em;" data-src="./img/component_dependencies.jpg" />
             </div>
             <div style="width: 50%; padding-right: 0.01em; padding-top: 10vh;">
                 <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Reusability</span></div>
@@ -524,23 +524,108 @@ copy_file("source.txt", "destination.txt")
         </section>
 
         <section>
-          <h5>Package vs namespace</h5>
-          TODO content here
+          <h5>sys.path</h5>
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+(.venv) ~\consistent_importing>python
+>>> import sys
+>>> from pprint import pprint
+>>> pprint(sys.path)
+[
+ '',
+ 'C:\\Users\\JBIEL\\Desktop\\projects\\report-filler',
+ 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing',
+ 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip',
+ 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\DLLs',
+ 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\Lib',
+ 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313',
+ 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing\\.venv',
+ 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing\\.venv\\Lib\\site-packages'
+]
+</code>
+        </section> 
+
+        <section>
+          <h5>Package vs Namespace Package</h5>
+          <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
+            <div style="width: 45%; padding-left: 0.1em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+────my_package (/some/path/to/my_package)
+    │   __init__.py
+    ├───plot
+    │   __init__.py
+    ├───model
+    │       __init__.py
+...
+────my_package (/some/another_path/to/my_package)
+    │   __init__.py
+    ├───plot
+    │   __init__.py
+    ├───computation
+    │       __init__.py
+  ...
+</code></pre>
+            </div>
+            <div style="width: 55%; padding-right: 0.01em">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+(.venv) ~\consistent_importing>python
+>>> import sys
+>>> sys.path
+[
+  '/some/path/to/my_package',
+  '/some/another_path/to/my_package'
+]
+>>> import my_package.model
+success!
+>>> import my_package.computation
+Traceback (most recent call last):
+  File "<python-input-10>", line 1, in <module>
+    import my_package.computation
+ModuleNotFoundError: No module named 'my_package.computation'
+</code></pre>
+
+            </div>
+          </div>
         </section>
 
         <section>
           <h5>Importance of package/module naming</h5>
           TODO content here ... something about naming the root packages and pushing those packages to PyPI (ori utils case)
-        </section>
-
-        <section>
-          <h5>sys.path</h5>
-          TODO content here ... What is there? How we can modify it?
-        </section>  
+        </section> 
 
         <section>
           <h5>Execute a script vs execute a module</h5>
-          TODO content here ...
+          <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
+            <div style="width: 60%; padding-left: 0.1em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+(.venv) ~\consistent_importing>python -m examples.gui_model.main
+[
+ '~\\consistent_importing',
+ ...
+ '~\\consistent_importing\\.venv'
+]
+Success!
+(.venv) ~\consistent_importing>python examples\gui_model\main.py
+[
+ '~\\consistent_importing\\examples\\gui_model',
+ ...
+ '~\\consistent_importing\\.venv'
+]
+Success!
+</code></pre>
+            </div>
+            <div style="width: 40%; padding-right: 0.01em">
+              <p style="font-size: 0.7em; margin-top: 1em;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 0.9em; letter-spacing: -0.1em;">
+# examples\gui_model\main.py
+
+from pprint import pprint
+
+pprint(sys.path)
+print("Success!")
+</code></pre>
+              </p>
+            </div>
+          </div>
         </section>
 
         <section>
@@ -612,11 +697,11 @@ copy_file("source.txt", "destination.txt")
         </section>
 
         <section>
-          <h5>7. Package vs namespace</h5>
+          <h5>7. Package vs Namespace Package</h5>
           <div class="image-text" style="float: left;">
             TODO text here ...
 
-            - recommendation: use packages as default, namespaces only when needed
+            - recommendation: use packages as default (create __init__.py file), namespace package only when needed
           </div>
         </section>
 
