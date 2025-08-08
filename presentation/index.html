@@ -142,6 +142,13 @@
       color: rgba(255, 255, 255, 0.8) !important;
       font-weight: bold !important;
     }
+    /* Maximize code area in #large-content */
+    #large-content {
+      height: 80vh !important;
+    }
+    #large-content pre, #large-content code {
+      height: 70vh;
+    }
   </style>
 </head>
 
@@ -169,12 +176,12 @@
           <div style="display: flex; align-items: center; height: 75vh; margin-top: -1em;">
             <!-- Left side: Photo and description -->
             <div style="width: 60%; text-align: center; padding-right: 1.5em;">
-              <img src="./img/me.jpg" alt="Jan Bielecki" style="width: 220px; height: 220px; border-radius: 50%; object-fit: cover; margin-bottom: 0.8em; border: 3px solid var(--heading-color);">
-              <p style="font-size: 0.9em; margin-bottom: 0.5em;"><strong>Jan Bielecki</strong></p>
+              <img src="./img/me.jpg" alt="Jan Bielecki" style="width: 220px; height: 220px; border-radius: 50%; object-fit: cover; border: 3px solid var(--heading-color);">
+              <p style="font-size: 0.9em; margin: 0;"><strong>Jan Bielecki</strong></p>
               <div style="display: flex; justify-content: space-between; gap: 0.5em; margin-top: 0.8em;">
                 <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
                   <img src="./img/game-maker.jfif" alt="Background" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.3em; border: 2px solid var(--heading-color);">
-                  <p style="font-size: 0.45em; font-weight: bold; margin: 0 0 0.2em 0; color: var(--heading-color);">~2006</p>
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0 0 0.2em 0; color: var(--heading-color);">2005</p>
                   <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Game maker enthusiast</p>
                 </div>
                 <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
@@ -202,12 +209,26 @@
         <section>
           <div style="display: flex; align-items: center; height: 75vh; margin-top: -1em;">
             <!-- Left side: Photo and description -->
-            <div style="width: 60%; text-align: center; padding-right: 1.5em;">
-              <img src="./img/changua.webp" alt="Ørsted" style="width: 280px; height: 280px; object-fit: cover; margin-bottom: 0.8em; border: 3px solid var(--heading-color);">
-              <p style="font-size: 0.9em; margin-bottom: 0.5em;"><strong>Ørsted</strong></p>
-              <p style="font-size: 0.5em; line-height: 1.5; text-align: left; margin: 0 auto;">
-                Ørsted is a Danish multinational power company and a global leader in renewable energy. The company is committed to sustainability and aims to create a world that runs entirely on green energy.[1]
-              </p>
+             <div style="width: 60%; text-align: center; padding-right: 1.5em;">
+              <img src="./img/changua.webp" alt="Jan Bielecki" style="width: 220px; height: 220px; border-radius: 50%; object-fit: cover; border: 3px solid var(--heading-color);">
+              <p style="font-size: 0.9em; margin: 0;"><strong>Ørsted[1]</strong></p>
+              <div style="display: flex; justify-content: space-between; gap: 0.5em; margin-top: 0.8em;">
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/world.png" alt="Background" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.3em; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0 0 0.2em 0; color: var(--heading-color);">~8000</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">All employees in 54 countries</p>
+                </div>
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/computer.avif" alt="Focus" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.3em; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0 0 0.2em 0; color: var(--heading-color);">~1000</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">IT employees</p>
+                </div>
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/python-logo.png" alt="Passion" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.3em; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0 0 0.2em 0; color: var(--heading-color);">50-100</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Pythonistas</p>
+                </div>
+              </div>
             </div>
             <!-- Right side: QR code -->
             <div style="width: 40%; text-align: center; padding-left: 0.02em;">
@@ -333,7 +354,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
           Python 3.12.8 [GCC 11.2.0] on linux
           >>> import my_module
           Hello from my_module!
-          >>> dir(my_module)  # all properties and methods of the object
+          >>> dir(my_module)  # properties and methods of the object
           [..., '__name__', '__package__', '__spec__', 'hello_world']
           >>> my_module.hello_world()
           Hello world!
@@ -344,7 +365,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
         <section>
           <h5>Python package</h5>
 <pre><code data-trim data-noescape class="language-bash" style="font-size: 1em; letter-spacing: 0.0em;">
-(base) jan@jan-Inspiron-3543:~/consistent_importing$ tree /f   
+(base) :~/consistent_importing$ tree /f   
    
 │   main.py
 ├───gui
@@ -368,19 +389,18 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
 <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em;">
           (base) jan@jan-Inspiron-3543:~/$ python
           Python 3.12.8 [GCC 11.2.0] on linux
-          >>> def hello_world() -> None:
+          >>> def hi() -> None:
           ...     print("Hello world!")
           ...
-          >>> hello_world()
+          >>> hi()
           Hello world!
           >>> exit()
           (base) jan@jan-Inspiron-3543:~/$ python
           Python 3.12.8 [GCC 11.2.0] on linux
-          >>> hello_world()
+          >>> hi()
           Traceback (most recent call last):
             File "<stdin>", line 1, in <module>
-          NameError: name 'hello_world' is not defined
-          >>> 
+          NameError: name 'hi' is not defined
           </code></pre>
             </div>
             <div style="width: 50%; padding-right: 0.01em; padding-top: 10vh;">
@@ -398,14 +418,14 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
           <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
             <div style="width: 50%; padding-left: 0.1em;">
               <pre><code data-trim data-noescape class="language-python" style="font-size: 0.7em;">
-# >>>>> Without modularity - all in one file
+# >>>>> all in one file: messy
 def calculate_distance(p1, p2): ...
 def create_node(x, y): ...
 def add_edge(graph, n1, n2): ...
 def plot_graph(graph): ...
 def validate_input(data): ...
 # ... 500+ more lines
-# >>>>> With modularity - organized structure
+# >>>>> organized structure: clean
 # model/geometry/node.py
 class Node:
     def __init__(self, x, y): ...
@@ -561,16 +581,16 @@ copy_file("source.txt", "destination.txt")
         <section>
           <h5>Package vs Namespace Package</h5>
           <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
-            <div style="width: 45%; padding-left: 0.1em;">
+            <div style="width: 40%; padding-left: 0.1em;">
 <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
-────my_package (/some/path/to/my_package)
+────my_package (/some/path)
     │   __init__.py
     ├───plot
     │   __init__.py
     ├───model
     │       __init__.py
 ...
-────my_package (/some/another_path/to/my_package)
+────my_package (/some/another_path)
     │   __init__.py
     ├───plot
     │   __init__.py
@@ -579,14 +599,14 @@ copy_file("source.txt", "destination.txt")
   ...
 </code></pre>
             </div>
-            <div style="width: 55%; padding-right: 0.01em">
+            <div style="width: 60%; padding-right: 0.01em">
 <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
 (.venv) ~\consistent_importing>python
 >>> import sys
 >>> sys.path
 [
-  '/some/path/to/my_package',
-  '/some/another_path/to/my_package'
+  '/some/path',
+  '/some/another_path'
 ]
 >>> import my_package.model
 success!
@@ -606,16 +626,16 @@ ModuleNotFoundError: No module named 'my_package.computation'
           <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
             <div style="width: 60%; padding-left: 0.1em;">
 <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
-(.venv) ~\consistent_importing>python -m examples.gui_model.main
+(.venv) ~\consistent_importing>python -m src.gui_model.main
 [
  '~\\consistent_importing',
  ...
  '~\\consistent_importing\\.venv'
 ]
 Success!
-(.venv) ~\consistent_importing>python examples\gui_model\main.py
+(.venv) ~\consistent_importing>python src\gui_model\main.py
 [
- '~\\consistent_importing\\examples\\gui_model',
+ '~\\consistent_importing\\src\\gui_model',
  ...
  '~\\consistent_importing\\.venv'
 ]
@@ -625,7 +645,7 @@ Success!
             <div style="width: 40%; padding-right: 0.01em">
               <p style="font-size: 0.7em; margin-top: 1em;">
 <pre><code data-trim data-noescape class="language-python" style="font-size: 0.9em; letter-spacing: -0.1em;">
-# examples\gui_model\main.py
+# src\gui_model\main.py
 
 from pprint import pprint
 
@@ -638,37 +658,38 @@ print("Success!")
         </section>
 
         <section>
-          <h5>What actually happens when we do import?</h5>
-          <div id="content" style="display: flex; align-items: flex-start; height: 95vh; margin-top: 3em;">
-            <div style="width: 50%; padding-left: 0.1em;">
-<pre><code data-trim data-noescape class="language-python" style="font-size: 0.5em; letter-spacing: -0.1em;">
-# examples\on_import\another_module.py
-print("hello from another_module.py")
-print("goodbye from another_module.py")
-# examples\on_import\module.py
-print("hello from module.py")
-def module_function() -> None:
-    import examples.on_import.another_module
-    print(dir(examples.on_import.another_module))
-print("goodbye from module.py")
-# examples\on_import\main.py
-from examples.on_import.module import module_function; import inspect
+          <div id="large-content" style="display: flex; align-items: left; margin: 0; padding: 0;">
+            <div style="width: 50%;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 0.75em; letter-spacing: -0.1em;">
+# src\on_import\module_b.py
+print("greetings from module_b.py")
+
+# src\on_import\module_a.py
+print("hello from module_a.py")
+def function_a() -> None:
+    import src.on_import.module_b
+    print(dir(src.on_import.module_b))
+print("goodbye from module_a.py")
+
+# src\on_import\main.py
+from src.on_import.module_a import function_a
+import inspect
 print("hello from main.py")
-print(inspect.getsource(module_function))
-module_function()
+print(inspect.getsource(function_a))
+function_a()
 print("goodbye from main.py")
 </code></pre>
             </div>
-            <div style="width: 50%; padding-right: 0.01em">
-              <p style="font-size: 0.7em; margin-top: 1em;">
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
-(.venv) >python -m examples.on_import.main
+            <div style="width: 50%;">
+              <p style="font-size: 0.7em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.75em; letter-spacing: -0.1em;">
+(.venv) >python -m src.on_import.main
 hello from module.py
 goodbye from module.py
 hello from main.py
 def module_function() -> None:
-    import examples.on_import.another_module
-    print(dir(examples.on_import.another_module))
+    import src.on_import.another_module
+    print(dir(src.on_import.another_module))
     print("hello from module_function")
 
 hello from another_module.py
@@ -691,14 +712,14 @@ goodbye from main.py
       <section>
 
         <section>
-          <h5>1. Imports granularity</h5>
-          <div class="image-text" style="float: center;">
-            <div id="content" style="display: flex; align-items: flex-start; height: 45vh; margin-top: 3em;">
-              <div style="width: 50%; padding-left: 0.1em;">
-<img style="height: 12em;" data-src="./img/merge_conflicts.webp" />
+          <h5>1. Import one definition per line</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+              <div style="width: 45%; padding-left: 0.1em;">
+                <img style="height: 50vh;" data-src="./img/merge_conflicts.webp" />
               </div>
-              <div style="width: 50%; padding-right: 0.01em">
-                <p style="font-size: 0.7em; margin-top: 1em;">
+              <div style="width: 55%; padding-right: 0.01em">
+                <p style="font-size: 0.7em; margin-top: 1vh;">
   <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
 import filecmp
 import shutil
@@ -706,7 +727,7 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
-import numppy as np
+import numpy as np
 
 from common.constants import current_version
 from common.constants import default_model_type
@@ -719,10 +740,9 @@ from source.connector.adapter import TimeSeriesAdapter
                 </p>
               </div>
             </div>
-            <div>
-              <b>Recommendation:</b> import one definition per line</br>
-              <b>Benefit:</b> Reduction of version control conflicts
-            </div>
+            <p>
+              <b>Benefit:</b>Reduction of version control conflicts
+            </p>
           </div>
         </section>
 
@@ -782,7 +802,7 @@ from source.connector.adapter import TimeSeriesAdapter
         </section>
 
         <section>
-          <h5>8. Wildcard imports</h5>
+          <h5>8. Do not use wildcard imports</h5>
           <div class="image-text" style="float: left;">
             TODO text here ...
 
@@ -793,7 +813,7 @@ from source.connector.adapter import TimeSeriesAdapter
         </section>
 
         <section>
-          <h5>9. from package import definition (from __init__.py)</h5>
+          <h5>9. Import definition from package (__init__.py)</h5>
           <div class="image-text" style="float: left;">
             TODO ... add a code snippet with re-exporting definitions through __init__.py
             and renaming from private to public (`from ._windows import _copy_file as copy_file`)
@@ -824,8 +844,8 @@ from source.connector.adapter import TimeSeriesAdapter
           <h5>Python circular imports -> bug or a feature?</h5>
           <div class="image-text" style="float: left;">
             <img style="height: 14em;" src="./img/impact_on_architecture.png" alt="Circular import illustration" />
-            <div style="font-size: 0.8em; margin-top: 0.5em;">
-              Circular imports can be both a bug and a feature: they often signal a design issue, but sometimes are used intentionally for plugin systems or late binding. In most cases, refactoring to avoid them leads to clearer architecture.
+            <div style="margin-top: 0.5em;">
+              Circular imports often signal a design issue, but sometimes are used intentionally for plugin systems or late binding.
             </div>
           </div>
         </section>
@@ -872,7 +892,7 @@ from source.connector.adapter import TimeSeriesAdapter
               <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrow)" />
 
             </svg>
-            <div>
+            <div style="margin-top: 0.5em;">
               Packages "model" and "gui" re-exporting everything through __init__.py.
               Package "gui" imports from "model".
             </div>
@@ -923,7 +943,7 @@ from source.connector.adapter import TimeSeriesAdapter
               <!-- Attempted dependency from B2 to A1 (circular, not allowed) -->
               <line x1="525" y1="165" x2="175" y2="282" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed)" stroke-dasharray="6,4" />
             </svg>
-            <div>
+            <div style="margin-top: 0.5em;">
               Attempting to add a dependency from "model" to "gui" directly from the the module "gui.plots.graph".
             </div>
           </div>
@@ -973,7 +993,7 @@ from source.connector.adapter import TimeSeriesAdapter
               <!-- Attempted dependency from B2 to A1 (circular, not allowed) -->
               <line x1="525" y1="165" x2="175" y2="45" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed)" stroke-dasharray="6,4" />
             </svg>
-            <div>
+            <div style="margin-top: 0.5em;">
               Attempting to add a dependency from "model" to "gui", using re-exported entity, creates a circular dependency.
             </div>
           </div>
@@ -1158,9 +1178,10 @@ Contracts: 1 kept, 0 broken.
 
         <section>
           <h5>AcyclicContract</h5>
-          <div class="image-text" style="float: left; width: 110%;">
+          <div class="image-text" style="float: left; width: 100%;">
             <pre><code data-trim data-noescape class="language-bash">
-pip install import-linter@git+https://github.com/K4liber/import-linter@issue/221_tree_contract
+pip install 
+import-linter@git+https://github.com/K4liber/import-linter@issue/221_tree_contract
 </code></pre>
             <pre><code data-trim data-noescape class="language-toml">
 # .importlinter
@@ -1173,7 +1194,7 @@ root_packages =
 name=Acyclic
 type=acyclic
 consider_package_dependencies=true
-max_cycle_families=1
+max_cycle_families=-1
 exclude_parents=
   django.test
 
@@ -1218,6 +1239,14 @@ Number of cycle families with package dependencies: 88
 
 
           </div>
+        </section>
+
+        <section>
+          <h5>Acyclic dependencies</h5>
+          <img style="height: 8em;" data-src="./img/fun_with_flags.png" />
+          <p style="font-size: 0.7em; font-style: italic;">
+            Could it have been more fun for django developers if they had used AcyclicContract from the start?
+          </p>
         </section>
 
       </section>
