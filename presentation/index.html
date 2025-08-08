@@ -169,11 +169,25 @@
           <div style="display: flex; align-items: center; height: 75vh; margin-top: -1em;">
             <!-- Left side: Photo and description -->
             <div style="width: 60%; text-align: center; padding-right: 1.5em;">
-              <img src="./img/me.jpg" alt="Jan Bielecki" style="width: 280px; height: 280px; border-radius: 50%; object-fit: cover; margin-bottom: 0.8em; border: 3px solid var(--heading-color);">
+              <img src="./img/me.jpg" alt="Jan Bielecki" style="width: 220px; height: 220px; border-radius: 50%; object-fit: cover; margin-bottom: 0.8em; border: 3px solid var(--heading-color);">
               <p style="font-size: 0.9em; margin-bottom: 0.5em;"><strong>Jan Bielecki</strong></p>
-              <p style="font-size: 0.5em; line-height: 1.5; text-align: left; margin: 0 auto;">
-                Senior Full Stack Developer at Ørsted with 6 years of professional experience in software development. Interested in science, digitalization, electrification, sports, music and comedy.
-              </p>
+              <div style="display: flex; justify-content: space-between; gap: 0.5em; margin-top: 0.8em;">
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/game-maker.jfif" alt="Background" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.3em; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0 0 0.2em 0; color: var(--heading-color);">~2006</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Game maker enthusiast</p>
+                </div>
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/python-logo.png" alt="Focus" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.3em; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0 0 0.2em 0; color: var(--heading-color);">2017</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Love at first sight for Python</p>
+                </div>
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/money.png" alt="Passion" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.3em; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0 0 0.2em 0; color: var(--heading-color);">2019</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Using Python at work</p>
+                </div>
+              </div>
             </div>
             <!-- Right side: QR code -->
             <div style="width: 40%; text-align: center; padding-left: 0.02em;">
@@ -588,11 +602,6 @@ ModuleNotFoundError: No module named 'my_package.computation'
         </section>
 
         <section>
-          <h5>Importance of package/module naming</h5>
-          TODO content here ... something about naming the root packages and pushing those packages to PyPI (ori utils case)
-        </section> 
-
-        <section>
           <h5>Execute a script vs execute a module</h5>
           <div style="display: flex; align-items: flex-start; height: 90vh; margin-top: 3em;">
             <div style="width: 60%; padding-left: 0.1em;">
@@ -630,7 +639,46 @@ print("Success!")
 
         <section>
           <h5>What actually happens when we do import?</h5>
-          TODO content here ... about execution of a module on import, only definitions signatures are executed.
+          <div id="content" style="display: flex; align-items: flex-start; height: 95vh; margin-top: 3em;">
+            <div style="width: 50%; padding-left: 0.1em;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 0.5em; letter-spacing: -0.1em;">
+# examples\on_import\another_module.py
+print("hello from another_module.py")
+print("goodbye from another_module.py")
+# examples\on_import\module.py
+print("hello from module.py")
+def module_function() -> None:
+    import examples.on_import.another_module
+    print(dir(examples.on_import.another_module))
+print("goodbye from module.py")
+# examples\on_import\main.py
+from examples.on_import.module import module_function; import inspect
+print("hello from main.py")
+print(inspect.getsource(module_function))
+module_function()
+print("goodbye from main.py")
+</code></pre>
+            </div>
+            <div style="width: 50%; padding-right: 0.01em">
+              <p style="font-size: 0.7em; margin-top: 1em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+(.venv) >python -m examples.on_import.main
+hello from module.py
+goodbye from module.py
+hello from main.py
+def module_function() -> None:
+    import examples.on_import.another_module
+    print(dir(examples.on_import.another_module))
+    print("hello from module_function")
+
+hello from another_module.py
+goodbye from another_module.py
+[..., '__name__', '__package__']
+goodbye from main.py
+</code></pre>
+              </p>
+            </div>
+          </div>
         </section>
 
       </section>
@@ -643,17 +691,45 @@ print("Success!")
       <section>
 
         <section>
-          <h5>1. Import one definition per line</h5>
-          <div class="image-text" style="float: left;">
-            TODO meme here ...
-            - reduction of version control conflicts
+          <h5>1. Imports granularity</h5>
+          <div class="image-text" style="float: center;">
+            <div id="content" style="display: flex; align-items: flex-start; height: 45vh; margin-top: 3em;">
+              <div style="width: 50%; padding-left: 0.1em;">
+<img style="height: 12em;" data-src="./img/merge_conflicts.webp" />
+              </div>
+              <div style="width: 50%; padding-right: 0.01em">
+                <p style="font-size: 0.7em; margin-top: 1em;">
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+import filecmp
+import shutil
+from pathlib import Path
+
+import pandas as pd
+import pytest
+import numppy as np
+
+from common.constants import current_version
+from common.constants import default_model_type
+from dashboard.model.model import Model
+from dashboard.model.model import ModelType
+from source.db import DB
+from source.connector.adapter import TimeSeriesAdapter
+
+  </code></pre>
+                </p>
+              </div>
+            </div>
+            <div>
+              <b>Recommendation:</b> import one definition per line</br>
+              <b>Benefit:</b> Reduction of version control conflicts
+            </div>
           </div>
         </section>
 
         <section>
-          <h5>2. Imports at the top of the file</h5>
+          <h5>2. Imports place</h5>
           <div class="image-text" style="float: left;">
-            TODO ...
+            TODO ... recommendation: import at the top of the file
             - clear and evident set of dependencies
           </div>
         </section>
