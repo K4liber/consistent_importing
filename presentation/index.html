@@ -147,7 +147,7 @@
       height: 80vh !important;
     }
     #large-content pre, #large-content code {
-      height: 70vh;
+      height: 80%;
     }
   </style>
 </head>
@@ -186,8 +186,8 @@
                 </div>
                 <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
                   <img src="./img/python-logo.png" alt="Focus" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.3em; border: 2px solid var(--heading-color);">
-                  <p style="font-size: 0.45em; font-weight: bold; margin: 0 0 0.2em 0; color: var(--heading-color);">2017</p>
-                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Love at first sight for Python</p>
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0 0 0.2em 0; color: var(--heading-color);">2015</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">First Python code (internship)</p>
                 </div>
                 <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
                   <img src="./img/money.png" alt="Passion" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.3em; border: 2px solid var(--heading-color);">
@@ -209,7 +209,7 @@
         <section>
           <div style="display: flex; align-items: center; height: 75vh; margin-top: -1em;">
             <!-- Left side: Photo and description -->
-             <div style="width: 60%; text-align: center; padding-right: 1.5em;">
+            <div style="width: 60%; text-align: center; padding-right: 1.5em;">
               <img src="./img/changua.webp" alt="Jan Bielecki" style="width: 220px; height: 220px; border-radius: 50%; object-fit: cover; border: 3px solid var(--heading-color);">
               <p style="font-size: 0.9em; margin: 0;"><strong>Ørsted[1]</strong></p>
               <div style="display: flex; justify-content: space-between; gap: 0.5em; margin-top: 0.8em;">
@@ -663,17 +663,21 @@ print("Success!")
 <pre><code data-trim data-noescape class="language-python" style="font-size: 0.75em; letter-spacing: -0.1em;">
 # src\on_import\module_b.py
 print("greetings from module_b.py")
+a = 123
 
 # src\on_import\module_a.py
 print("hello from module_a.py")
+
 def function_a() -> None:
     import src.on_import.module_b
     print(dir(src.on_import.module_b))
+
 print("goodbye from module_a.py")
 
 # src\on_import\main.py
 from src.on_import.module_a import function_a
 import inspect
+
 print("hello from main.py")
 print(inspect.getsource(function_a))
 function_a()
@@ -692,9 +696,8 @@ def module_function() -> None:
     print(dir(src.on_import.another_module))
     print("hello from module_function")
 
-hello from another_module.py
-goodbye from another_module.py
-[..., '__name__', '__package__']
+greetings from module_b.py
+[..., '__name__', '__package__', 'a']
 goodbye from main.py
 </code></pre>
               </p>
@@ -716,7 +719,7 @@ goodbye from main.py
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <div style="display: flex; align-items: flex-start;">
               <div style="width: 45%; padding-left: 0.1em;">
-                <img style="height: 50vh;" data-src="./img/merge_conflicts.webp" />
+                <img style="height: 40vh;" data-src="./img/merge_conflicts.webp" />
               </div>
               <div style="width: 55%; padding-right: 0.01em">
                 <p style="font-size: 0.7em; margin-top: 1vh;">
@@ -741,13 +744,13 @@ from source.connector.adapter import TimeSeriesAdapter
               </div>
             </div>
             <p>
-              <b>Benefit:</b>Reduction of version control conflicts
+              <b>Benefit: </b>Reduction of version control conflicts
             </p>
           </div>
         </section>
 
         <section>
-          <h5>2. Imports place</h5>
+          <h5>2. Place imports at the top of a file</h5>
           <div class="image-text" style="float: left;">
             TODO ... recommendation: import at the top of the file
             - clear and evident set of dependencies
@@ -841,10 +844,20 @@ from source.connector.adapter import TimeSeriesAdapter
       <section>
 
         <section>
-          <h5>Python circular imports -> bug or a feature?</h5>
+          <h5>Python circular imports. A bug or a feature?</h5>
           <div class="image-text" style="float: left;">
-            <img style="height: 14em;" src="./img/impact_on_architecture.png" alt="Circular import illustration" />
-            <div style="margin-top: 0.5em;">
+            <pre><code data-trim data-noescape class="language-bash">
+File "gui/__init__.py", line 1, in <module>
+    from model import Node
+  File "model/__init__.py", line 1, in <module>
+    from .geometry import Node
+  File "model/geometry/__init__.py", line 3, in <module>
+    from gui import Graph
+    ^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'Graph' from partially initialized module 'gui' 
+(most likely due to a circular import) (/gui/__init__.py)
+            </code></pre>
+            <div style="font-size: 0.8em; margin-top: 0.5em;">
               Circular imports often signal a design issue, but sometimes are used intentionally for plugin systems or late binding.
             </div>
           </div>
@@ -892,7 +905,7 @@ from source.connector.adapter import TimeSeriesAdapter
               <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrow)" />
 
             </svg>
-            <div style="margin-top: 0.5em;">
+            <div>
               Packages "model" and "gui" re-exporting everything through __init__.py.
               Package "gui" imports from "model".
             </div>
@@ -943,7 +956,7 @@ from source.connector.adapter import TimeSeriesAdapter
               <!-- Attempted dependency from B2 to A1 (circular, not allowed) -->
               <line x1="525" y1="165" x2="175" y2="282" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed)" stroke-dasharray="6,4" />
             </svg>
-            <div style="margin-top: 0.5em;">
+            <div>
               Attempting to add a dependency from "model" to "gui" directly from the the module "gui.plots.graph".
             </div>
           </div>
@@ -993,7 +1006,7 @@ from source.connector.adapter import TimeSeriesAdapter
               <!-- Attempted dependency from B2 to A1 (circular, not allowed) -->
               <line x1="525" y1="165" x2="175" y2="45" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed)" stroke-dasharray="6,4" />
             </svg>
-            <div style="margin-top: 0.5em;">
+            <div>
               Attempting to add a dependency from "model" to "gui", using re-exported entity, creates a circular dependency.
             </div>
           </div>
@@ -1055,19 +1068,42 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
 
         <section>
           <h5>Clean code principles</h5>
-          <div class="image-text" style="float: left;">
-            TODO ... content
-
+          <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+            <div style="flex: 1; text-align: center;">
+              <img src="img/uncle_bob.jpg" alt="Uncle Bob" style="width: 13vw; border-radius: 1em; float: center;" />
+              <div style="font-size: 0.5em; margin-top: 0.5em;">
+                <strong>Uncle Bob</strong><br>
+                <em>Clean Code: A Handbook of Agile Software Craftsmanship</em><br>
+                2008
+              </div>
+            </div>
+            <div style="flex: 2; text-align: left; margin-left: 2em;">
+              <ul style="font-size: 0.7em;">
+                <li><strong>SRP</strong> - Single Responsibility Principle</li>
+                <li><strong>OCP</strong> - Open/Closed Principle</li>
+                <li><strong>LSP</strong> - Liskov Substitution Principle</li>
+                <li><strong>ISP</strong> - Interface Segregation Principle</li>
+                <li><strong>DIP</strong> - Dependency Inversion Principle</li>
+                <li><strong>DRY</strong> - Don't Repeat Yourself</li>
+                <li><strong>KISS</strong> - Keep It Simple, Stupid</li>
+                <li><strong>YAGNI</strong> - You Aren't Gonna Need It</li>
+                <li><strong>POLA</strong> - Principle of Least Astonishment</li>
+                <li><strong>ADP</strong> - Acyclic Dependencies Principle</li>
+              </ul>
+            </div>
           </div>
         </section>
 
         <section>
           <h5>Acyclic dependencies principle (ADP)</h5>
-          <div class="image-text" style="float: left;">
-            <div style="font-size: 0.8em; margin-top: 0.5em;">
-              TODO content ...
-            </div>
+          <div class="image-text" style="float: center; margin-top: 5vh;">
+            <img style="height: 40vh;" data-src="./img/dependency-cycle.png" />
           </div>
+          <ul style="font-size: 2.8vh;">
+            <li>make the code hard to understand, thus reducing maintainability</li>
+            <li>harder to change one component without affecting another because of strong coupling</li>
+            <li>impossible to test each individual component because they can't be separated since they act as a single component</li>
+          </ul>
         </section>
 
         <section>
@@ -1178,10 +1214,9 @@ Contracts: 1 kept, 0 broken.
 
         <section>
           <h5>AcyclicContract</h5>
-          <div class="image-text" style="float: left; width: 100%;">
+          <div class="image-text" style="float: left; width: 110%;">
             <pre><code data-trim data-noescape class="language-bash">
-pip install 
-import-linter@git+https://github.com/K4liber/import-linter@issue/221_tree_contract
+pip install import-linter@git+https://github.com/K4liber/import-linter@issue/221_tree_contract
 </code></pre>
             <pre><code data-trim data-noescape class="language-toml">
 # .importlinter
@@ -1245,7 +1280,7 @@ Number of cycle families with package dependencies: 88
           <h5>Acyclic dependencies</h5>
           <img style="height: 8em;" data-src="./img/fun_with_flags.png" />
           <p style="font-size: 0.7em; font-style: italic;">
-            Could it have been more fun for django developers if they had used AcyclicContract from the start?
+            Could a development have been more fun for django developers if they had used AcyclicContract from the start of the development?
           </p>
         </section>
 

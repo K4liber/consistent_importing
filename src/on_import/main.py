@@ -1,6 +1,6 @@
 import inspect
 
-from examples.on_import.module import module_function
+from src.on_import.module_a import module_function
 
 print("hello from main.py")
 print(dir(module_function))
