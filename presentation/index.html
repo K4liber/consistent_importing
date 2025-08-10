@@ -851,7 +851,7 @@ from source.connector.adapter import TimeSeriesAdapter
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <img style="height: 40vh;" data-src="./img/absolute-imports.png" />
             <p>
-              <b>Benefit: </b>More readable and tend to be better behaved
+              <b>Benefit: </b>More informative and less ambiguous
             </p>
           </div>
         </section>
@@ -959,11 +959,13 @@ from public_api import fast_multiply
 
         <section>
           <h5>10. Do not re-export definition through package (__init__.py)</h5>
-          <div class="image-text" style="float: center">
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+            <div style="width: 40%; padding-left: 0.1em;">
 <pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: 0em; line-height: 1.1em;">
-(base) jan@jan-Inspiron-3543:~/$ tree /f   
+(base):~/$ tree /f   
 │   main.py
-├── os
+├── os_ops
 │   ├── _windows
 │   │   │  __init__.py
 │   │   │  path.py
@@ -973,18 +975,42 @@ from public_api import fast_multiply
 │   │   │  __init__.py
 │   │   │  path.py
 │   │   │  ...
-│   ├── __init__.py
-│   ├── path.py
-│   └──   ...
+│   └── __init__.py
 └─ __init__.py
               </code></pre>
               <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em;">
 
 # main.py
-from os.path import copy_file
+from os_ops import copy_file
 
-copy_file("source.txt", "destination.txt")
+copy_file(
+  "source.txt",
+  "destination.txt"
+)
               </code></pre>
+            </div>
+            <div style="width: 60%; padding-right: 0.01em">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+# os_ops/__init__.py
+
+import os
+
+from ._windows.path import copy_file as _windows_copy_file
+from ._linux.path import copy_file as _linux_copy_file
+
+def copy_file(source: str, destination: str) -> None:
+    print(f"Copying file from {source} to {destination}")
+    
+    if os.name == 'nt':
+        _windows_copy_file(source, destination)
+    elif os.name == 'posix':
+        _linux_copy_file(source, destination)
+    else:
+        raise OSError(f"Unsupported OS: {os.name}")
+
+</code></pre>
+            </div>
+          </div>
             <p>
               <b>Benefit: </b>Clear import directly from the module where a definition is defined
             </p>
@@ -1209,7 +1235,7 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
       <section>
 
         <section>
-          <h4>IIIa. Python code that can adapt to changing requirements</h4>
+          <h4>(EXTRA) Python code that can adapt to changing requirements</h4>
           <div class="image-text" style="float: center;">
             <img style="height: 15em;" data-src="./img/changing_requirements.jpg" />
           </div>
