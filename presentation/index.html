@@ -715,7 +715,108 @@ goodbye from main.py
       <section>
 
         <section>
-          <h5>1. Import one definition per line</h5>
+          <h5>1. Place imports at the top of a file[1]</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <img style="height: 40vh;" data-src="./img/as-clear.jpeg" />
+            <p>
+              <b>Benefit: </b>Transparency about dependencies
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h5>2. Lazy imports of heavy modules</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+              <div style="width: 60%; padding-right: 0.01em">
+                <p style="font-size: 0.7em; margin-top: 1vh;">
+                    <pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: -0.1em;">
+python -X importtime -c 'import torch' 2> import.prof
+uvx tuna import.prof
+  </code></pre>
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+# src/evaluation.py
+
+def evaluate_model(model: Model) -> None:
+  import torch  # noqa: PLC0415
+  ...
+
+# src/__main__.py
+
+from src.evaluation import evaluate_model
+
+def main() -> None:
+
+  if do_evaluate:
+    evaluate_model(model)
+  
+  ...
+  </code></pre>
+                </p>
+              </div>
+              <div style="width: 40%; padding-left: 0.1em;">
+                <img style="height: 40vh;" data-src="./img/torch-prof.png" />
+              </div>
+            </div>
+            <p>
+              <b>Benefit: </b>Reduction of startup time at some circumstances
+            </p>
+          </div>
+        </section>
+        
+        <section>
+          <h5>3. Do not overuse "if TYPE_CHECKING:"</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+# src/model.py
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import torch
+
+
+class Model:
+    def add_module(self, module: "torch.Module") -> None:
+        print(f"Adding module: {module}")
+        ...
+  </code></pre>
+            <p>
+              <b>Benefit: </b>Avoiding circular dependencies
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h5>4. Imports should be grouped</h5>
+          <div class="image-text" style="float: center; padding-top: 1vh">
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+# standard library imports
+import filecmp
+import shutil
+from pathlib import Path
+
+# related third party imports
+import pandas as pd
+import pytest
+import numpy as np
+
+# local application/library specific imports
+from common.constants import current_version
+from common.constants import default_model_type
+from dashboard.model.model import Model
+from dashboard.model.model import ModelType
+from source.db import DB
+from source.connector.adapter import TimeSeriesAdapter
+
+  </code></pre>
+            <p>
+              <b>Benefit: </b>Immediate visual separation of different types of dependencies
+            </p>
+          </div>
+        </section>
+      
+        <section>
+          <h5>5. Import one definition per line</h5>
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <div style="display: flex; align-items: flex-start;">
               <div style="width: 45%; padding-left: 0.1em;">
@@ -723,7 +824,7 @@ goodbye from main.py
               </div>
               <div style="width: 55%; padding-right: 0.01em">
                 <p style="font-size: 0.7em; margin-top: 1vh;">
-  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
 import filecmp
 import shutil
 from pathlib import Path
@@ -738,8 +839,7 @@ from dashboard.model.model import Model
 from dashboard.model.model import ModelType
 from source.db import DB
 from source.connector.adapter import TimeSeriesAdapter
-
-  </code></pre>
+</code></pre>
                 </p>
               </div>
             </div>
@@ -750,88 +850,149 @@ from source.connector.adapter import TimeSeriesAdapter
         </section>
 
         <section>
-          <h5>2. Place imports at the top of a file</h5>
-          <div class="image-text" style="float: left;">
-            TODO ... recommendation: import at the top of the file
-            - clear and evident set of dependencies
+          <h5>6. Absolute imports</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <img style="height: 40vh;" data-src="./img/absolute-imports.png" />
+            <p>
+              <b>Benefit: </b>More readable and tend to be better behaved
+            </p>
           </div>
         </section>
 
         <section>
-          <h5>3. Lazy imports of heavy modules</h5>
-          <div class="image-text" style="float: left;">
-            TODO something about "performance optimization" and exception of "imports at the top of the file"
-            - improve startup time
+          <h5>7. Use only well-known abbreviations</h5>
+          <div class="image-text" style="float: center;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+import os
+import sys
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import sklearn as sk
+import tensorflow as tf
+
+import windows_temporary_file as wtf
+</code></pre>
+            <p>
+              <b>Benefit: </b>Avoid confusion on what the abbreviation stands for
+            </p>
           </div>
         </section>
 
         <section>
-          <h5>4. Absolute imports</h5>
-          <div class="image-text" style="float: left;">
-            TODO ...
-            - avoiding ambiguity (we can be sure what we import)
-            - IDEs are handling absolute imports better
-            - (exception) relative imports in an encapsulated package
-            - recommendation: use absolute imports by default
+          <h5>8. Package vs Namespace Package</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+            <div style="width: 40%; padding-left: 0.1em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: -0.1em;">
+────my_package (/some/path)
+    │   __init__.py
+    ├───plot
+    │   __init__.py
+    ├───model
+    │       __init__.py
+...
+────my_package (/some/another_path)
+    │   __init__.py
+    ├───plot
+    │   __init__.py
+    ├───computation
+    │       __init__.py
+  ...
+</code></pre>
+            </div>
+            <div style="width: 60%; padding-right: 0.01em">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: -0.1em;">
+(.venv) ~\consistent_importing>python
+>>> import sys
+>>> sys.path
+[
+  '/some/path',
+  '/some/another_path'
+]
+>>> import my_package.model
+success!
+>>> import my_package.computation
+Traceback (most recent call last):
+  File "<python-input-10>", line 1, in <module>
+    import my_package.computation
+ModuleNotFoundError: No module named 'my_package.computation'
+</code></pre>
+            </div>
+          </div>
+            <p>
+              <b>Benefit: </b>Avoid uncertain behavior of namespace packages
+            </p>
           </div>
         </section>
 
         <section>
-          <h5>5. from module import definition</h5>
-          <div class="image-text" style="float: left;">
-            TODO text here ...
+          <h5>9. Do not use wildcard imports</h5>
+          <div class="image-text" style="float: center;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+# base_implementation.py
+def fast_add(a: float, b: float) -> float:
+    return a + b
 
-            - the most clear and evident way to import specific definition
-            - recommendation: use from module import definition by default
+def fast_multiply(a: float, b: float) -> float:
+    return a * b
+
+# cython_accelerated_implementation.py (optional module)
+def fast_add(a: float, b: float) -> float: ...
+
+# public_api.py
+from base_implementation import *  # noqa: F403
+
+try:  # (cython_accelerated_implementation.py could be missing)
+    from cython_accelerated_implementation import *  # noqa: F403
+except ImportError:
+    pass
+
+# main.py
+from public_api import fast_add
+from public_api import fast_multiply
+</code></pre>
+            <p>
+              <b>Benefit: </b>Avoid ambiguity and namespace pollution
+            </p>
           </div>
         </section>
 
         <section>
-          <h5>6. import module as abbreviation</h5>
-          <div class="image-text" style="float: left;">
-            TODO ...
-            - numpy as np, pandas as pd, matplotlib.pyplot as plt
-            - recommendation: use import module as abbreviation for well-known abbreviations of libraries
+          <h5>10. Do not re-export definition through package (__init__.py)</h5>
+          <div class="image-text" style="float: center">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: 0em; line-height: 1.1em;">
+(base) jan@jan-Inspiron-3543:~/$ tree /f   
+│   main.py
+├── os
+│   ├── _windows
+│   │   │  __init__.py
+│   │   │  path.py
+│   │   │  ...
+│   │
+│   ├── _linux
+│   │   │  __init__.py
+│   │   │  path.py
+│   │   │  ...
+│   ├── __init__.py
+│   ├── path.py
+│   └──   ...
+└─ __init__.py
+              </code></pre>
+              <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em;">
+
+# main.py
+from os.path import copy_file
+
+copy_file("source.txt", "destination.txt")
+              </code></pre>
+            <p>
+              <b>Benefit: </b>Clear import directly from the module where a definition is defined
+            </p>
           </div>
-        </section>
 
-        <section>
-          <h5>7. Package vs Namespace Package</h5>
-          <div class="image-text" style="float: left;">
-            TODO text here ...
-
-            - recommendation: use packages as default (create __init__.py file), namespace package only when needed
-          </div>
-        </section>
-
-        <section>
-          <h5>8. Do not use wildcard imports</h5>
-          <div class="image-text" style="float: left;">
-            TODO text here ...
-
-            - avoiding namespace pollution
-            - avoiding ambiguity
-            - recommendation: do not use wildcard imports at all
-          </div>
-        </section>
-
-        <section>
-          <h5>9. Import definition from package (__init__.py)</h5>
-          <div class="image-text" style="float: left;">
-            TODO ... add a code snippet with re-exporting definitions through __init__.py
-            and renaming from private to public (`from ._windows import _copy_file as copy_file`)
-
-            - recommendation: use for an encapsulated logic
-          </div>
-        </section>
-
-        <section>
-          <h5>10. Typing, if TYPE_CHECKING</h5>
-          <div class="image-text" style="float: left;">
-            TODO ... Code snippet with typing and if TYPE_CHECKING
-
-            - recommendation: solve your circular dependencies and do not use 
-          </div>
         </section>
 
       </section>
@@ -1137,9 +1298,8 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
           <h5>Ruff[4]</h5>
           <div class="image-text" style="float: left; width: 80%;">
             <pre><code data-trim data-noescape class="language-python">
-import os
-import sys
 from functools import partial
+import sys
 
 import pandas as pd
 from pydantic import BaseModel
@@ -1156,6 +1316,9 @@ from my_package.model import model
 [lint]
 select = [
     "I",  # isort
+    "PLC0415",  # import-outside-top-level
+    "TID252",  # relative-imports
+    "F403",  # undefined-local-with-import-star-usage
 ]
 
 [lint.isort]
@@ -1291,6 +1454,7 @@ Number of cycle families with package dependencies: 88
         <ol style="font-size: 0.5em;">
           <li>Photo by Lester Hsu, https://orsted.com/en/media/news/2022/04/20220421515811</li>
           <li>https://www.todaywellspent.com/blogs/articles/why-do-successful-people-wear-the-same-outfits-every-day</li>
+          <li>PEP-0008, Imports, https://peps.python.org/pep-0008/#imports</li>
           <li>Italian pasta code, Lynn (Yu Ling) Wang, https://www.linkedin.com/in/yuling-wang-jobmenta/ </li>
         </ol>
       </section>

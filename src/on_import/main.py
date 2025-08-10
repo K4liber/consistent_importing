@@ -1,9 +1,10 @@
-import inspect
+import os
+import sys
 
-from src.on_import.module_a import module_function
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import sklearn as sk
 
-print("hello from main.py")
-print(dir(module_function))
-print(inspect.getsource(module_function))
-module_function()
-print("goodbye from main.py")
+from src.on_import import *
