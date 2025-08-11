@@ -215,7 +215,7 @@
                 <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
                   <img src="./img/world.png" alt="Background" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.3em; border: 2px solid var(--heading-color);">
                   <p style="font-size: 0.45em; font-weight: bold; margin: 0 0 0.2em 0; color: var(--heading-color);">>8000</p>
-                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">All employees in 54 countries</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">All employees in (TODO how many?) countries</p>
                 </div>
                 <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
                   <img src="./img/computer.avif" alt="Focus" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.3em; border: 2px solid var(--heading-color);">
@@ -292,7 +292,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
                 <p style="color: #dc3545; font-weight: bold; margin-bottom: 0.5em;">✗ Cons:</p>
                 <ul style="margin: 0; padding-left: 1em;">
                   <li>Maintenance overhead</li>
-                  <li>IDE ambiguous suggestions</li>
+                  <li>IDE is confused</li>
                   <li>Hard to automate consistency</li>
                 </ul>
               </div>
@@ -675,7 +675,7 @@ print("goodbye from module_a.py")
 from src.on_import.module_a import function_a
 import inspect
 
-print("hello from main.py")
+print("hello from main.py\n")
 print(inspect.getsource(function_a))
 function_a()
 print("goodbye from main.py")
@@ -685,13 +685,13 @@ print("goodbye from main.py")
               <p style="font-size: 0.7em;">
 <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.75em; letter-spacing: -0.1em;">
 (.venv) >python -m src.on_import.main
-hello from module.py
-goodbye from module.py
+hello from module_a.py
+goodbye from module_a.py
 hello from main.py
+
 def module_function() -> None:
-    import src.on_import.another_module
-    print(dir(src.on_import.another_module))
-    print("hello from module_function")
+    import src.on_import.module_b
+    print(dir(src.on_import.module_b))
 
 greetings from module_b.py
 [..., '__name__', '__package__', 'a']
