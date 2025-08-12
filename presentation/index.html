@@ -380,7 +380,154 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
             edge.py
             __init__.py
 </code></pre>
-        </section>        
+        </section>
+        
+        <section>
+          <h5>sys.path</h5>
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+(.venv) ~\consistent_importing>python
+>>> import sys
+>>> from pprint import pprint
+>>> pprint(sys.path)
+[
+ '',
+ 'C:\\Users\\JBIEL\\Desktop\\projects\\report-filler',
+ 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing',
+ 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip',
+ 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\DLLs',
+ 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\Lib',
+ 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313',
+ 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing\\.venv',
+ 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing\\.venv\\Lib\\site-packages'
+]
+</code>
+        </section> 
+
+        <section>
+          <h5>Package vs Namespace Package</h5>
+          <div style="display: flex; align-items: flex-start; height: 48vh; margin-top: 3em;">
+            <div style="width: 40%; padding-left: 0.1em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+────my_package (/some/path)
+    │   __init__.py
+    ├───plot
+    │   __init__.py
+    ├───model
+    │       __init__.py
+...
+────my_package (/some/another_path)
+    │   __init__.py
+    ├───plot
+    │   __init__.py
+    ├───computation
+    │       __init__.py
+  ...
+</code></pre>
+            </div>
+            <div style="width: 60%; padding-right: 0.01em">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+(.venv) ~\consistent_importing>python
+>>> import sys
+>>> sys.path
+[
+  '/some/path',
+  '/some/another_path'
+]
+>>> import my_package.model
+hello from path.my_package.model
+>>> import my_package.computation
+Traceback (most recent call last):
+  File "<python-input-10>", line 1, in <module>
+    import my_package.computation
+ModuleNotFoundError: No module named 'my_package.computation'
+</code></pre>
+
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Execute a script vs execute a module</h5>
+          <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
+            <div style="width: 60%; padding-left: 0.1em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+(.venv) ~\consistent_importing>python -m src.gui_model.main
+[
+ '~\\consistent_importing',
+ ...
+ '~\\consistent_importing\\.venv'
+]
+Success!
+(.venv) ~\consistent_importing>python src\gui_model\main.py
+[
+ '~\\consistent_importing\\src\\gui_model',
+ ...
+ '~\\consistent_importing\\.venv'
+]
+Success!
+</code></pre>
+            </div>
+            <div style="width: 40%; padding-right: 0.01em">
+              <p style="font-size: 0.7em; margin-top: 1vh;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 0.9em; letter-spacing: -0.1em;">
+# src\gui_model\main.py
+
+from pprint import pprint
+
+pprint(sys.path)
+print("Success!")
+</code></pre>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div id="large-content" style="display: flex; align-items: left; margin: 0; padding: 0; margin-top: -5vh;">
+            <div style="width: 50%;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 0.75em; letter-spacing: -0.1em;">
+# src\on_import\module_b.py
+print("greetings from module_b.py")
+a = 123
+# src\on_import\module_a.py
+print("hello from module_a.py")
+
+def function_a() -> None:
+    import src.on_import.module_b
+    print(dir(src.on_import.module_b))
+
+print("goodbye from module_a.py")
+# src\on_import\main.py
+from src.on_import.module_a import function_a
+import inspect
+
+print("hello from main.py\n")
+print(inspect.getsource(function_a))
+function_a()
+print("goodbye from main.py")
+</code></pre>
+            </div>
+            <div style="width: 50%;">
+              <p style="font-size: 0.7em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.75em; letter-spacing: -0.1em;">
+(.venv) >python -m src.on_import.main
+hello from module_a.py
+goodbye from module_a.py
+hello from main.py
+
+def module_function() -> None:
+    import src.on_import.module_b
+    print(dir(src.on_import.module_b))
+
+greetings from module_b.py
+[..., '__name__', '__package__', 'a']
+goodbye from main.py
+</code></pre>
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section>
           <h5>Why modular structure?</h5>
           <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
@@ -556,154 +703,8 @@ copy_file(
             </div>
           </div>
         </section>
-
-        <section>
-          <h5>sys.path</h5>
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
-(.venv) ~\consistent_importing>python
->>> import sys
->>> from pprint import pprint
->>> pprint(sys.path)
-[
- '',
- 'C:\\Users\\JBIEL\\Desktop\\projects\\report-filler',
- 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing',
- 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip',
- 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\DLLs',
- 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\Lib',
- 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313',
- 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing\\.venv',
- 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing\\.venv\\Lib\\site-packages'
-]
-</code>
-        </section> 
-
-        <section>
-          <h5>Package vs Namespace Package</h5>
-          <div style="display: flex; align-items: flex-start; height: 48vh; margin-top: 3em;">
-            <div style="width: 40%; padding-left: 0.1em;">
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
-────my_package (/some/path)
-    │   __init__.py
-    ├───plot
-    │   __init__.py
-    ├───model
-    │       __init__.py
-...
-────my_package (/some/another_path)
-    │   __init__.py
-    ├───plot
-    │   __init__.py
-    ├───computation
-    │       __init__.py
-  ...
-</code></pre>
-            </div>
-            <div style="width: 60%; padding-right: 0.01em">
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
-(.venv) ~\consistent_importing>python
->>> import sys
->>> sys.path
-[
-  '/some/path',
-  '/some/another_path'
-]
->>> import my_package.model
-hello from path.my_package.model
->>> import my_package.computation
-Traceback (most recent call last):
-  File "<python-input-10>", line 1, in <module>
-    import my_package.computation
-ModuleNotFoundError: No module named 'my_package.computation'
-</code></pre>
-
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h5>Execute a script vs execute a module</h5>
-          <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
-            <div style="width: 60%; padding-left: 0.1em;">
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
-(.venv) ~\consistent_importing>python -m src.gui_model.main
-[
- '~\\consistent_importing',
- ...
- '~\\consistent_importing\\.venv'
-]
-Success!
-(.venv) ~\consistent_importing>python src\gui_model\main.py
-[
- '~\\consistent_importing\\src\\gui_model',
- ...
- '~\\consistent_importing\\.venv'
-]
-Success!
-</code></pre>
-            </div>
-            <div style="width: 40%; padding-right: 0.01em">
-              <p style="font-size: 0.7em; margin-top: 1vh;">
-<pre><code data-trim data-noescape class="language-python" style="font-size: 0.9em; letter-spacing: -0.1em;">
-# src\gui_model\main.py
-
-from pprint import pprint
-
-pprint(sys.path)
-print("Success!")
-</code></pre>
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <div id="large-content" style="display: flex; align-items: left; margin: 0; padding: 0; margin-top: -5vh;">
-            <div style="width: 50%;">
-<pre><code data-trim data-noescape class="language-python" style="font-size: 0.75em; letter-spacing: -0.1em;">
-# src\on_import\module_b.py
-print("greetings from module_b.py")
-a = 123
-# src\on_import\module_a.py
-print("hello from module_a.py")
-
-def function_a() -> None:
-    import src.on_import.module_b
-    print(dir(src.on_import.module_b))
-
-print("goodbye from module_a.py")
-# src\on_import\main.py
-from src.on_import.module_a import function_a
-import inspect
-
-print("hello from main.py\n")
-print(inspect.getsource(function_a))
-function_a()
-print("goodbye from main.py")
-</code></pre>
-            </div>
-            <div style="width: 50%;">
-              <p style="font-size: 0.7em;">
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.75em; letter-spacing: -0.1em;">
-(.venv) >python -m src.on_import.main
-hello from module_a.py
-goodbye from module_a.py
-hello from main.py
-
-def module_function() -> None:
-    import src.on_import.module_b
-    print(dir(src.on_import.module_b))
-
-greetings from module_b.py
-[..., '__name__', '__package__', 'a']
-goodbye from main.py
-</code></pre>
-              </p>
-            </div>
-          </div>
-        </section>
-
       </section>
+
       <!-- main section --> 
       <section>
         <h4>II. What is the best importing strategy?</h4>
@@ -880,7 +881,7 @@ import windows_temporary_file as wtf
         </section>
 
         <section>
-          <h5>8. Package vs Namespace Package</h5>
+          <h5>8. Avoid using Namespace Packages</h5>
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <div style="display: flex; align-items: flex-start;">
             <div style="width: 40%; padding-left: 0.1em;">
