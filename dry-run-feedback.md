@@ -34,7 +34,7 @@ lesson learned from europython, try not to important text or code at lower 1/3 o
 - q know-first-party wouldnt ruff figure it out on its onw (13.1) -> what is the use case for "know-first-party"?
 
 DOROS
-- rephrase a question before answering
+- [DONE] rephrase a question before answering
 
 FAMIR
 - [DONE] too easy stuff at the start of the presentation
@@ -46,4 +46,4 @@ PIOGO
 - is there any mechanism for checking if we have more than one package with the same name under sys.path?
 
 AFESH
-- PYTHONPATH vs sys.path
+- [DONE] PYTHONPATH vs sys.path
