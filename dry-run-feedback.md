@@ -37,7 +37,7 @@ DOROS
 - rephrase a question before answering
 
 FAMIR
-- too easy stuff at the start of the presentation
+- [DONE] too easy stuff at the start of the presentation
 
 KKOWA
 - use pointer
