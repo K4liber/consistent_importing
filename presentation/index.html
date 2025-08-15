@@ -148,6 +148,17 @@
     #large-content pre, #large-content code {
       height: 68vh !important;
     }
+    /* Hide line-number gutter but keep line highlighting for specific blocks */
+    pre.no-line-numbers .hljs-ln-numbers,
+    pre.no-line-numbers .line-numbers,
+    pre.no-line-numbers .hljs-ln-n {
+      display: none !important;
+    }
+    /* remove leftover padding/gutter so code aligns correctly */
+    pre.no-line-numbers code,
+    pre.no-line-numbers .hljs {
+      padding-left: 0.5em !important;
+    }
   </style>
 </head>
 
@@ -244,6 +255,7 @@
         <section>
           <h3>Agenda</h3>
           <ol class="upper-roman" style="font-size: 1em;" start="1">
+            <li>Why am I talking about this?</li>
             <li>How importing in Python works?</li>
             <li>How to import in a consistent way?</li>
             <li>How internal dependencies impact a package architecture?</li>
@@ -253,7 +265,7 @@
       </section> 
       <!-- main section --> 
       <section>
-        <h4>Consistent importing</h4>
+        <h4>I. Why am I talking about this?</h4>
         <img style="height: 10em;" data-src="./img/why.jpeg" />
       </section>
       <!-- sub sections -->
@@ -266,7 +278,7 @@
             - re-exporting strategy trade-offs
           </aside>
           <div style="text-align: left; font-size: 0.7em;">
-            <pre><code data-trim data-noescape class="language-python">
+            <pre><code data-trim data-noescape class="language-python" data-line-numbers="*|1,2|4,5|8,9|12,13">
 # model/geometry/node.py
 class Node: ...
 
@@ -315,21 +327,21 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
       </section>
       <!-- main section --> 
       <section>
-        <h4>How importing in Python works?</h4>
+        <h4>II. How importing in Python works?</h4>
         <img style="height: 10em;" data-src="./img/importing_in_python.png" />
       </section>
       <!-- sub section-->
       <section>
         <section>
           <h5>Python interpreter</h5>
-          <pre><code data-trim data-noescape class="language-bash">
+          <pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" data-line-numbers="*|1,2|3,4,5|6|7|8|9,10|11|12-15">
           (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
           Python 3.12.8 [GCC 11.2.0] on linux
           >>> def hello_world() -> None:
-          ...     print("Hello world!")
+          ...     print("Hello from hello_world function!")
           ...
           >>> hello_world()
-          Hello world!
+          Hello from hello_world function!
           >>> exit()
           (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
           Python 3.12.8 [GCC 11.2.0] on linux
@@ -337,20 +349,30 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
           Traceback (most recent call last):
             File "<stdin>", line 1, in <module>
           NameError: name 'hello_world' is not defined
-          >>> 
           </code></pre>
         </section>
 
         <section>
           <h5>Python module</h5>
-          <pre><code data-trim data-noescape class="language-python">
+          <pre><code data-trim data-noescape class="language-python" data-line-numbers="*|2,3|5">
           # my_module.py
           def hello_world() -> None:
-            print("Hello world!")
+            print("Hello from hello_world function!")
           
           print("Hello from my_module!")
           </code></pre>
-          <pre><code data-trim data-noescape class="language-bash">
+        </section>
+
+        <section>
+          <h5>Python module</h5>
+          <pre><code data-trim data-noescape class="language-python" data-line-numbers="*">
+          # my_module.py
+          def hello_world() -> None:
+            print("Hello from hello_world function!")
+          
+          print("Hello from my_module!")
+          </code></pre>
+          <pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" data-line-numbers="*|3|4|5|6|7|8,9">
           (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
           Python 3.12.8 [GCC 11.2.0] on linux
           >>> import my_module
@@ -358,8 +380,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
           >>> dir(my_module)  # properties and methods of the object
           [..., '__name__', '__package__', '__spec__', 'hello_world']
           >>> my_module.hello_world()
-          Hello world!
-          >>> 
+          Hello from hello_world function!
           </code></pre>
         </section>
 
@@ -386,7 +407,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
         
         <section>
           <h5>sys.path</h5>
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;" data-line-numbers="1|2|3|4|5-15">
 (.venv) ~\consistent_importing>python
 >>> import sys
 >>> from pprint import pprint
@@ -409,7 +430,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
           <h5>sys.path modification (execute a script vs execute a module)</h5>
           <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
             <div style="width: 60%; padding-left: 0.1em;">
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;" data-line-numbers="1|2-7|8|9-14">
 (.venv) ~\consistent_importing>python -m src.gui_model.main
 [
  '~\\consistent_importing',
@@ -443,7 +464,7 @@ print("Success!")
         
         <section>
           <h5>sys.path modification (if the previous approach is not enough)</h5>
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;" data-line-numbers="1|2|3-7|8|9|10-15">
 (.venv) ~\consistent_importing>PYTHONPATH="/example:anything-can-be-here" python
 >>> import sys; print(sys.path)
 ['',
@@ -464,7 +485,7 @@ print("Success!")
 
         <section>
           <h5>Package vs Namespace Package</h5>
-          <div style="display: flex; align-items: flex-start; height: 48vh; margin-top: 3em;">
+          <div style="display: flex; align-items: flex-start; height: 48vh; margin-top: 1em;">
             <div style="width: 40%; padding-left: 0.1em;">
 <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
 ────my_package (/some/path)
@@ -484,7 +505,7 @@ print("Success!")
 </code></pre>
             </div>
             <div style="width: 60%; padding-right: 0.01em">
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;" data-line-numbers="1|2|3|4-7|8|9|10|11-15">
 (.venv) ~\consistent_importing>python
 >>> import sys
 >>> sys.path
@@ -508,7 +529,7 @@ ModuleNotFoundError: No module named 'my_package.computation'
         <section>
           <div id="large-content" style="display: flex; align-items: left; margin: 0; padding: 0; margin-top: -5vh;">
             <div style="width: 50%;">
-<pre><code data-trim data-noescape class="language-python" style="font-size: 0.75em; letter-spacing: -0.1em;">
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-python" style="font-size: 0.75em; letter-spacing: -0.1em;" data-line-numbers="*|12,13|4,5|7-9|11|14|16|17|18|7,8|1,2|3|9|19">
 # src\on_import\module_b.py
 print("greetings from module_b.py")
 a = 123
@@ -532,7 +553,7 @@ print("goodbye from main.py")
             </div>
             <div style="width: 50%;">
               <p style="font-size: 0.7em;">
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.75em; letter-spacing: -0.1em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.75em; letter-spacing: -0.1em;" data-line-numbers="*">
 (.venv) >python -m src.on_import.main
 hello from module_a.py
 goodbye from module_a.py
@@ -554,7 +575,7 @@ goodbye from main.py
 
       <!-- main section --> 
       <section>
-        <h4>II. What is the best importing strategy?</h4>
+        <h4>III. What is the best importing strategy?</h4>
         <img style="height: 10em;" data-src="./img/what_strategy.png" />
       </section>
       <!-- sub section-->
@@ -635,7 +656,7 @@ class Model:
         <section>
           <h5>4. (PEP) Imports should be grouped</h5>
           <div class="image-text" style="float: center; padding-top: 1vh">
-  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;" data-line-numbers="*|1-4|6-9|11-18">
 # standard library imports
 import filecmp
 import shutil
@@ -670,7 +691,7 @@ from source.connector.adapter import TimeSeriesAdapter
               </div>
               <div style="width: 55%; padding-right: 0.01em">
                 <p style="font-size: 0.7em; margin-top: 1vh;">
-<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;" data-line-numbers="*|9-10">
 import filecmp
 import shutil
 from pathlib import Path
@@ -684,7 +705,7 @@ from common.constants import default_model_type
 from dashboard.model.model import Model
 from dashboard.model.model import ModelType
 from source.db import DB
-from source.connector.adapter import TimeSeriesAdapter
+from source.connector.adapter import TimeSeries
 </code></pre>
                 </p>
               </div>
@@ -777,7 +798,7 @@ ModuleNotFoundError: No module named 'my_package.computation'
         <section>
           <h5>9. (PEP) Avoid using wildcard imports</h5>
           <div class="image-text" style="float: center;">
-<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;" data-line-numbers="*|1-7|8-10|11-18|19-21">
 # base_implementation.py
 def fast_add(a: float, b: float) -> float:
     return a + b
@@ -864,7 +885,7 @@ else:
       </section>
       <!-- main section --> 
       <section>
-        <h4>III. How internal dependencies impact a package architecture?</h4>
+        <h4>IV. How internal dependencies impact a package architecture?</h4>
         <img style="height: 11em;" data-src="./img/impact_on_architecture.png" />
       </section>
       <!-- sub section-->
@@ -1142,7 +1163,7 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
       
       <!-- main section --> 
       <section>
-        <h4>IV. How can we enforce the selected strategy in CI?</h4>
+        <h4>V. How can we enforce the selected strategy in CI?</h4>
         <img style="height: 10em;" data-src="./img/importing_in_ci.png" />
       </section>
       <!-- sub section-->
