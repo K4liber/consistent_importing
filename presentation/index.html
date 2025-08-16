@@ -159,6 +159,11 @@
     pre.no-line-numbers .hljs {
       padding-left: 0.5em !important;
     }
+    /* change the comment color in python code snippets */
+    pre code.language-python .hljs-comment {
+      color: #4dd100 !important;
+      opacity: 1 !important;
+    }
   </style>
 </head>
 
@@ -258,8 +263,8 @@
             <li>Why am I talking about this?</li>
             <li>How importing in Python works?</li>
             <li>How to import in a consistent way?</li>
-            <li>How internal dependencies impact a package architecture?</li>
-            <li>How we can enforce the selected importing strategy in CI?</li>
+            <li>How imports impact architecture?</li>
+            <li>How to configure related CI tools?</li>
           </ol>
         </section>
       </section> 
@@ -272,31 +277,23 @@
       <section>
         <section>
           <h5>Re-exporting definitions through __init__.py</h5>
-          <aside class="notes">
-            - rise up a definition to the package level
-            - rise up all definitions from __init__ to parent package level
-            - re-exporting strategy trade-offs
-          </aside>
-          <div style="text-align: left; font-size: 0.7em;">
-            <pre><code data-trim data-noescape class="language-python" data-line-numbers="*|1,2|4,5|8,9|12,13">
+          <div style="text-align: left; font-size: 0.9em;">
+            <pre class="no-line-numbers"><code data-trim data-noescape class="language-python" data-line-numbers="*|1,2|3,4|6,7|9,10">
 # model/geometry/node.py
 class Node: ...
-
 # model/geometry/__init__.py
 from .node import Node, function_a
 from .edge import Edge, function_b
-
 # model/__init__.py
 from .geometry import Node, Edge, function_a, function_b
 from .other_module import SomeOtherClass
-
 # gui/__init__.py
 from model import Node, Edge, function_a, function_b, SomeOtherClass
             </code></pre>            
-            <div style="margin-top: 1em; display: flex; justify-content: space-between;">
+            <div style="margin-top: 0.5em; display: flex; justify-content: space-between;">
               <div style="width: 48%;">
                 <p style="color: #28a745; font-weight: bold; margin-bottom: 0.5em;">✓ Pros:</p>
-                <ul style="margin: 0; padding-left: 1em;">
+                <ul style="margin: 0; padding-left: 1em; font-size: 4vh;">
                   <li>Encapsulation</li>
                   <li>Single entry point</li>
                   <li>Short imports</li>
@@ -304,7 +301,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
               </div>
               <div style="width: 48%;">
                 <p style="color: #dc3545; font-weight: bold; margin-bottom: 0.5em;">✗ Cons:</p>
-                <ul style="margin: 0; padding-left: 1em;">
+                <ul style="margin: 0; padding-left: 1em; font-size: 4vh;">
                   <li>Maintenance overhead</li>
                   <li>IDE is confused</li>
                   <li>Hard to automate consistency</li>
@@ -407,47 +404,42 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
         
         <section>
           <h5>sys.path</h5>
-<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;" data-line-numbers="1|2|3|4|5-15">
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.9em; letter-spacing: -0.1em;" data-line-numbers="1|2|3|4|5-15">
 (.venv) ~\consistent_importing>python
 >>> import sys
 >>> from pprint import pprint
 >>> pprint(sys.path)
 [
  '',
- 'C:\\Users\\JBIEL\\Desktop\\projects\\report-filler',
- 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing',
- 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip',
- 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\DLLs',
- 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313\\Lib',
- 'C:\\Users\\JBIEL\\AppData\\Local\\Programs\\Python\\Python313',
- 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing\\.venv',
- 'C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing\\.venv\\Lib\\site-packages'
+ 'C:\\Desktop\\projects\\consistent_importing',
+ 'C:\\Local\\Programs\\Python\\Python313\\DLLs',
+ 'C:\\Local\\Programs\\Python\\Python313\\Lib',
+ 'C:\\Desktop\\projects\\consistent_importing\\.venv\\Lib\\site-packages',
+ ...
 ]
 </code>
         </section> 
 
         <section>
-          <h5>sys.path modification (execute a script vs execute a module)</h5>
+          <h5>sys.path manipulation (execute a script vs execute a module)</h5>
           <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
-            <div style="width: 60%; padding-left: 0.1em;">
-<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;" data-line-numbers="1|2-7|8|9-14">
-(.venv) ~\consistent_importing>python -m src.gui_model.main
+            <div style="width: 65%; padding-left: 0.1em;">
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.8em; letter-spacing: -0.1em;" data-line-numbers="1|2-6|7|8-12">
+(.venv) ~\consistent_importing> python -m src.gui_model.main
 [
  '~\\consistent_importing',
  ...
- '~\\consistent_importing\\.venv'
-]
+ '~\\consistent_importing\\.venv' ]
 Success!
-(.venv) ~\consistent_importing>python src\gui_model\main.py
+(.venv) ~\consistent_importing> python src\gui_model\main.py
 [
  '~\\consistent_importing\\src\\gui_model',
  ...
- '~\\consistent_importing\\.venv'
-]
+ '~\\consistent_importing\\.venv' ]
 Success!
 </code></pre>
             </div>
-            <div style="width: 40%; padding-right: 0.01em">
+            <div style="width: 35%; padding-right: 0.01em">
               <p style="font-size: 0.7em; margin-top: 1vh;">
 <pre><code data-trim data-noescape class="language-python" style="font-size: 0.9em; letter-spacing: -0.1em;">
 # src\gui_model\main.py
@@ -463,23 +455,22 @@ print("Success!")
         </section>
         
         <section>
-          <h5>sys.path modification (if the previous approach is not enough)</h5>
-<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;" data-line-numbers="1|2|3-7|8|9|10-15">
-(.venv) ~\consistent_importing>PYTHONPATH="/example:anything-can-be-here" python
+          <h5>sys.path manipulation (if the previous approach is not enough)</h5>
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.9em; letter-spacing: -0.1em;" data-line-numbers="1|2|3-7|8|9-14">
+(.venv) ~\consistent_importing> PYTHONPATH="/example:anything-can-be-here" python
 >>> import sys; print(sys.path)
 ['',
  '/example',
- '/home/jan/Desktop/projects/consistent_importing/anything-can-be-here'
- '/home/jan/Desktop/projects/consistent_importing/.venv/lib/python3.12/site-packages',
+ '/home/projects/consistent_importing/anything-can-be-here'
+ '/home/projects/consistent_importing/.venv/lib/python3.12/site-packages',
  ...]
->>> sys.path.append("any string?")
->>> print(sys.path)
+>>> sys.path.append("any string?"); print(sys.path)
 ['',
  '/example',
- '/home/jan/Desktop/projects/consistent_importing/anything-can-be-here'
- '/home/jan/Desktop/projects/consistent_importing/.venv/lib/python3.12/site-packages',
+ '/home/projects/consistent_importing/anything-can-be-here'
+ '/home/projects/consistent_importing/.venv/lib/python3.12/site-packages',
  'any string?'
-]
+ ...]
 </code>
         </section> 
 
