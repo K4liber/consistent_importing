@@ -293,7 +293,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
             <div style="margin-top: 0.5em; display: flex; justify-content: space-between;">
               <div style="width: 48%;">
                 <p style="color: #28a745; font-weight: bold; margin-bottom: 0.5em;">✓ Pros:</p>
-                <ul style="margin: 0; padding-left: 1em; font-size: 4vh;">
+                <ul style="margin: 0; padding-left: 1em; font-size: 3vh;">
                   <li>Encapsulation</li>
                   <li>Single entry point</li>
                   <li>Short imports</li>
@@ -301,7 +301,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
               </div>
               <div style="width: 48%;">
                 <p style="color: #dc3545; font-weight: bold; margin-bottom: 0.5em;">✗ Cons:</p>
-                <ul style="margin: 0; padding-left: 1em; font-size: 4vh;">
+                <ul style="margin: 0; padding-left: 1em; font-size: 3vh;">
                   <li>Maintenance overhead</li>
                   <li>IDE is confused</li>
                   <li>Hard to automate consistency</li>
@@ -421,7 +421,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
         </section> 
 
         <section>
-          <h5>sys.path manipulation (execute a script vs execute a module)</h5>
+          <h5>sys.path manipulation (execute a module vs execute a script)</h5>
           <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
             <div style="width: 65%; padding-left: 0.1em;">
 <pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.8em; letter-spacing: -0.1em;" data-line-numbers="1|2-6|7|8-12">
@@ -513,52 +513,6 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'my_package.computation'
 </code></pre>
 
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <div id="large-content" style="display: flex; align-items: left; margin: 0; padding: 0; margin-top: -5vh;">
-            <div style="width: 50%;">
-<pre class="no-line-numbers"><code data-trim data-noescape class="language-python" style="font-size: 0.75em; letter-spacing: -0.1em;" data-line-numbers="*|12,13|4,5|7-9|11|14|16|17|18|7,8|1,2|3|9|19">
-# src\on_import\module_b.py
-print("greetings from module_b.py")
-a = 123
-# src\on_import\module_a.py
-print("hello from module_a.py")
-
-def function_a() -> None:
-    import src.on_import.module_b
-    print(dir(src.on_import.module_b))
-
-print("goodbye from module_a.py")
-# src\on_import\main.py
-from src.on_import.module_a import function_a
-import inspect
-
-print("hello from main.py\n")
-print(inspect.getsource(function_a))
-function_a()
-print("goodbye from main.py")
-</code></pre>
-            </div>
-            <div style="width: 50%;">
-              <p style="font-size: 0.7em;">
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.75em; letter-spacing: -0.1em;" data-line-numbers="*">
-(.venv) >python -m src.on_import.main
-hello from module_a.py
-goodbye from module_a.py
-hello from main.py
-
-def module_function() -> None:
-    import src.on_import.module_b
-    print(dir(src.on_import.module_b))
-
-greetings from module_b.py
-[..., '__name__', '__package__', 'a']
-goodbye from main.py
-</code></pre>
-              </p>
             </div>
           </div>
         </section>
@@ -885,62 +839,32 @@ else:
         <section>
           <h5>Why to care about clean modular structure?</h5>
           <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
-            <div style="width: 50%; padding-right: 0.01em; padding-top: 20vh;">
-                <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
-                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Collaboration</span></div>
-                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
-            </div>
             <div style="width: 50%; padding-left: 0.1em;">
               <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: 0.0em; line-height: 1.1em; margin-top: 2em;">
-(base) jan@jan-Inspiron-3543:~/$ tree /f   
 │   main.py
 ├───gui
 │   │   __init__.py
-│   └───plots
+│   └───widget
 │       │   __init__.py
-│       └───graph
+│       └───icon
 │               __init__.py
-└───model
+...
+└───base_model
     │   __init__.py
     └───geometry
             node.py
             edge.py
             __init__.py
+...
               </code></pre>
               <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em;">
 # running tests inside a specific package
-python -m pytest model/geometry
+python -m pytest base_model/geometry
 # linting a specific package
-ruff check gui/plots
+ruff check gui/widget/icon
 
 
               </code></pre>
-            </div>
-            
-          </div>
-        </section>
-
-        <section>
-          <h5>Why to care about clean modular structure?</h5>
-          <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
-            <div style="width: 50%; padding-right: 0.01em; padding-top: 20vh;">
-                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
-                <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Collaboration</span></div>
-                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
-            </div>
-            <div style="width: 50%; padding-left: 0.1em;">
-              <img style="height: 8em; padding-top: 8vh;" data-src="./img/merge_conflicts.webp" />
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h5>Why to care about clean modular structure?</h5>
-          <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
-            <div style="width: 50%; padding-right: 0.01em; padding-top: 20vh;">
-                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Concerns separation</span></div>
-                <div style="text-align: left"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Collaboration</span></div>
-                <div style="text-align: left; font-weight: bold"><span style="color: #28a745; margin-bottom: 0.5em; margin-right: 0.5em">✓</span><span>Maintainability</span></div>
             </div>
             <div style="width: 50%; padding-left: 0.1em; margin: 0;">
               <img style="height: 8em; padding-top: 2em;" data-src="./img/clean_modular_structure.png" />
