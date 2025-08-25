@@ -384,7 +384,6 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
         <section>
           <h5>Python package</h5>
 <pre><code data-trim data-noescape class="language-bash" style="font-size: 1em; letter-spacing: 0.0em;">
-(base) :~/consistent_importing$ tree /f   
    
 │   main.py
 ├───gui
@@ -405,10 +404,9 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
         <section>
           <h5>sys.path</h5>
 <pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.9em; letter-spacing: -0.1em;" data-line-numbers="1|2|3|4|5-15">
-(.venv) ~\consistent_importing>python
+(.venv) ~\consistent_importing> python
 >>> import sys
->>> from pprint import pprint
->>> pprint(sys.path)
+>>> print(sys.path)
 [
  '',
  'C:\\Desktop\\projects\\consistent_importing',
@@ -497,7 +495,7 @@ print("Success!")
             </div>
             <div style="width: 60%; padding-right: 0.01em">
 <pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;" data-line-numbers="1|2|3|4-7|8|9|10|11-15">
-(.venv) ~\consistent_importing>python
+(.venv) ~\consistent_importing> python
 >>> import sys
 >>> sys.path
 [
@@ -717,7 +715,7 @@ import windows_temporary_file as wtf
             </div>
             <div style="width: 60%; padding-right: 0.01em">
 <pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: -0.1em;">
-(.venv) ~\consistent_importing>python
+(.venv) ~\consistent_importing> python
 >>> import sys
 >>> sys.path
 [
@@ -777,8 +775,7 @@ from public_api import fast_multiply
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <div style="display: flex; align-items: flex-start;">
             <div style="width: 40%; padding-left: 0.1em;">
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: 0em; line-height: 1.1em;">
-(base):~/$ tree /f   
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: 0em; line-height: 1.1em;"> 
 │   main.py
 ├── os_ops
 │   ├── _windows
@@ -887,7 +884,7 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
 (most likely due to a circular import) (/gui/__init__.py)
             </code></pre>
             <div style="font-size: 0.8em; margin-top: 0.5em;">
-              Circular imports often signal a design issue, but sometimes are used intentionally for plugin systems or late binding.
+              Circular imports most of the time signal a design issue, but sometimes are used intentionally for plugin systems or late binding.
             </div>
           </div>
         </section>
@@ -1130,8 +1127,6 @@ known-first-party = ["my_another_package"]
         <section>
           <div class="image-text" style="float: center;">
             <pre><code data-trim data-noescape class="language-toml">
-# .importlinter
-
 [importlinter]
 root_package = my_package
 
