@@ -259,7 +259,7 @@
         </section>
         <section>
           <h3>Agenda</h3>
-          <ol class="upper-roman" style="font-size: 1em;" start="1">
+          <ol style="font-size: 1em;" start="1">
             <li>Why am I talking about this?</li>
             <li>How importing in Python works?</li>
             <li>How to import in a consistent way?</li>
@@ -403,7 +403,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
         
         <section>
           <h5>sys.path</h5>
-<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.9em; letter-spacing: -0.1em;" data-line-numbers="1|2|3|4|5-15">
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.9em; letter-spacing: -0.1em;" data-line-numbers="1|2|3|4-14">
 (.venv) ~\consistent_importing> python
 >>> import sys
 >>> print(sys.path)
@@ -462,12 +462,12 @@ print("Success!")
  '/home/projects/consistent_importing/anything-can-be-here'
  '/home/projects/consistent_importing/.venv/lib/python3.12/site-packages',
  ...]
->>> sys.path.append("any string?"); print(sys.path)
+>>> sys.path.append(True); print(sys.path)
 ['',
  '/example',
  '/home/projects/consistent_importing/anything-can-be-here'
  '/home/projects/consistent_importing/.venv/lib/python3.12/site-packages',
- 'any string?'
+ True
  ...]
 </code>
         </section> 
@@ -569,18 +569,19 @@ def main() -> None:
               </div>
             </div>
             <p>
-              <b>Benefit: </b>Reduction of startup time at some circumstances
+              <b>Benefit: </b>Reduction of startup time at some conditions
             </p>
           </div>
         </section>
-        
+
         <section>
-          <h5>3. Do not overuse "if TYPE_CHECKING:"</h5>
+          <h5>3. Do not use "if TYPE_CHECKING" to avoid ImportError</h5>
           <div class="image-text" style="float: center; padding-top: 5vh;">
   <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
 # src/model.py
 from typing import TYPE_CHECKING
 
+# lazy import to reduce startup time
 if TYPE_CHECKING:
     import torch
 
@@ -591,7 +592,7 @@ class Model:
         ...
   </code></pre>
             <p>
-              <b>Benefit: </b>Avoiding circular dependencies
+              <b>Benefit: </b>Circular imports most of the time signal a design issue. Fix them to improve the design.
             </p>
           </div>
         </section>
@@ -824,6 +825,24 @@ else:
 
         </section>
 
+        <section>
+          <h5>Re-exporting definitions through __init__.py</h5>
+          <div style="text-align: left; font-size: 0.9em;">
+            <pre class="no-line-numbers"><code data-trim data-noescape class="language-python" data-line-numbers="*">
+# model/geometry/node.py
+class Node: ...
+# model/geometry/__init__.py
+from .node import Node, function_a
+from .edge import Edge, function_b
+# model/__init__.py
+from .geometry import Node, Edge, function_a, function_b
+from .other_module import SomeOtherClass
+# gui/__init__.py
+from model import Node, Edge, function_a, function_b, SomeOtherClass
+            </code></pre>            
+          </div>
+        </section>
+  
       </section>
       <!-- main section --> 
       <section>
@@ -836,7 +855,7 @@ else:
         <section>
           <h5>Why to care about clean modular structure?</h5>
           <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
-            <div style="width: 50%; padding-left: 0.1em;">
+            <div style="width: 100%; padding-left: 0.1em;">
               <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: 0.0em; line-height: 1.1em; margin-top: 2em;">
 │   main.py
 ├───gui
@@ -863,10 +882,28 @@ ruff check gui/widget/icon
 
               </code></pre>
             </div>
-            <div style="width: 50%; padding-left: 0.1em; margin: 0;">
-              <img style="height: 8em; padding-top: 2em;" data-src="./img/clean_modular_structure.png" />
+          </div>
+        </section>
+
+        <section>
+          <h5>Why to care about clean modular structure?</h5>
+          <div style="display: flex; align-items: flex-start; height: 80vh; padding-top: 4vh;">
+            <div style="width: 100%; padding-left: 0.1em; margin: 0;">
+              <img style="height: 9em; padding-top: 2em;" data-src="./img/clean_modular_structure.png" />
             </div>
           </div>
+        </section>
+
+        <section>
+          <h5>Acyclic dependencies principle (ADP)</h5>
+          <div class="image-text" style="float: center; margin-top: 5vh;">
+            <img style="height: 30vh;" data-src="./img/dependency-cycle.png" />
+          </div>
+          <ul style="font-size: 2.5vh;">
+            <li>make the code hard to understand, thus reducing maintainability</li>
+            <li>harder to change one component without affecting another because of strong coupling</li>
+            <li>impossible to test each individual component because they can't be separated since they act as a single component</li>
+          </ul>
         </section>
 
         <section>
@@ -886,6 +923,24 @@ ImportError: cannot import name 'Graph' from partially initialized module 'gui'
             <div style="font-size: 0.8em; margin-top: 0.5em;">
               Circular imports most of the time signal a design issue, but sometimes are used intentionally for plugin systems or late binding.
             </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Re-exporting definitions through __init__.py</h5>
+          <div style="text-align: left; font-size: 0.9em;">
+            <pre class="no-line-numbers"><code data-trim data-noescape class="language-python" data-line-numbers="*">
+# model/geometry/node.py
+class Node: ...
+# model/geometry/__init__.py
+from .node import Node, function_a
+from .edge import Edge, function_b
+# model/__init__.py
+from .geometry import Node, Edge, function_a, function_b
+from .other_module import SomeOtherClass
+# gui/__init__.py
+from model import Node, Edge, function_a, function_b, SomeOtherClass
+            </code></pre>            
           </div>
         </section>
 
@@ -1097,7 +1152,7 @@ from my_another_package.graph import Node
 from my_package.model import model
 
             </code></pre>
-            <pre><code data-trim data-noescape class="language-toml">
+            <pre><code data-trim data-noescape class="language-toml" data-line-numbers="*|1,2|3,4,5|6|7|8|11,12|13">
 # ruff.toml
 
 [lint]
@@ -1225,11 +1280,22 @@ Number of cycle families with package dependencies: 88
         </section>
 
         <section>
-          <h5>ADP (Acyclic Dependencies Principle)</h5>
+          <h5>Following ADP (Acyclic Dependencies Principle)</h5>
           <img style="height: 8em;" data-src="./img/fun_with_flags.png" />
           <p style="font-size: 0.7em; font-style: italic;">
             Could a development have been more fun for django developers if they had used AcyclicContract from the start of the development?
           </p>
+        </section>
+
+        <section>
+          <h3>Summary</h3>
+          <ol style="font-size: 0.8em;" start="1">
+            <li>Importing in Python can be done in many different ways</li>
+            <li>Choosing one, consistent way, will reduce decision fatigue</li>
+            <li>Clean modular structure of your Python code matters</li>
+            <li>Following Acyclic Dependencies Principle (ADP) leads to better software design</li>
+            <li>Using tools like Ruff and Import Linter for automating the recommendations checks</li>
+          </ol>
         </section>
 
       </section>
@@ -1289,18 +1355,6 @@ Number of cycle families with package dependencies: 88
               </ul>
             </div>
           </div>
-        </section>
-
-        <section>
-          <h5>Acyclic dependencies principle (ADP)</h5>
-          <div class="image-text" style="float: center; margin-top: 5vh;">
-            <img style="height: 40vh;" data-src="./img/dependency-cycle.png" />
-          </div>
-          <ul style="font-size: 2.8vh;">
-            <li>make the code hard to understand, thus reducing maintainability</li>
-            <li>harder to change one component without affecting another because of strong coupling</li>
-            <li>impossible to test each individual component because they can't be separated since they act as a single component</li>
-          </ul>
         </section>
 
         <section>
