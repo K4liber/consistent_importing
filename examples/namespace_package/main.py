@@ -2,10 +2,10 @@ import sys
 from pprint import pprint
 
 sys.path.append(
-    "C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing\\examples\\namespace_package\\some\\path"
+    "/home/jan/Desktop/projects/consistent_importing/examples/namespace_package/some/path"
 )
 sys.path.append(
-    "C:\\Users\\JBIEL\\Desktop\\projects\\consistent_importing\\examples\\namespace_package\\some\\another_path"
+    "/home/jan/Desktop/projects/consistent_importing/examples/namespace_package/some/another_path"
 )
 pprint(sys.path)
 
