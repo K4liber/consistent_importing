@@ -1,0 +1,11 @@
+[lint]
+select = [
+    "I",  # isort
+    "PLC0415",  # import-outside-top-level
+    "TID252",  # relative-imports
+    "F403",  # undefined-local-with-import-star-usage
+]
+
+[lint.isort]
+force-single-line = true
+known-first-party = ["my_another_package"]

@@ -1,0 +1,15 @@
+{
+  "name": "consistent-importing-presentation",
+  "version": "1.0.0",
+  "description": "Consistent Importing presentation for PyCon Greece 2025",
+  "scripts": {
+    "dev": "live-server presentation --port=3000 --open=/index.html",
+    "serve": "live-server presentation --port=3000 --no-browser"
+  },
+  "dependencies": {
+    "reveal.js": "^5.2.1"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

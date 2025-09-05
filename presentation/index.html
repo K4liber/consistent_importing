@@ -1,0 +1,1422 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Consistent importing</title>
+  <link 
+    rel="icon" 
+    type="image/x-icon"
+    href="img/pycon_gr.svg"
+  >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/theme/simple.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <link 
+    rel="preload"
+    href="https://orstedcdn.azureedge.net/Assets_/dist/fonts/OrstedSans-Regular.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin=""
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css"
+  />
+  <style>
+    :root {
+      --main-bg-color: white;
+      --main-text-color: black;
+      --heading-color: #4099da;
+      --link-color: #4099da;
+    }
+
+    .reveal {
+      background-color: var(--main-bg-color);
+      color: var(--main-text-color);
+      font-family: "Orsted Sans", "Helvetica Neue", Arial, sans-serif !important;
+    }
+
+    .reveal h1,
+    .reveal h2,
+    .reveal h3,
+    .reveal h4,
+    .reveal h5,
+    .reveal h6 {
+      color: var(--heading-color);
+      font-family: "Orsted Sans", "Helvetica Neue", Arial, sans-serif !important;
+    }
+      .reveal h5 {
+      position: fixed;
+      top: 50px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .reveal a {
+      color: var(--link-color);
+    }
+
+    .reveal .slide-background {
+      padding-bottom: 50px;
+    }
+
+    .reveal footer.footer {
+      position: absolute;
+      bottom: var(--r-block-margin);
+      left: var(--r-block-margin);
+      right: calc(var(--r-block-margin) + 2 * 3.6em);
+      height: var(--r-main-font-size);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      font-size: calc(var(--r-main-font-size) * 0.4);
+    }
+  
+    .reveal footer.footer img {
+      height: var(--r-main-font-size);
+      width: auto;
+      object-fit: contain;
+    }
+
+    @media print {
+      .reveal .footer {
+        position: fixed;
+      }
+      
+      /* Fix h5 positioning for print mode */
+      .reveal h5 {
+        position: static !important;
+        top: auto !important;
+        text-align: center;
+        width: auto !important;
+        margin-top: 0;
+        margin-bottom: 1em;
+      }
+      
+      /* Ensure proper slide separation in print */
+      .reveal .slides section {
+        page-break-inside: avoid;
+        height: auto !important;
+        min-height: 0 !important;
+      }
+      
+      /* Hide slide controls and navigation in print */
+      .reveal .controls,
+      .reveal .progress,
+      .reveal .slide-number {
+        display: none !important;
+      }
+    }
+
+    .image-text {
+      font-size: 0.7em;
+    }
+
+    ol.upper-roman {
+      list-style-type: upper-roman;
+    }
+
+    .slides {
+      width: 90%;
+    }
+
+    /* Custom slide number styling */
+    .reveal .slide-number {
+      position: fixed !important;
+      top: 20px !important;
+      right: 20px !important;
+      bottom: auto !important;
+      left: auto !important;
+      font-size: 0.5em !important;
+      background: var(--heading-color) !important;
+      padding: 8px 8px !important;
+      border-radius: 4px !important;
+      color: rgba(255, 255, 255, 0.8) !important;
+      font-weight: bold !important;
+    }
+    /* Maximize code area in #large-content */
+    #large-content {
+      height: 60vh !important;
+    }
+    #large-content pre, #large-content code {
+      height: 68vh !important;
+    }
+    /* Hide line-number gutter but keep line highlighting for specific blocks */
+    pre.no-line-numbers .hljs-ln-numbers,
+    pre.no-line-numbers .line-numbers,
+    pre.no-line-numbers .hljs-ln-n {
+      display: none !important;
+    }
+    /* remove leftover padding/gutter so code aligns correctly */
+    pre.no-line-numbers code,
+    pre.no-line-numbers .hljs {
+      padding-left: 0.5em !important;
+    }
+    /* change the comment color in python code snippets */
+    pre code.language-python .hljs-comment {
+      color: #4dd100 !important;
+      opacity: 1 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <footer class="footer">
+      <a href="https://2025.pycon.gr/">
+        <img src="img/pycon_gr.svg" alt="Orsted logo" style="z-index: 1000;">
+      </a>
+      <span>Consistent importing, PyCon Greece, August 2025</span>
+    </footer>
+    <div class="slides">
+      <!-- main section --> 
+      <section
+        data-background-image="./img/pycon_greece_background.png"
+        data-background-size="cover"
+      >
+        <h2>Consistent importing</h2>
+        <h4>Jan Bielecki</h4>
+      </section>
+  
+      <!-- sub sections -->
+      <section>        
+        <section>
+          <div style="display: flex; align-items: center; height: 75vh; margin-top: -1em;">
+            <!-- Left side: Photo and description -->
+            <div style="width: 60%; text-align: center; padding-right: 1.5em;">
+              <img src="./img/me.jpg" alt="Jan Bielecki" style="width: 220px; height: 220px; border-radius: 50%; object-fit: cover; border: 3px solid var(--heading-color);">
+              <p style="font-size: 0.9em; margin: 0;"><strong>Jan Bielecki</strong></p>
+              <p style="font-size: 0.8em; margin: 0;"><i>Senior Full Stack Developer</i></p>
+              <div style="display: flex; justify-content: space-between; gap: 0.5em; margin-top: 0.2em;">
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/game-maker.jfif" alt="Background" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0; color: var(--heading-color);">2005</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Game maker enthusiast</p>
+                </div>
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/python-logo.png" alt="Focus" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0 ; color: var(--heading-color);">2015</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">First Python code (internship)</p>
+                </div>
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/money.png" alt="Passion" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0; color: var(--heading-color);">2019</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Using Python at work</p>
+                </div>
+              </div>
+            </div>
+            <!-- Right side: QR code -->
+            <div style="width: 40%; text-align: center; padding-left: 0.02em;">
+              <div style="background: white; padding: 0.5em; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block;">
+                <img src="./img/all_slides_pdf_qr_code.png" alt="QR Code to full presentation" style="width: 350px; height: 350px; margin-bottom: 0.1em;">
+                <p style="font-size: 0.6em; color: #666; margin: 0;">Scan for full presentation</p>
+                <p style="font-size: 0.5em; color: #888; margin: 0.1em 0 0 0;">consistent_importing_all_slides.pdf</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div style="display: flex; align-items: center; height: 75vh; margin-top: -1em;">
+            <!-- Left side: Photo and description -->
+            <div style="width: 60%; text-align: center; padding-right: 1.5em;">
+              <img src="./img/changua.webp" alt="Jan Bielecki" style="width: 220px; height: 220px; border-radius: 50%; object-fit: cover; border: 3px solid var(--heading-color);">
+              <p style="font-size: 0.9em; margin: 0;"><strong>Ørsted[1]</strong></p>
+              <p style="font-size: 0.8em; margin: 0;"><i>Global leader in offshore wind</i></p>
+              <div style="display: flex; justify-content: space-between; gap: 0.5em; margin-top: 0.2em;">
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/world.png" alt="Background" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0; color: var(--heading-color);">~8000</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">All employees in 19 countries</p>
+                </div>
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/computer.avif" alt="Focus" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0; color: var(--heading-color);">~1000</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">IT employees</p>
+                </div>
+                <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
+                  <img src="./img/python-logo.png" alt="Passion" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0; border: 2px solid var(--heading-color);">
+                  <p style="font-size: 0.45em; font-weight: bold; margin: 0; color: var(--heading-color);">~100</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Pythonistas</p>
+                </div>
+              </div>
+            </div>
+            <!-- Right side: QR code -->
+            <div style="width: 40%; text-align: center; padding-left: 0.02em;">
+              <div style="background: white; padding: 0.5em; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block;">
+                <img src="./img/all_slides_pdf_qr_code.png" alt="QR Code to full presentation" style="width: 350px; height: 350px; margin-bottom: 0.1em;">
+                <p style="font-size: 0.6em; color: #666; margin: 0;">Scan for full presentation</p>
+                <p style="font-size: 0.5em; color: #888; margin: 0.1em 0 0 0;">consistent_importing_all_slides.pdf</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </section> 
+      <!-- main section --> 
+      <section>
+        <h4>I. Why am I talking about this?</h4>
+        <img style="height: 10em;" data-src="./img/why.jpeg" />
+      </section>
+      <!-- sub sections -->
+      <section>
+        <section>
+          <h5>Re-exporting definitions through __init__.py</h5>
+          <div style="text-align: left; font-size: 0.9em;">
+            <pre class="no-line-numbers"><code data-trim data-noescape class="language-python" data-line-numbers="*|1,2|3,4|6,7|9,10">
+# model/geometry/node.py
+class Node: ...
+# model/geometry/__init__.py
+from .node import Node, function_a
+from .edge import Edge, function_b
+# model/__init__.py
+from .geometry import Node, Edge, function_a, function_b
+from .other_module import SomeOtherClass
+# gui/__init__.py
+from model import Node, Edge, function_a, function_b, SomeOtherClass
+            </code></pre>            
+            <div style="margin-top: 0.5em; display: flex; justify-content: space-between;">
+              <div style="width: 48%;">
+                <p style="color: #28a745; font-weight: bold; margin-bottom: 0.5em;">✓ Pros:</p>
+                <ul style="margin: 0; padding-left: 1em; font-size: 3vh;">
+                  <li>Encapsulation</li>
+                  <li>Single entry point</li>
+                  <li>Short imports</li>
+                </ul>
+              </div>
+              <div style="width: 48%;">
+                <p style="color: #dc3545; font-weight: bold; margin-bottom: 0.5em;">✗ Cons:</p>
+                <ul style="margin: 0; padding-left: 1em; font-size: 3vh;">
+                  <li>Maintenance overhead</li>
+                  <li>IDE is confused</li>
+                  <li>Hard to automate consistency</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h5>Consistency reduces decision fatigue</h5>
+          <img style="height: 9em;" data-src="./img/zuck.png" />
+          <p style="font-size: 0.7em;">
+            "... the more decisions you make throughout the day, the worse you are at making them."[2]
+          </p>
+        </section>
+        <section>
+          <h5>Python importing without consistency</h5>
+          <img style="height: 10em;" data-src="./img/colorful_dressing_room.webp" />
+        </section>
+      </section>
+      <!-- main section --> 
+      <section>
+        <h4>II. How importing in Python works?</h4>
+        <img style="height: 10em;" data-src="./img/importing_in_python.png" />
+      </section>
+      <!-- sub section-->
+      <section>
+        <section>
+          <h5>Python interpreter</h5>
+          <pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" data-line-numbers="*|1,2|3,4,5|6|7|8|9,10|11|12-15">
+          (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
+          Python 3.12.8 [GCC 11.2.0] on linux
+          >>> def hello_world() -> None:
+          ...     print("Hello from hello_world function!")
+          ...
+          >>> hello_world()
+          Hello from hello_world function!
+          >>> exit()
+          (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
+          Python 3.12.8 [GCC 11.2.0] on linux
+          >>> hello_world()
+          Traceback (most recent call last):
+            File "<stdin>", line 1, in <module>
+          NameError: name 'hello_world' is not defined
+          </code></pre>
+        </section>
+
+        <section>
+          <h5>Python module</h5>
+          <pre><code data-trim data-noescape class="language-python" data-line-numbers="*|2,3|5">
+          # my_module.py
+          def hello_world() -> None:
+            print("Hello from hello_world function!")
+          
+          print("Hello from my_module!")
+          </code></pre>
+        </section>
+
+        <section>
+          <h5>Python module</h5>
+          <pre><code data-trim data-noescape class="language-python" data-line-numbers="*">
+          # my_module.py
+          def hello_world() -> None:
+            print("Hello from hello_world function!")
+          
+          print("Hello from my_module!")
+          </code></pre>
+          <pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" data-line-numbers="*|3|4|5|6|7|8,9">
+          (base) jan@jan-Inspiron-3543:~/consistent_importing$ python
+          Python 3.12.8 [GCC 11.2.0] on linux
+          >>> import my_module
+          Hello from my_module!
+          >>> dir(my_module)  # properties and methods of the object
+          [..., '__name__', '__package__', '__spec__', 'hello_world']
+          >>> my_module.hello_world()
+          Hello from hello_world function!
+          </code></pre>
+        </section>
+
+        <section>
+          <h5>Python package</h5>
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 1em; letter-spacing: 0.0em;">
+   
+│   main.py
+├───gui
+│   │   __init__.py
+│   └───plots
+│       │   __init__.py
+│       └───graph
+│               __init__.py
+└───model
+    │   __init__.py
+    └───geometry
+            node.py
+            edge.py
+            __init__.py
+</code></pre>
+        </section>
+        
+        <section>
+          <h5>sys.path</h5>
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.9em; letter-spacing: -0.1em;" data-line-numbers="1|2|3|4-14">
+(.venv) ~\consistent_importing> python
+>>> import sys
+>>> print(sys.path)
+[
+ '',
+ 'C:\\Desktop\\projects\\consistent_importing',
+ 'C:\\Local\\Programs\\Python\\Python313\\DLLs',
+ 'C:\\Local\\Programs\\Python\\Python313\\Lib',
+ 'C:\\Desktop\\projects\\consistent_importing\\.venv\\Lib\\site-packages',
+ ...
+]
+</code>
+        </section> 
+
+        <section>
+          <h5>sys.path manipulation (execute a module vs execute a script)</h5>
+          <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
+            <div style="width: 65%; padding-left: 0.1em;">
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.8em; letter-spacing: -0.1em;" data-line-numbers="1|2-6|7|8-12">
+(.venv) ~\consistent_importing> python -m src.gui_model.main
+[
+ '~\\consistent_importing',
+ ...
+ '~\\consistent_importing\\.venv' ]
+Success!
+(.venv) ~\consistent_importing> python src\gui_model\main.py
+[
+ '~\\consistent_importing\\src\\gui_model',
+ ...
+ '~\\consistent_importing\\.venv' ]
+Success!
+</code></pre>
+            </div>
+            <div style="width: 35%; padding-right: 0.01em">
+              <p style="font-size: 0.7em; margin-top: 1vh;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 0.9em; letter-spacing: -0.1em;">
+# src\gui_model\main.py
+
+from pprint import pprint
+
+pprint(sys.path)
+print("Success!")
+</code></pre>
+              </p>
+            </div>
+          </div>
+        </section>
+        
+        <section>
+          <h5>sys.path manipulation (if the previous approach is not enough)</h5>
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.9em; letter-spacing: -0.1em;" data-line-numbers="1|2|3-7|8|9-14">
+(.venv) ~\consistent_importing> PYTHONPATH="/example:anything-can-be-here" python
+>>> import sys; print(sys.path)
+['',
+ '/example',
+ '/home/projects/consistent_importing/anything-can-be-here'
+ '/home/projects/consistent_importing/.venv/lib/python3.12/site-packages',
+ ...]
+>>> sys.path.append(True); print(sys.path)
+['',
+ '/example',
+ '/home/projects/consistent_importing/anything-can-be-here'
+ '/home/projects/consistent_importing/.venv/lib/python3.12/site-packages',
+ True
+ ...]
+</code>
+        </section> 
+
+        <section>
+          <h5>Package vs Namespace Package</h5>
+          <div style="display: flex; align-items: flex-start; height: 48vh; margin-top: 1em;">
+            <div style="width: 40%; padding-left: 0.1em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;">
+────my_package (/some/path)
+    │   __init__.py
+    ├───plot
+    │   __init__.py
+    ├───model
+    │       __init__.py
+...
+────my_package (/some/another_path)
+    │   __init__.py
+    ├───plot
+    │   __init__.py
+    ├───computation
+    │       __init__.py
+  ...
+</code></pre>
+            </div>
+            <div style="width: 60%; padding-right: 0.01em">
+<pre class="no-line-numbers"><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: -0.1em;" data-line-numbers="1|2|3|4-7|8|9|10|11-15">
+(.venv) ~\consistent_importing> python
+>>> import sys
+>>> sys.path
+[
+  '/some/path',
+  '/some/another_path'
+]
+>>> import my_package.model
+hello from path.my_package.model
+>>> import my_package.computation
+Traceback (most recent call last):
+  File "<python-input-10>", line 1, in <module>
+    import my_package.computation
+ModuleNotFoundError: No module named 'my_package.computation'
+</code></pre>
+
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- main section --> 
+      <section>
+        <h4>III. What is the best importing strategy?</h4>
+        <img style="height: 10em;" data-src="./img/what_strategy.png" />
+      </section>
+      <!-- sub section-->
+      <section>
+
+        <section>
+          <h5>1. (PEP) Place imports at the top of a file[3]</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <img style="height: 40vh;" data-src="./img/as-clear.jpeg" />
+            <p>
+              <b>Benefit: </b>Transparency about dependencies
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h5>2. Lazy imports of heavy modules</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+              <div style="width: 60%; padding-right: 0.01em">
+                <p style="font-size: 0.7em; margin-top: 1vh;">
+                    <pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: -0.1em;">
+python -X importtime -c 'import torch' 2> torch-import.prof
+uvx tuna torch-import.prof
+  </code></pre>
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+# src/evaluation.py
+
+def evaluate_model(model: Model) -> None:
+  import torch  # noqa: PLC0415
+  ...
+
+# src/__main__.py
+
+from src.evaluation import evaluate_model
+
+def main() -> None:
+
+  if do_evaluate:
+    evaluate_model(model)
+  
+  ...
+  </code></pre>
+                </p>
+              </div>
+              <div style="width: 40%; padding-left: 0.1em;">
+                <img style="height: 40vh;" data-src="./img/torch-prof.png" />
+              </div>
+            </div>
+            <p>
+              <b>Benefit: </b>Reduction of startup time at some conditions
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h5>3. Do not use "if TYPE_CHECKING" to avoid ImportError</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+# src/model.py
+from typing import TYPE_CHECKING
+
+# lazy import to reduce startup time
+if TYPE_CHECKING:
+    import torch
+
+
+class Model:
+    def add_module(self, module: "torch.Module") -> None:
+        print(f"Adding module: {module}")
+        ...
+  </code></pre>
+            <p>
+              <b>Benefit: </b>Circular imports most of the time signal a design issue. Fix them to improve the design.
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h5>4. (PEP) Imports should be grouped</h5>
+          <div class="image-text" style="float: center; padding-top: 1vh">
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;" data-line-numbers="*|1-4|6-9|11-18">
+# standard library imports
+import filecmp
+import shutil
+from pathlib import Path
+
+# related third party imports
+import pandas as pd
+import pytest
+import numpy as np
+
+# local application/library specific imports
+from common.constants import current_version
+from common.constants import default_model_type
+from dashboard.model.model import Model
+from dashboard.model.model import ModelType
+from source.db import DB
+from source.connector.adapter import TimeSeriesAdapter
+
+  </code></pre>
+            <p>
+              <b>Benefit: </b>Immediate visual separation of different types of dependencies
+            </p>
+          </div>
+        </section>
+      
+        <section>
+          <h5>5. Import one definition per line</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+              <div style="width: 45%; padding-left: 0.1em;">
+                <img style="height: 40vh;" data-src="./img/merge_conflicts.webp" />
+              </div>
+              <div style="width: 55%; padding-right: 0.01em">
+                <p style="font-size: 0.7em; margin-top: 1vh;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;" data-line-numbers="*|9-10">
+import filecmp
+import shutil
+from pathlib import Path
+
+import pandas as pd
+import pytest
+import numpy as np
+
+from common.constants import current_version
+from common.constants import default_model_type
+from dashboard.model.model import Model
+from dashboard.model.model import ModelType
+from source.db import DB
+from source.connector.adapter import TimeSeries
+</code></pre>
+                </p>
+              </div>
+            </div>
+            <p>
+              <b>Benefit: </b>Reduction of version control conflicts
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h5>6. (PEP) Absolute imports</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <img style="height: 40vh;" data-src="./img/absolute-imports.png" />
+            <p>
+              <b>Benefit: </b>More informative and less ambiguous
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h5>7. Use only well-known abbreviations</h5>
+          <div class="image-text" style="float: center;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+import os
+import sys
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import sklearn as sk
+import tensorflow as tf
+
+import windows_temporary_file as wtf
+</code></pre>
+            <p>
+              <b>Benefit: </b>Avoid confusion on what the abbreviation stands for
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h5>8. Avoid using Namespace Packages</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+            <div style="width: 40%; padding-left: 0.1em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: -0.1em;">
+────my_package (/some/path)
+    │   __init__.py
+    ├───plot
+    │   __init__.py
+    ├───model
+    │       __init__.py
+...
+────my_package (/some/another_path)
+    │   __init__.py
+    ├───plot
+    │   __init__.py
+    ├───computation
+    │       __init__.py
+  ...
+</code></pre>
+            </div>
+            <div style="width: 60%; padding-right: 0.01em">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: -0.1em;">
+(.venv) ~\consistent_importing> python
+>>> import sys
+>>> sys.path
+[
+  '/some/path',
+  '/some/another_path'
+]
+>>> import my_package.model
+hello from path.my_package.model
+>>> import my_package.computation
+Traceback (most recent call last):
+  File "<python-input-10>", line 1, in <module>
+    import my_package.computation
+ModuleNotFoundError: No module named 'my_package.computation'
+</code></pre>
+            </div>
+          </div>
+            <p>
+              <b>Benefit: </b>Avoid uncertain behavior of namespace packages
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h5>9. (PEP) Avoid using wildcard imports</h5>
+          <div class="image-text" style="float: center;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;" data-line-numbers="*|1-7|8-10|11-18|19-21">
+# base_implementation.py
+def fast_add(a: float, b: float) -> float:
+    return a + b
+
+def fast_multiply(a: float, b: float) -> float:
+    return a * b
+
+# cython_accelerated_implementation.py (optional module)
+def fast_add(a: float, b: float) -> float: ...
+
+# public_api.py
+from base_implementation import *  # noqa: F403
+
+try:  # (cython_accelerated_implementation.py could be missing)
+    from cython_accelerated_implementation import *  # noqa: F403
+except ImportError:
+    pass
+
+# main.py
+from public_api import fast_add
+from public_api import fast_multiply
+</code></pre>
+            <p>
+              <b>Benefit: </b>Avoid ambiguity and namespace pollution
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h5>10. Import directly from module where a definition is defined</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+            <div style="width: 40%; padding-left: 0.1em;">
+<pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: 0em; line-height: 1.1em;"> 
+│   main.py
+├── os_ops
+│   ├── _windows
+│   │   │  __init__.py
+│   │   │  path.py
+│   │   │  ...
+│   │
+│   ├── _linux
+│   │   │  __init__.py
+│   │   │  path.py
+│   │   │  ...
+│   └── __init__.py
+└─ __init__.py
+              </code></pre>
+              <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em;">
+
+# main.py
+from os_ops import copy_file
+
+copy_file(
+  "source.txt",
+  "destination.txt"
+)
+              </code></pre>
+            </div>
+            <div style="width: 60%; padding-right: 0.01em">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+# os_ops/__init__.py
+
+import os
+
+if os.name == 'nt':
+    from ._windows.path import copy_file 
+elif os.name == 'posix':
+    from ._linux.path import copy_file
+else:
+    raise OSError(f"Unsupported OS: {os.name}")
+
+</code></pre>
+            </div>
+          </div>
+            <p>
+              <b>Benefit: </b>Avoid ambiguity
+            </p>
+          </div>
+
+        </section>
+
+        <section>
+          <h5>Re-exporting definitions through __init__.py</h5>
+          <div style="text-align: left; font-size: 0.9em;">
+            <pre class="no-line-numbers"><code data-trim data-noescape class="language-python" data-line-numbers="*">
+# model/geometry/node.py
+class Node: ...
+# model/geometry/__init__.py
+from .node import Node, function_a
+from .edge import Edge, function_b
+# model/__init__.py
+from .geometry import Node, Edge, function_a, function_b
+from .other_module import SomeOtherClass
+# gui/__init__.py
+from model import Node, Edge, function_a, function_b, SomeOtherClass
+            </code></pre>            
+          </div>
+        </section>
+  
+      </section>
+      <!-- main section --> 
+      <section>
+        <h4>IV. How internal dependencies impact a package architecture?</h4>
+        <img style="height: 11em;" data-src="./img/impact_on_architecture.png" />
+      </section>
+      <!-- sub section-->
+      <section>
+
+        <section>
+          <h5>Why to care about clean modular structure?</h5>
+          <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
+            <div style="width: 100%; padding-left: 0.1em;">
+              <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: 0.0em; line-height: 1.1em; margin-top: 2em;">
+│   main.py
+├───gui
+│   │   __init__.py
+│   └───widget
+│       │   __init__.py
+│       └───icon
+│               __init__.py
+...
+└───base_model
+    │   __init__.py
+    └───geometry
+            node.py
+            edge.py
+            __init__.py
+...
+              </code></pre>
+              <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em;">
+# running tests inside a specific package
+python -m pytest base_model/geometry
+# linting a specific package
+ruff check gui/widget/icon
+
+
+              </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Why to care about clean modular structure?</h5>
+          <div style="display: flex; align-items: flex-start; height: 80vh; padding-top: 4vh;">
+            <div style="width: 100%; padding-left: 0.1em; margin: 0;">
+              <img style="height: 9em; padding-top: 2em;" data-src="./img/clean_modular_structure.png" />
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Acyclic dependencies principle (ADP)</h5>
+          <div class="image-text" style="float: center; margin-top: 5vh;">
+            <img style="height: 30vh;" data-src="./img/dependency-cycle.png" />
+          </div>
+          <ul style="font-size: 2.5vh;">
+            <li>make the code hard to understand, thus reducing maintainability</li>
+            <li>harder to change one component without affecting another because of strong coupling</li>
+            <li>impossible to test each individual component because they can't be separated since they act as a single component</li>
+          </ul>
+        </section>
+
+        <section>
+          <h5>Python circular imports. A bug or a feature?</h5>
+          <div class="image-text" style="float: left;">
+            <pre><code data-trim data-noescape class="language-bash">
+File "gui/__init__.py", line 1, in <module>
+    from model import Node
+  File "model/__init__.py", line 1, in <module>
+    from .geometry import Node
+  File "model/geometry/__init__.py", line 3, in <module>
+    from gui import Graph
+    ^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'Graph' from partially initialized module 'gui' 
+(most likely due to a circular import) (/gui/__init__.py)
+            </code></pre>
+            <div style="font-size: 0.8em; margin-top: 0.5em;">
+              Circular imports most of the time signal a design issue, but sometimes are used intentionally for plugin systems or late binding.
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Re-exporting definitions through __init__.py</h5>
+          <div style="text-align: left; font-size: 0.9em;">
+            <pre class="no-line-numbers"><code data-trim data-noescape class="language-python" data-line-numbers="*">
+# model/geometry/node.py
+class Node: ...
+# model/geometry/__init__.py
+from .node import Node, function_a
+from .edge import Edge, function_b
+# model/__init__.py
+from .geometry import Node, Edge, function_a, function_b
+from .other_module import SomeOtherClass
+# gui/__init__.py
+from model import Node, Edge, function_a, function_b, SomeOtherClass
+            </code></pre>            
+          </div>
+        </section>
+
+        <section>
+          <h5>Circular dependencies between packages</h5>
+          <div class="image-text" style="float: left;">
+            <svg width="700" height="310" style="background: #f9f9f9; border-radius: 8px; margin-left: 10px; margin-right: 10px;">
+              <!-- Packages: aligned horizontally, minimal top margin -->
+              <rect x="525" y="15" width="165" height="48" rx="9" fill="#4099da" opacity="0.15" />
+              <text x="607" y="45" text-anchor="middle" font-size="16" fill="#4099da">model</text>
+              <rect x="525" y="135" width="165" height="48" rx="9" fill="#4099da" opacity="0.10" />
+              <text x="607" y="165" text-anchor="middle" font-size="16" fill="#4099da">model.geometry</text>
+              <rect x="525" y="255" width="165" height="48" rx="9" fill="#4099da" opacity="0.08" />
+              <text x="607" y="285" text-anchor="middle" font-size="16" fill="#4099da">model.geometry.node</text>
+
+              <rect x="15" y="15" width="165" height="48" rx="12" fill="#28a745" opacity="0.15" />
+              <text x="97" y="45" text-anchor="middle" font-size="16" fill="#28a745">gui</text>
+              <rect x="15" y="135" width="165" height="48" rx="9" fill="#28a745" opacity="0.10" />
+              <text x="97" y="165" text-anchor="middle" font-size="16" fill="#28a745">gui.plots</text>
+              <rect x="15" y="255" width="165" height="48" rx="8" fill="#28a745" opacity="0.08" />
+              <text x="97" y="282" text-anchor="middle" font-size="16" fill="#28a745">gui.plots.graph</text>
+
+              <!-- Arrows: A imports from subpackages (vertical lines) -->
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#4099da" />
+                </marker>
+                <marker id="arrowB" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#28a745" />
+                </marker>
+                <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#dc3545" />
+                </marker>
+              </defs>
+              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- B imports from subpackages (vertical lines) -->
+              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+
+              <!-- B imports from A (allowed) -->
+              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrow)" />
+
+            </svg>
+            <div>
+              Packages "model" and "gui" re-exporting everything through __init__.py.
+              Package "gui" imports from "model".
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Circular dependencies between packages</h5>
+          <div class="image-text" style="float: left;">
+            <svg width="700" height="310" style="background: #f9f9f9; border-radius: 8px; margin-left: 10px; margin-right: 10px;">
+              <!-- Packages: aligned horizontally, minimal top margin -->
+              <rect x="525" y="15" width="165" height="48" rx="9" fill="#4099da" opacity="0.15" />
+              <text x="607" y="45" text-anchor="middle" font-size="16" fill="#4099da">model</text>
+              <rect x="525" y="135" width="165" height="48" rx="9" fill="#4099da" opacity="0.10" />
+              <text x="607" y="165" text-anchor="middle" font-size="16" fill="#4099da">model.geometry</text>
+              <rect x="525" y="255" width="165" height="48" rx="9" fill="#4099da" opacity="0.08" />
+              <text x="607" y="285" text-anchor="middle" font-size="16" fill="#4099da">model.geometry.node</text>
+
+              <rect x="15" y="15" width="165" height="48" rx="12" fill="#28a745" opacity="0.15" />
+              <text x="97" y="45" text-anchor="middle" font-size="16" fill="#28a745">gui</text>
+              <rect x="15" y="135" width="165" height="48" rx="9" fill="#28a745" opacity="0.10" />
+              <text x="97" y="165" text-anchor="middle" font-size="16" fill="#28a745">gui.plots</text>
+              <rect x="15" y="255" width="165" height="48" rx="8" fill="#28a745" opacity="0.08" />
+              <text x="97" y="282" text-anchor="middle" font-size="16" fill="#28a745">gui.plots.graph</text>
+
+              <!-- Arrows: A imports from subpackages (vertical lines) -->
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#4099da" />
+                </marker>
+                <marker id="arrowB" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#28a745" />
+                </marker>
+                <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#dc3545" />
+                </marker>
+              </defs>
+              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- B imports from subpackages (vertical lines) -->
+              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+
+              <!-- B imports from A (allowed) -->
+              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- Attempted dependency from B2 to A1 (circular, not allowed) -->
+              <line x1="525" y1="165" x2="175" y2="282" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed)" stroke-dasharray="6,4" />
+            </svg>
+            <div>
+              Attempting to add a dependency from "model" to "gui" directly from the the module "gui.plots.graph".
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Circular dependencies between packages</h5>
+          <div class="image-text" style="float: left;">
+            <svg width="700" height="310" style="background: #f9f9f9; border-radius: 8px; margin-left: 10px; margin-right: 10px;">
+              <!-- Packages: aligned horizontally, minimal top margin -->
+              <rect x="525" y="15" width="165" height="48" rx="9" fill="#4099da" opacity="0.15" />
+              <text x="607" y="45" text-anchor="middle" font-size="16" fill="#4099da">model</text>
+              <rect x="525" y="135" width="165" height="48" rx="9" fill="#4099da" opacity="0.10" />
+              <text x="607" y="165" text-anchor="middle" font-size="16" fill="#4099da">model.geometry</text>
+              <rect x="525" y="255" width="165" height="48" rx="9" fill="#4099da" opacity="0.08" />
+              <text x="607" y="285" text-anchor="middle" font-size="16" fill="#4099da">model.geometry.node</text>
+
+              <rect x="15" y="15" width="165" height="48" rx="12" fill="#28a745" opacity="0.15" />
+              <text x="97" y="45" text-anchor="middle" font-size="16" fill="#28a745">gui</text>
+              <rect x="15" y="135" width="165" height="48" rx="9" fill="#28a745" opacity="0.10" />
+              <text x="97" y="165" text-anchor="middle" font-size="16" fill="#28a745">gui.plots</text>
+              <rect x="15" y="255" width="165" height="48" rx="8" fill="#28a745" opacity="0.08" />
+              <text x="97" y="282" text-anchor="middle" font-size="16" fill="#28a745">gui.plots.graph</text>
+
+              <!-- Arrows: A imports from subpackages (vertical lines) -->
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#4099da" />
+                </marker>
+                <marker id="arrowB" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#28a745" />
+                </marker>
+                <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#dc3545" />
+                </marker>
+              </defs>
+              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- B imports from subpackages (vertical lines) -->
+              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+
+              <!-- B imports from A (allowed) -->
+              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrow)" />
+
+              <!-- Attempted dependency from B2 to A1 (circular, not allowed) -->
+              <line x1="525" y1="165" x2="175" y2="45" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed)" stroke-dasharray="6,4" />
+            </svg>
+            <div>
+              Attempting to add a dependency from "model" to "gui", using re-exported entity, creates a circular dependency.
+            </div>
+          </div>
+        </section>
+        <section>
+          <h5>Circular dependencies between packages</h5>
+          <div style="text-align: left; font-size: 0.7em;">
+            <aside class="notes">
+            - proof of a circular import error using re-exporting strategy
+          </aside>
+            <pre><code data-trim data-noescape class="language-python">
+# model/geometry/node.py
+class Node: ...
+
+# model/geometry/__init__.py
+from .node import Node
+
+# model/__init__.py
+from .geometry import Node
+
+# gui/__init__.py
+from model import Node
+
+# model/geometry/__init__.py
+from gui import Graph
+            </code></pre>
+            <pre><code data-trim data-noescape class="language-bash">
+File "gui/__init__.py", line 1, in <module>
+    from model import Node
+  File "model/__init__.py", line 1, in <module>
+    from .geometry import Node
+  File "model/geometry/__init__.py", line 3, in <module>
+    from gui import Graph
+    ^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'Graph' from partially initialized module 'gui' 
+(most likely due to a circular import) (/gui/__init__.py)</code></pre>
+        </section>
+      
+      </section>
+      
+      <!-- main section --> 
+      <section>
+        <h4>V. How can we enforce the selected strategy in CI?</h4>
+        <img style="height: 10em;" data-src="./img/importing_in_ci.png" />
+      </section>
+      <!-- sub section-->
+      <section>
+
+        <section>
+          <h5>Ruff</h5>
+          <div class="image-text" style="float: left; width: 80%;">
+            <pre><code data-trim data-noescape class="language-python">
+from functools import partial
+import sys
+
+import pandas as pd
+from pydantic import BaseModel
+from pydantic import Field
+
+from my_another_package.graph import Graph
+from my_another_package.graph import Node
+from my_package.model import model
+
+            </code></pre>
+            <pre><code data-trim data-noescape class="language-toml" data-line-numbers="*|1,2|3,4,5|6|7|8|11,12|13">
+# ruff.toml
+
+[lint]
+select = [
+    "I",  # isort
+    "PLC0415",  # import-outside-top-level
+    "TID252",  # relative-imports
+    "F403",  # undefined-local-with-import-star-usage
+]
+
+[lint.isort]
+force-single-line = true
+known-first-party = ["my_another_package"]
+</code></pre>
+
+          </div>
+        </section>
+
+        <section>
+          <h5>Import Linter[4]</h5>
+          <img style="height: 8em;" data-src="./img/import-linter.png" />
+          <p style="font-size: 0.7em; font-style: italic;">
+            "Import Linter allows you to define and enforce rules for the internal and external imports within your Python project."
+          </p>
+        </section>
+
+        <section>
+          <div class="image-text" style="float: center;">
+            <pre><code data-trim data-noescape class="language-toml">
+[importlinter]
+root_package = my_package
+
+[importlinter:contract:1]
+name=GUI cannot be imported from other packages
+type=forbidden
+source_modules=
+    my_package.model
+    my_package.db
+forbidden_modules=
+    my_package.gui
+</code></pre>
+<pre><code data-trim data-noescape class="language-bash">
+(my_package) jan@jan-Inspiron-3543:~$ lint-imports
+=============
+Import Linter
+=============
+
+---------
+Contracts
+---------
+
+Analyzed 134 files, 699 dependencies.
+-------------------------------------
+
+GUI cannot be imported from other packages KEPT
+
+Contracts: 1 kept, 0 broken.
+            </code></pre>
+          </div>
+
+        </section>
+
+        <section>
+          <h5>AcyclicContract</h5>
+          <div class="image-text" style="float: left; width: 105%;">
+            <pre><code data-trim data-noescape class="language-bash">
+pip install import-linter@git+https://github.com/K4liber/import-linter@issue/221_tree_contract
+</code></pre>
+            <pre><code data-trim data-noescape class="language-toml">
+# .importlinter
+          
+[importlinter]
+root_packages = 
+  django
+
+[importlinter:contract:1]
+name=Acyclic
+type=acyclic
+consider_package_dependencies=true
+max_cycle_families=-1
+exclude_parents=
+  django.test
+
+            </code></pre>
+            <pre><code data-trim data-noescape class="language-bash">
+(django) jan@jan-Inspiron-3543:~$ lint-imports
+</code></pre>
+
+          </div>
+        </section>
+
+        <section>
+          <h5>Check upholding of AcyclicContract in django</h5>
+          <div style="text-align: left; font-size: 0.6em;">
+            <pre><code data-trim data-noescape class="language-bash">
+...
+
+>>>> Cycles family for parent module 'django'
+
+Sibilings:
+(
+  django.apps
+  django.core
+)
+
+Number of cycles: 1
+
+Cycle 1 (package dependency):
+
+(
+ -> django.apps (full path: 'django.apps.config')
+ -> django.core (full path: 'django.core.exceptions')
+ -> django.core (full path: 'django.core.checks.model_checks')
+ -> django.apps
+)
+
+<<<< Cycles family for parent module 'django'
+
+Number of cycle families found for a contract 'AcyclicDependencies': 167
+Number of cycle families with package dependencies: 88
+</code></pre>
+
+
+          </div>
+        </section>
+
+        <section>
+          <h5>Following ADP (Acyclic Dependencies Principle)</h5>
+          <img style="height: 8em;" data-src="./img/fun_with_flags.png" />
+          <p style="font-size: 0.7em; font-style: italic;">
+            Could a development have been more fun for django developers if they had used AcyclicContract from the start of the development?
+          </p>
+        </section>
+
+        <section>
+          <h3>Summary</h3>
+          <ol style="font-size: 0.8em;" start="1">
+            <li>Importing in Python can be done in many different ways</li>
+            <li>Choosing one, consistent way, will reduce decision fatigue</li>
+            <li>Clean modular structure of your Python code matters</li>
+            <li>Following Acyclic Dependencies Principle (ADP) leads to better software design</li>
+            <li>Using tools like Ruff and Import Linter for automating the recommendations checks</li>
+          </ol>
+        </section>
+
+      </section>
+      <!-- main section --> 
+      <section>
+        <h3>Bibliography</h3>
+        <ol style="font-size: 0.5em;">
+          <li>Photo by Lester Hsu, https://orsted.com/en/media/news/2022/04/20220421515811</li>
+          <li>Why do successful people wear the same outfits every day?, https://www.todaywellspent.com/blogs/articles/why-do-successful-people-wear-the-same-outfits-every-day</li>
+          <li>PEP-0008, Imports, https://peps.python.org/pep-0008/#imports</li>
+          <li>Import Linter, https://github.com/seddonym/import-linter</li>
+          <li>Italian pasta code, Lynn (Yu Ling) Wang, https://www.linkedin.com/in/yuling-wang-jobmenta/ </li>
+        </ol>
+      </section>
+
+      <section>
+
+        <section>
+          <h4>(EXTRA) Python code that can adapt to changing requirements</h4>
+          <div class="image-text" style="float: center;">
+            <img style="height: 15em;" data-src="./img/changing_requirements.jpg" />
+          </div>
+        </section>
+
+        <section>
+          <div class="image-text" style="float: center;">
+            <img style="height: 15em;" data-src="./img/italian_pasta.jpeg" />
+          </div>
+          <p style="font-size: 0.7em;">
+            Using Python, it is easy to cook some italian pasta code [5]
+          </p>
+        </section>
+
+        <section>
+          <h5>Clean code principles</h5>
+          <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+            <div style="flex: 1; text-align: center;">
+              <img src="img/uncle_bob.jpg" alt="Uncle Bob" style="width: 13vw; border-radius: 1em; float: center;" />
+              <div style="font-size: 0.5em; margin-top: 0.5em;">
+                <strong>Uncle Bob</strong><br>
+                <em>Clean Code: A Handbook of Agile Software Craftsmanship</em><br>
+                2008
+              </div>
+            </div>
+            <div style="flex: 2; text-align: left; margin-left: 2em;">
+              <ul style="font-size: 0.7em;">
+                <li><strong>SRP</strong> - Single Responsibility Principle</li>
+                <li><strong>OCP</strong> - Open/Closed Principle</li>
+                <li><strong>LSP</strong> - Liskov Substitution Principle</li>
+                <li><strong>ISP</strong> - Interface Segregation Principle</li>
+                <li><strong>DIP</strong> - Dependency Inversion Principle</li>
+                <li><strong>DRY</strong> - Don't Repeat Yourself</li>
+                <li><strong>KISS</strong> - Keep It Simple, Stupid</li>
+                <li><strong>YAGNI</strong> - You Aren't Gonna Need It</li>
+                <li><strong>POLA</strong> - Principle of Least Astonishment</li>
+                <li><strong>ADP</strong> - Acyclic Dependencies Principle</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="image-text" style="float: center;">
+            <img style="height: 15em;" data-src="./img/code_flexibility_vs_effort.png" />
+          </div>
+          <p style="font-size: 0.7em;">
+            Effort vs benefit of applying clean code principles
+          </p>
+        </section>
+
+        <section>
+          <div class="image-text" style="float: center;">
+            <img style="height: 15em;" data-src="./img/code_flexibility_vs_effort_part_2.png" />
+          </div>
+          <p style="font-size: 0.7em;">
+            Automated checks of clean code principles violations
+          </p>
+        </section>
+
+      </section>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/highlight/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/markdown/markdown.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      center: true,
+      hash: true,
+      plugins: [RevealHighlight, RevealNotes, RevealMarkdown],
+      slideNumber: true
+    });
+    // Disable transition for vertical navigation
+    Reveal.on('slidetransitionend', () => {
+      const verticalSlides = document.querySelectorAll('.reveal .slides > section > section');
+      verticalSlides.forEach(slide => {
+        slide.style.transition = 'none';
+      });
+    });
+    // Hide footer, slide number, and controls on first slide
+    Reveal.on('slidechanged', event => {
+      const footer = document.querySelector('.footer');
+      const slideNumber = document.querySelector('.slide-number');
+      const controls = document.querySelector('.reveal .controls');
+      
+      if (event.indexh === 0) {
+        footer.style.display = 'none';
+        slideNumber.style.display = 'none';
+        controls.style.display = 'none';
+      } else {
+        footer.style.display = 'flex';
+        slideNumber.style.display = 'block';
+        controls.style.display = 'block';
+      }
+    });
+    // Hide footer, slide number, and controls on initial load if on first slide
+    Reveal.on('ready', event => {
+      const footer = document.querySelector('.footer');
+      const slideNumber = document.querySelector('.slide-number');
+      const controls = document.querySelector('.reveal .controls');
+      
+      if (event.indexh === 0) {
+        footer.style.display = 'none';
+        slideNumber.style.display = 'none';
+        controls.style.display = 'none';
+      }
+    });
+  </script>
+</body>
