@@ -1,0 +1,2 @@
+class ModelInterface:
+    pass
