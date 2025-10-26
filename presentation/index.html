@@ -288,6 +288,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
                   <li>Encapsulation</li>
                   <li>Single entry point</li>
                   <li>Short imports</li>
+                  <li>Acyclic package dependencies</li>
                 </ul>
               </div>
               <div style="width: 48%;">
@@ -516,17 +517,27 @@ ModuleNotFoundError: No module named 'my_package.computation'
       <section>
 
         <section>
-          <h5>1. (PEP) Place imports at the top of a file[3]</h5>
+          <h5>1. (PEP) Sort imports</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <img style="height: 40vh;" data-src="./img/consistent.webp" />
+            <p>
+              <b>Benefit: </b>Consistent order of import statements
+            </p>
+          </div>
+        </section>
+  
+        <section>
+          <h5>2. (PEP) Place imports at the top of a file[3]</h5>
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <img style="height: 40vh;" data-src="./img/as-clear.jpeg" />
             <p>
-              <b>Benefit: </b>Transparency about dependencies
+              <b>Benefit: </b>Being crystal clear about created dependencies
             </p>
           </div>
         </section>
 
         <section>
-          <h5>2. Lazy imports of heavy modules</h5>
+          <h5>2. (EXCEPTION) Lazy imports of heavy modules</h5>
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <div style="display: flex; align-items: flex-start;">
               <div style="width: 60%; padding-right: 0.01em">
@@ -566,7 +577,7 @@ def main() -> None:
         </section>
 
         <section>
-          <h5>3. Do not use "if TYPE_CHECKING" to avoid ImportError</h5>
+          <h5>2. (EXCEPTION) Use TYPE_CHECKING for heavy types</h5>
           <div class="image-text" style="float: center; padding-top: 5vh;">
   <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
 # src/model.py
@@ -583,76 +594,13 @@ class Model:
         ...
   </code></pre>
             <p>
-              <b>Benefit: </b>Circular imports most of the time signal a design issue. Fix them to improve the design.
+              <b>Benefit: </b>Reduction of startup time at some conditions
             </p>
           </div>
         </section>
 
         <section>
-          <h5>4. (PEP) Imports should be grouped</h5>
-          <div class="image-text" style="float: center; padding-top: 1vh">
-  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;" data-line-numbers="*|1-4|6-9|11-18">
-# standard library imports
-import filecmp
-import shutil
-from pathlib import Path
-
-# related third party imports
-import pandas as pd
-import pytest
-import numpy as np
-
-# local application/library specific imports
-from common.constants import current_version
-from common.constants import default_model_type
-from dashboard.model.model import Model
-from dashboard.model.model import ModelType
-from source.db import DB
-from source.connector.adapter import TimeSeriesAdapter
-
-  </code></pre>
-            <p>
-              <b>Benefit: </b>Immediate visual separation of different types of dependencies
-            </p>
-          </div>
-        </section>
-      
-        <section>
-          <h5>5. Import one definition per line</h5>
-          <div class="image-text" style="float: center; padding-top: 5vh;">
-            <div style="display: flex; align-items: flex-start;">
-              <div style="width: 45%; padding-left: 0.1em;">
-                <img style="height: 40vh;" data-src="./img/merge_conflicts.webp" />
-              </div>
-              <div style="width: 55%; padding-right: 0.01em">
-                <p style="font-size: 0.7em; margin-top: 1vh;">
-<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;" data-line-numbers="*|9-10">
-import filecmp
-import shutil
-from pathlib import Path
-
-import pandas as pd
-import pytest
-import numpy as np
-
-from common.constants import current_version
-from common.constants import default_model_type
-from dashboard.model.model import Model
-from dashboard.model.model import ModelType
-from source.db import DB
-from source.connector.adapter import TimeSeries
-</code></pre>
-                </p>
-              </div>
-            </div>
-            <p>
-              <b>Benefit: </b>Reduction of version control conflicts
-            </p>
-          </div>
-        </section>
-
-        <section>
-          <h5>6. (PEP) Absolute imports</h5>
+          <h5>3. (PEP) Absolute imports</h5>
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <img style="height: 40vh;" data-src="./img/absolute-imports.png" />
             <p>
@@ -662,29 +610,7 @@ from source.connector.adapter import TimeSeries
         </section>
 
         <section>
-          <h5>7. Use only well-known abbreviations</h5>
-          <div class="image-text" style="float: center;">
-<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
-import os
-import sys
-
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
-import sklearn as sk
-import tensorflow as tf
-
-import windows_temporary_file as wtf
-</code></pre>
-            <p>
-              <b>Benefit: </b>Avoid confusion on what the abbreviation stands for
-            </p>
-          </div>
-        </section>
-
-        <section>
-          <h5>8. Avoid using Namespace Packages</h5>
+          <h5>4. Avoid using Namespace Packages</h5>
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <div style="display: flex; align-items: flex-start;">
             <div style="width: 40%; padding-left: 0.1em;">
@@ -731,7 +657,7 @@ ModuleNotFoundError: No module named 'my_package.computation'
         </section>
 
         <section>
-          <h5>9. (PEP) Avoid using wildcard imports</h5>
+          <h5>5. (PEP) Avoid using wildcard imports</h5>
           <div class="image-text" style="float: center;">
 <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;" data-line-numbers="*|1-7|8-10|11-18|19-21">
 # base_implementation.py
@@ -763,7 +689,129 @@ from public_api import fast_multiply
         </section>
 
         <section>
-          <h5>10. Import directly from module where a definition is defined</h5>
+          <h5>6. (PEP) Imports should be grouped</h5>
+          <div class="image-text" style="float: center; padding-top: 1vh">
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;" data-line-numbers="*|1-4|6-9|11-18">
+# standard library imports
+import filecmp
+import shutil
+from pathlib import Path
+
+# related third party imports
+import pandas as pd
+import pytest
+import numpy as np
+
+# local application/library specific imports
+from common.constants import current_version
+from common.constants import default_model_type
+from dashboard.model.model import Model
+from dashboard.model.model import ModelType
+from source.db import DB
+from source.connector.adapter import TimeSeriesAdapter
+
+  </code></pre>
+            <p>
+              <b>Benefit: </b>Immediate visual separation of different types of dependencies
+            </p>
+          </div>
+        </section>
+      
+        <section>
+          <h5>7. (PEP) Import one definition per line</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+              <div style="width: 45%; padding-left: 0.1em;">
+                <img style="height: 40vh;" data-src="./img/merge_conflicts.webp" />
+              </div>
+              <div style="width: 55%; padding-right: 0.01em">
+                <p style="font-size: 0.7em; margin-top: 1vh;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;" data-line-numbers="*|9-10">
+import filecmp
+import shutil
+from pathlib import Path
+
+import pandas as pd
+import pytest
+import numpy as np
+
+from common.constants import current_version
+from common.constants import default_model_type
+from dashboard.model.model import Model
+from dashboard.model.model import ModelType
+from source.db import DB
+from source.connector.adapter import TimeSeries
+</code></pre>
+                </p>
+              </div>
+            </div>
+            <p>
+              <b>Benefit: </b>Reduction of version control conflicts
+            </p>
+          </div>
+        </section>
+
+        <!-- <section>
+          <h5>7. Use only well-known abbreviations</h5>
+          <div class="image-text" style="float: center;">
+<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+import os
+import sys
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import sklearn as sk
+import tensorflow as tf
+
+import windows_temporary_file as wtf
+</code></pre>
+            <p>
+              <b>Benefit: </b>Avoid confusion on what the abbreviation stands for
+            </p>
+          </div>
+        </section> -->
+
+        <section>
+          <h5>8. Import directly from a module where an entity is defined</h5>
+          <div style="text-align: left; font-size: 0.9em;">
+            <pre class="no-line-numbers"><code data-trim data-noescape class="language-python" data-line-numbers="*">
+# model/geometry/node.py
+class Node: ...
+# model/geometry/__init__.py
+from .node import Node, function_a
+from .edge import Edge, function_b
+# model/__init__.py
+from .geometry import Node, Edge, function_a, function_b
+from .other_module import SomeOtherClass
+# gui/__init__.py
+from model import Node, Edge, function_a, function_b, SomeOtherClass
+            </code></pre>            
+            <div style="margin-top: 0.5em; display: flex; justify-content: space-between;">
+              <div style="width: 48%;">
+                <p style="color: #28a745; font-weight: bold; margin-bottom: 0.5em;">✓ Pros:</p>
+                <ul style="margin: 0; padding-left: 1em; font-size: 3vh;">
+                  <li>Encapsulation</li>
+                  <li>Single entry point</li>
+                  <li>Short imports</li>
+                  <li>Acyclic package dependencies</li>
+                </ul>
+              </div>
+              <div style="width: 48%;">
+                <p style="color: #dc3545; font-weight: bold; margin-bottom: 0.5em;">✗ Cons:</p>
+                <ul style="margin: 0; padding-left: 1em; font-size: 3vh;">
+                  <li>Maintenance overhead</li>
+                  <li>IDE is confused</li>
+                  <li>Hard to automate consistency</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+  
+        <section>
+          <h5>8. (EXCEPTION) Convenience imports</h5>
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <div style="display: flex; align-items: flex-start;">
             <div style="width: 40%; padding-left: 0.1em;">
@@ -810,28 +858,10 @@ else:
             </div>
           </div>
             <p>
-              <b>Benefit: </b>Avoid ambiguity
+              <b>Benefits: </b>Encapsulation, single entry point, short imports
             </p>
           </div>
 
-        </section>
-
-        <section>
-          <h5>Re-exporting definitions through __init__.py</h5>
-          <div style="text-align: left; font-size: 0.9em;">
-            <pre class="no-line-numbers"><code data-trim data-noescape class="language-python" data-line-numbers="*">
-# model/geometry/node.py
-class Node: ...
-# model/geometry/__init__.py
-from .node import Node, function_a
-from .edge import Edge, function_b
-# model/__init__.py
-from .geometry import Node, Edge, function_a, function_b
-from .other_module import SomeOtherClass
-# gui/__init__.py
-from model import Node, Edge, function_a, function_b, SomeOtherClass
-            </code></pre>            
-          </div>
         </section>
   
       </section>
@@ -1143,20 +1173,19 @@ from my_another_package.graph import Node
 from my_package.model import model
 
             </code></pre>
-            <pre><code data-trim data-noescape class="language-toml" data-line-numbers="*|1,2|3,4,5|6|7|8|11,12|13">
+            <pre><code data-trim data-noescape class="language-toml" data-line-numbers="*|3,4|5|6|7|8|10,11|12">
 # ruff.toml
-
 [lint]
 select = [
-    "I",  # isort
-    "PLC0415",  # import-outside-top-level
-    "TID252",  # relative-imports
-    "F403",  # undefined-local-with-import-star-usage
+    "I",  # isort                                     (1)
+    "PLC0415",  # import-outside-top-level            (2)
+    "TID252",  # relative-imports                     (3)
+    "INP001",  # implicit-namespace-package           (4)
+    "F403",  # undefined-local-with-import-star-usage (5)
 ]
-
 [lint.isort]
-force-single-line = true
-known-first-party = ["my_another_package"]
+known-first-party = ["my_another_package"]  #         (6)
+force-single-line = true  #                           (7)
 </code></pre>
 
           </div>
