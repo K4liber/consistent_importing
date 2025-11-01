@@ -754,117 +754,110 @@ from source.connector.adapter import TimeSeries
           </div>
         </section>
 
-        <!-- <section>
-          <h5>7. Use only well-known abbreviations</h5>
-          <div class="image-text" style="float: center;">
-<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
-import os
-import sys
-
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
-import sklearn as sk
-import tensorflow as tf
-
-import windows_temporary_file as wtf
-</code></pre>
-            <p>
-              <b>Benefit: </b>Avoid confusion on what the abbreviation stands for
-            </p>
-          </div>
-        </section> -->
-
         <section>
-          <h5>8. Import directly from a module where an entity is defined</h5>
-          <div style="text-align: left; font-size: 0.9em;">
-            <pre class="no-line-numbers"><code data-trim data-noescape class="language-python" data-line-numbers="*">
-# model/geometry/node.py
-class Node: ...
-# model/geometry/__init__.py
-from .node import Node, function_a
-from .edge import Edge, function_b
-# model/__init__.py
-from .geometry import Node, Edge, function_a, function_b
-from .other_module import SomeOtherClass
-# gui/__init__.py
-from model import Node, Edge, function_a, function_b, SomeOtherClass
-            </code></pre>            
-            <div style="margin-top: 0.5em; display: flex; justify-content: space-between;">
-              <div style="width: 48%;">
-                <p style="color: #28a745; font-weight: bold; margin-bottom: 0.5em;">✓ Pros:</p>
-                <ul style="margin: 0; padding-left: 1em; font-size: 3vh;">
-                  <li>Encapsulation</li>
-                  <li>Single entry point</li>
-                  <li>Short imports</li>
-                  <li>Acyclic package dependencies</li>
-                </ul>
+          <h5>8. Direct imports from the defining module</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+              <div style="width: 60%; padding-left: 0.1em;">
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: 0em; line-height: 1.1em;"> 
+  # pkg_a/module_a.py
+
+  class ClassA:
+      pass
+
+  # pkg_b/module_b.py
+
+  class ClassB:
+      def compare(self, other: ClassA) -> bool:
+          return str(self) == str(other)
+
+                </code></pre>
               </div>
-              <div style="width: 48%;">
-                <p style="color: #dc3545; font-weight: bold; margin-bottom: 0.5em;">✗ Cons:</p>
-                <ul style="margin: 0; padding-left: 1em; font-size: 3vh;">
-                  <li>Maintenance overhead</li>
-                  <li>IDE is confused</li>
-                  <li>Hard to automate consistency</li>
-                </ul>
+              <div style="width: 40%; padding-right: 0.01em">
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+  # main.py
+
+  from pkg_b.module_b import ClassA
+  from pkg_b.module_b import ClassB
+
+  class_b_instance = ClassB()
+  class_a_instance = ClassA()
+  print(class_a_instance)
+  print(class_b_instance)
+
+
+  </code></pre>
               </div>
             </div>
+            <p>
+              <b>Benefit: </b>Being explicit about dependencies ("Explicit is better than implicit")
+            </p>
           </div>
+          
         </section>
   
         <section>
-          <h5>8. (EXCEPTION) Convenience imports</h5>
+          <h5>8. (EXCEPTION) Encapsulation (or "convenience imports")</h5>
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <div style="display: flex; align-items: flex-start;">
-            <div style="width: 40%; padding-left: 0.1em;">
-<pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: 0em; line-height: 1.1em;"> 
-│   main.py
-├── os_ops
-│   ├── _windows
-│   │   │  __init__.py
-│   │   │  path.py
-│   │   │  ...
-│   │
-│   ├── _linux
-│   │   │  __init__.py
-│   │   │  path.py
-│   │   │  ...
-│   └── __init__.py
-└─ __init__.py
-              </code></pre>
-              <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em;">
+              <div style="width: 40%; padding-left: 0.1em;">
+  <pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: 0em; line-height: 1.1em;"> 
+  │   main.py
+  ├── os_ops
+  │   ├── _windows
+  │   │   │  __init__.py
+  │   │   │  path.py
+  │   │   │  ...
+  │   │
+  │   ├── _linux
+  │   │   │  __init__.py
+  │   │   │  path.py
+  │   │   │  ...
+  │   └── __init__.py
+  └─ __init__.py
+                </code></pre>
+                <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em;">
 
-# main.py
-from os_ops import copy_file
+  # main.py
+  from os_ops import copy_file
 
-copy_file(
-  "source.txt",
-  "destination.txt"
-)
-              </code></pre>
+  copy_file(
+    "source.txt",
+    "destination.txt"
+  )
+                </code></pre>
+              </div>
+              <div style="width: 60%; padding-right: 0.01em">
+  <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
+  # os_ops/__init__.py
+
+  import os
+
+  if os.name == 'nt':
+      from ._windows.path import copy_file 
+  elif os.name == 'posix':
+      from ._linux.path import copy_file
+  else:
+      raise OSError(f"Unsupported OS: {os.name}")
+
+  </code></pre>
+              </div>
             </div>
-            <div style="width: 60%; padding-right: 0.01em">
-<pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: -0.1em;">
-# os_ops/__init__.py
-
-import os
-
-if os.name == 'nt':
-    from ._windows.path import copy_file 
-elif os.name == 'posix':
-    from ._linux.path import copy_file
-else:
-    raise OSError(f"Unsupported OS: {os.name}")
-
-</code></pre>
-            </div>
-          </div>
             <p>
-              <b>Benefits: </b>Encapsulation, single entry point, short imports
+              <b>Benefits: </b>Proxy advantages, short imports
             </p>
           </div>
+          
+        </section>
 
+        <section>
+          <h5>9. Follow Acyclic Dependencies Principle (ADP)</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <img style="height: 50vh;" data-src="./img/spaghetti-meme.jpg" />
+            <p>
+              <b>Benefits: </b>Loose coupling
+            </p>
+          </div>
         </section>
   
       </section>
@@ -878,56 +871,65 @@ else:
 
         <section>
           <h5>Why to care about clean modular structure?</h5>
-          <div style="display: flex; align-items: flex-start; height: 60vh; padding-top: 10vh;">
-            <div style="width: 100%; padding-left: 0.1em;">
-              <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em; letter-spacing: 0.0em; line-height: 1.1em; margin-top: 2em;">
-│   main.py
-├───gui
-│   │   __init__.py
-│   └───widget
-│       │   __init__.py
-│       └───icon
-│               __init__.py
-...
-└───base_model
-    │   __init__.py
-    └───geometry
-            node.py
-            edge.py
-            __init__.py
-...
-              </code></pre>
-              <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.7em;">
-# running tests inside a specific package
-python -m pytest base_model/geometry
-# linting a specific package
-ruff check gui/widget/icon
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+              <div style="width: 50%; padding-left: 0.1em;">
+  <pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: -0.1em;">
+  │   main.py
+  ├───gui
+  │   │   __init__.py
+  │   └───widget
+  │       │   __init__.py
+  │       └───icon
+  │               __init__.py
+  ...
+  └───base_model
+      │   __init__.py
+      └───geometry
+              node.py
+              edge.py
+              __init__.py
+  ...
+  </code></pre>
+              </div>
+              <div style="width: 50%; padding-right: 0.01em">
+  <pre><code data-trim data-noescape class="language-bash" style="font-size: 1.0em; letter-spacing: -0.1em;">
+  # running tests inside a specific package
+  python -m pytest base_model/geometry
+
+  # linting a specific package
+  ruff check gui/widget/icon
 
 
-              </code></pre>
+  </code></pre>
+              </div>
             </div>
+            <p>
+              <b>Benefit: </b>Individual package as a separated component (divide and conquer)
+            </p>
           </div>
         </section>
 
         <section>
           <h5>Why to care about clean modular structure?</h5>
-          <div style="display: flex; align-items: flex-start; height: 80vh; padding-top: 4vh;">
+          <div class="image-text" style="float: center; padding-top: 5vh;">
             <div style="width: 100%; padding-left: 0.1em; margin: 0;">
-              <img style="height: 9em; padding-top: 2em;" data-src="./img/clean_modular_structure.png" />
+              <img style="height: 14em; padding-top: 2em;" data-src="./img/clean_modular_structure.png" />
             </div>
+            <p>
+              <b>Benefit: </b>Make the code easier to understand, increased maintainability
+            </p>
           </div>
         </section>
 
         <section>
-          <h5>Acyclic dependencies principle (ADP)</h5>
+          <h5>Why to care about clean modular structure?</h5>
           <div class="image-text" style="float: center; margin-top: 5vh;">
-            <img style="height: 30vh;" data-src="./img/dependency-cycle.png" />
+            <img style="height: 50vh;" data-src="./img/dependency-cycle.png" />
+            <p>
+              <b>Benefit: </b>Easier to change one component without affecting another because of loose coupling
+            </p>
           </div>
-          <ul style="font-size: 2.5vh;">
-            <li>make the code hard to understand, thus reducing maintainability</li>
-            <li>harder to change one component without affecting another because of strong coupling</li>
-            <li>impossible to test each individual component because they can't be separated since they act as a single component</li>
-          </ul>
         </section>
 
         <section>
@@ -1303,21 +1305,13 @@ Number of cycle families with package dependencies: 88
         </section>
 
         <section>
-          <h5>Following ADP (Acyclic Dependencies Principle)</h5>
-          <img style="height: 8em;" data-src="./img/fun_with_flags.png" />
-          <p style="font-size: 0.7em; font-style: italic;">
-            Could a development have been more fun for django developers if they had used AcyclicContract from the start of the development?
-          </p>
-        </section>
-
-        <section>
           <h3>Summary</h3>
           <ol style="font-size: 0.8em;" start="1">
             <li>Importing in Python can be done in many different ways</li>
             <li>Choosing one, consistent way, will reduce decision fatigue</li>
             <li>Clean modular structure of your Python code matters</li>
             <li>Following Acyclic Dependencies Principle (ADP) leads to better software design</li>
-            <li>Using tools like Ruff and Import Linter for automating the recommendations checks</li>
+            <li>Using tools like Ruff and Import Linter for automated checks</li>
           </ol>
         </section>
 
