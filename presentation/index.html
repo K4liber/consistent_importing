@@ -288,10 +288,9 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
               <div style="width: 48%;">
                 <p style="color: #28a745; font-weight: bold; margin-bottom: 0.5em;">✓ Pros:</p>
                 <ul style="margin: 0; padding-left: 1em; font-size: 3vh;">
-                  <li>Encapsulation</li>
-                  <li>Single entry point</li>
+                  <li>Encapsulation/Single entry point</li>
                   <li>Short imports</li>
-                  <li>Acyclic package dependencies</li>
+                  <li><b>Acyclic package dependencies</b></li>
                 </ul>
               </div>
               <div style="width: 48%;">
@@ -762,10 +761,15 @@ from source.connector.adapter import TimeSeries
   <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: 0em; line-height: 1.1em;"> 
   # pkg_a/module_a.py
 
+  
   class ClassA:
       pass
 
+
   # pkg_b/module_b.py
+
+  from pkg_a.module_a import ClassA
+
 
   class ClassB:
       def compare(self, other: ClassA) -> bool:
@@ -989,32 +993,45 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
               <rect x="15" y="255" width="165" height="48" rx="8" fill="#28a745" opacity="0.08" />
               <text x="97" y="282" text-anchor="middle" font-size="16" fill="#28a745">gui.plots.graph</text>
 
-              <!-- Arrows: A imports from subpackages (vertical lines) -->
+            </svg>
+            <div>
+              Lets consider packages "model" and "gui" having some subpackages (no imports yet)
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Circular dependencies between packages</h5>
+          <div class="image-text" style="float: left;">
+            <svg width="700" height="310" style="background: #f9f9f9; border-radius: 8px; margin-left: 10px; margin-right: 10px;">
+              <!-- Packages: aligned horizontally, minimal top margin -->
+              <rect x="525" y="15" width="165" height="48" rx="9" fill="#4099da" opacity="0.15" />
+              <text x="607" y="45" text-anchor="middle" font-size="16" fill="#4099da">model</text>
+              <rect x="525" y="135" width="165" height="48" rx="9" fill="#4099da" opacity="0.10" />
+              <text x="607" y="165" text-anchor="middle" font-size="16" fill="#4099da">model.geometry</text>
+              <rect x="525" y="255" width="165" height="48" rx="9" fill="#4099da" opacity="0.08" />
+              <text x="607" y="285" text-anchor="middle" font-size="16" fill="#4099da">model.geometry.node</text>
+
+              <rect x="15" y="15" width="165" height="48" rx="12" fill="#28a745" opacity="0.15" />
+              <text x="97" y="45" text-anchor="middle" font-size="16" fill="#28a745">gui</text>
+              <rect x="15" y="135" width="165" height="48" rx="9" fill="#28a745" opacity="0.10" />
+              <text x="97" y="165" text-anchor="middle" font-size="16" fill="#28a745">gui.plots</text>
+              <rect x="15" y="255" width="165" height="48" rx="8" fill="#28a745" opacity="0.08" />
+              <text x="97" y="282" text-anchor="middle" font-size="16" fill="#28a745">gui.plots.graph</text>
+            
+              <!-- Arrow marker definition (matches style used in following slides) -->
               <defs>
-                <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
-                  <path d="M0,0 L10,5 L0,10 Z" fill="#4099da" />
-                </marker>
-                <marker id="arrowB" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
-                  <path d="M0,0 L10,5 L0,10 Z" fill="#28a745" />
-                </marker>
-                <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
-                  <path d="M0,0 L10,5 L0,10 Z" fill="#dc3545" />
+                <marker id="arrow_1" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#888" />
                 </marker>
               </defs>
-              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
-              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
 
-              <!-- B imports from subpackages (vertical lines) -->
-              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
-              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
-
-              <!-- B imports from A (allowed) -->
-              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrow)" />
+              <!-- Arrow from gui (left) to model.geometry.node (right bottom) -->
+              <line x1="175" y1="45" x2="525" y2="285" stroke="#888" stroke-width="2" marker-end="url(#arrow_1)" />
 
             </svg>
             <div>
-              Packages "model" and "gui" re-exporting everything through __init__.py.
-              Package "gui" imports from "model".
+              Package "gui" imports Node class from package "model" (module "model.geometry.node").
             </div>
           </div>
         </section>
@@ -1040,28 +1057,128 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
 
               <!-- Arrows: A imports from subpackages (vertical lines) -->
               <defs>
-                <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                <marker id="arrow_2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
                   <path d="M0,0 L10,5 L0,10 Z" fill="#4099da" />
                 </marker>
-                <marker id="arrowB" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                <marker id="arrowB_2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
                   <path d="M0,0 L10,5 L0,10 Z" fill="#28a745" />
                 </marker>
-                <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                <marker id="arrowAB_2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#888" />
+                </marker>
+              </defs>
+              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow_2)" />
+              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow_2)" />
+
+              <!-- B imports from subpackages (vertical lines) -->
+              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB_2)" />
+              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB_2)" />
+
+              <!-- Arrow from gui (left) to model.geometry.node (right bottom) -->
+              <line x1="175" y1="45" x2="525" y2="285" stroke="#888" stroke-width="2" marker-end="url(#arrowAB_2)" />
+
+            </svg>
+            <div>
+              Package "gui" imports Node class from module "model.geometry.node". Packages "model" and "gui" re-exporting everything through __init__.py.
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Circular dependencies between packages</h5>
+          <div class="image-text" style="float: left;">
+            <svg width="700" height="310" style="background: #f9f9f9; border-radius: 8px; margin-left: 10px; margin-right: 10px;">
+              <!-- Packages: aligned horizontally, minimal top margin -->
+              <rect x="525" y="15" width="165" height="48" rx="9" fill="#4099da" opacity="0.15" />
+              <text x="607" y="45" text-anchor="middle" font-size="16" fill="#4099da">model</text>
+              <rect x="525" y="135" width="165" height="48" rx="9" fill="#4099da" opacity="0.10" />
+              <text x="607" y="165" text-anchor="middle" font-size="16" fill="#4099da">model.geometry</text>
+              <rect x="525" y="255" width="165" height="48" rx="9" fill="#4099da" opacity="0.08" />
+              <text x="607" y="285" text-anchor="middle" font-size="16" fill="#4099da">model.geometry.node</text>
+
+              <rect x="15" y="15" width="165" height="48" rx="12" fill="#28a745" opacity="0.15" />
+              <text x="97" y="45" text-anchor="middle" font-size="16" fill="#28a745">gui</text>
+              <rect x="15" y="135" width="165" height="48" rx="9" fill="#28a745" opacity="0.10" />
+              <text x="97" y="165" text-anchor="middle" font-size="16" fill="#28a745">gui.plots</text>
+              <rect x="15" y="255" width="165" height="48" rx="8" fill="#28a745" opacity="0.08" />
+              <text x="97" y="282" text-anchor="middle" font-size="16" fill="#28a745">gui.plots.graph</text>
+
+              <!-- Arrows: A imports from subpackages (vertical lines) -->
+              <defs>
+                <marker id="arrow_3" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#4099da" />
+                </marker>
+                <marker id="arrowB_3" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#28a745" />
+                </marker>
+                <marker id="arrowAB_3" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#888" />
+                </marker>
+              </defs>
+              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow_3)" />
+              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow_3)" />
+
+              <!-- B imports from subpackages (vertical lines) -->
+              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB_3)" />
+              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB_3)" />
+
+              <!-- B imports from A (allowed) -->
+              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrowAB_3)" />
+
+            </svg>
+            <div>
+              Package "gui" imports Node class from package "model".
+              Packages "model" and "gui" re-exporting everything through __init__.py.
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h5>Circular dependencies between packages</h5>
+          <div class="image-text" style="float: left;">
+            <svg width="700" height="310" style="background: #f9f9f9; border-radius: 8px; margin-left: 10px; margin-right: 10px;">
+              <!-- Packages: aligned horizontally, minimal top margin -->
+              <rect x="525" y="15" width="165" height="48" rx="9" fill="#4099da" opacity="0.15" />
+              <text x="607" y="45" text-anchor="middle" font-size="16" fill="#4099da">model</text>
+              <rect x="525" y="135" width="165" height="48" rx="9" fill="#4099da" opacity="0.10" />
+              <text x="607" y="165" text-anchor="middle" font-size="16" fill="#4099da">model.geometry</text>
+              <rect x="525" y="255" width="165" height="48" rx="9" fill="#4099da" opacity="0.08" />
+              <text x="607" y="285" text-anchor="middle" font-size="16" fill="#4099da">model.geometry.node</text>
+
+              <rect x="15" y="15" width="165" height="48" rx="12" fill="#28a745" opacity="0.15" />
+              <text x="97" y="45" text-anchor="middle" font-size="16" fill="#28a745">gui</text>
+              <rect x="15" y="135" width="165" height="48" rx="9" fill="#28a745" opacity="0.10" />
+              <text x="97" y="165" text-anchor="middle" font-size="16" fill="#28a745">gui.plots</text>
+              <rect x="15" y="255" width="165" height="48" rx="8" fill="#28a745" opacity="0.08" />
+              <text x="97" y="282" text-anchor="middle" font-size="16" fill="#28a745">gui.plots.graph</text>
+
+              <!-- Arrows: A imports from subpackages (vertical lines) -->
+              <defs>
+                <marker id="arrow_4" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#4099da" />
+                </marker>
+                <marker id="arrowB_4" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#28a745" />
+                </marker>
+                <marker id="arrowAB_4" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#888" />
+                </marker>
+                <marker id="arrowRed_4" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
                   <path d="M0,0 L10,5 L0,10 Z" fill="#dc3545" />
                 </marker>
               </defs>
-              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
-              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow_4)" />
+              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow_4)" />
 
               <!-- B imports from subpackages (vertical lines) -->
-              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
-              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB_4)" />
+              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB_4)" />
 
               <!-- B imports from A (allowed) -->
-              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrowAB_4)" />
 
               <!-- Attempted dependency from B2 to A1 (circular, not allowed) -->
-              <line x1="525" y1="165" x2="175" y2="282" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed)" stroke-dasharray="6,4" />
+              <line x1="525" y1="165" x2="175" y2="282" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed_4)" stroke-dasharray="6,4" />
             </svg>
             <div>
               Attempting to add a dependency from "model" to "gui" directly from the the module "gui.plots.graph".
@@ -1090,34 +1207,38 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
 
               <!-- Arrows: A imports from subpackages (vertical lines) -->
               <defs>
-                <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                <marker id="arrow_4" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
                   <path d="M0,0 L10,5 L0,10 Z" fill="#4099da" />
                 </marker>
-                <marker id="arrowB" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                <marker id="arrowB_4" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
                   <path d="M0,0 L10,5 L0,10 Z" fill="#28a745" />
                 </marker>
-                <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                <marker id="arrowAB_4" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#888" />
+                </marker>
+                <marker id="arrowRed_4" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="strokeWidth">
                   <path d="M0,0 L10,5 L0,10 Z" fill="#dc3545" />
                 </marker>
               </defs>
-              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
-              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="607" y1="63" x2="607" y2="135" stroke="#4099da" stroke-width="2" marker-end="url(#arrow_4)" />
+              <line x1="607" y1="183" x2="607" y2="255" stroke="#4099da" stroke-width="2" marker-end="url(#arrow_4)" />
 
               <!-- B imports from subpackages (vertical lines) -->
-              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
-              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB)" />
+              <line x1="97" y1="63" x2="97" y2="135" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB_4)" />
+              <line x1="97" y1="183" x2="97" y2="255" stroke="#28a745" stroke-width="2" marker-end="url(#arrowB_4)" />
 
               <!-- B imports from A (allowed) -->
-              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="180" y1="45" x2="525" y2="45" stroke="#888" stroke-width="2" marker-end="url(#arrowAB_4)" />
 
               <!-- Attempted dependency from B2 to A1 (circular, not allowed) -->
-              <line x1="525" y1="165" x2="175" y2="45" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed)" stroke-dasharray="6,4" />
+              <line x1="525" y1="165" x2="175" y2="45" stroke="#dc3545" stroke-width="2" marker-end="url(#arrowRed_4)" stroke-dasharray="6,4" />
             </svg>
             <div>
               Attempting to add a dependency from "model" to "gui", using re-exported entity, creates a circular dependency.
             </div>
           </div>
         </section>
+
         <section>
           <h5>Circular dependencies between packages</h5>
           <div style="text-align: left; font-size: 0.7em;">
