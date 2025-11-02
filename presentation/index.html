@@ -239,7 +239,7 @@
               <div style="background: white; padding: 0.5em; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block;">
                 <img src="./img/all_slides_pdf_qr_code.png" alt="QR Code to full presentation" style="width: 350px; height: 350px; margin-bottom: 0.1em;">
                 <p style="font-size: 0.6em; color: #666; margin: 0;">Scan for full presentation</p>
-                <p style="font-size: 0.5em; color: #888; margin: 0.1em 0 0 0;">consistent_importing_all_slides.pdf</p>
+                <p style="font-size: 0.5em; color: #888; margin: 0.1em 0 0 0;">consistent_importing.pdf</p>
               </div>
             </div>
           </div>
@@ -1345,23 +1345,23 @@ force-single-line = true  #                           (7)
         </section>
 
         <section>
-          <h5>Import Linter - ForbiddenContract</h5>
+          <h5>Import Linter - Forbidden modules</h5>
           <div class="image-text" style="float: center;">
             <pre><code data-trim data-noescape class="language-toml">
 [importlinter]
-root_package = my_package
+root_package = mypackage
 
 [importlinter:contract:1]
-name=GUI cannot be imported from other packages
-type=forbidden
-source_modules=
-    my_package.model
-    my_package.db
-forbidden_modules=
-    my_package.gui
+name = GUI cannot be imported from other packages
+type = forbidden
+source_modules =
+  mypackage.model
+  mypackage.db
+forbidden_modules =
+  mypackage.gui
 </code></pre>
 <pre><code data-trim data-noescape class="language-bash">
-(my_package) jan@jan-Inspiron-3543:~$ lint-imports
+(mypackage) jan@jan-Inspiron-3543:~$ lint-imports
 
 =============
 Import Linter
@@ -1379,20 +1379,20 @@ Contracts: 1 kept, 0 broken.
         </section>
 
         <section>
-          <h5>Import Linter - LayersContract</h5>
+          <h5>Import Linter - Layers</h5>
           <div class="image-text" style="float: center;">
             <pre><code data-trim data-noescape class="language-toml">
 [importlinter]
 root_package = my_package
 
 [importlinter:contract:1]
-name=GUI cannot be imported from other packages
-type=forbidden
-source_modules=
-    my_package.model
-    my_package.db
-forbidden_modules=
-    my_package.gui
+name = Hierarchical architecture
+type = layers
+layers =
+  mypackage.gui
+  mypackage.model
+  mypackage.db
+
 </code></pre>
 <pre><code data-trim data-noescape class="language-bash">
 (my_package) jan@jan-Inspiron-3543:~$ lint-imports
@@ -1404,7 +1404,7 @@ Import Linter
 Analyzed 134 files, 699 dependencies.
 -------------------------------------
 
-GUI cannot be imported from other packages KEPT
+Hierarchical architecture KEPT
 
 Contracts: 1 kept, 0 broken.
             </code></pre>
@@ -1413,7 +1413,7 @@ Contracts: 1 kept, 0 broken.
         </section>
 
         <section>
-          <h5>Import Linter - AcyclicContract</h5>
+          <h5>Import Linter - Acyclic dependencies</h5>
           <div class="image-text" style="float: left; width: 105%;">
             <pre><code data-trim data-noescape class="language-bash">
 pip install import-linter@git+https://github.com/K4liber/import-linter@issue/221_tree_contract
@@ -1422,54 +1422,54 @@ pip install import-linter@git+https://github.com/K4liber/import-linter@issue/221
 # .importlinter
           
 [importlinter]
-root_packages = 
-  django
+root_package = django
 
 [importlinter:contract:1]
-name=Acyclic
+name=Acyclic dependecies
 type=acyclic
-consider_package_dependencies=true
-max_cycle_families=-1
-exclude_parents=
-  django.test
+packages=
+  django
+consider_package_dependencies = true
+group_by_family = true
 
             </code></pre>
             <pre><code data-trim data-noescape class="language-bash">
-(django) jan@jan-Inspiron-3543:~$ lint-imports
+(django) jan@jan-Inspiron-3543:~$ lint-imports --verbose
 </code></pre>
 
           </div>
         </section>
 
         <section>
-          <h5>Import Linter - AcyclicContract check on django</h5>
+          <h5>Import Linter - Acyclic dependencies</h5>
           <div style="text-align: left; font-size: 0.6em;">
-            <pre><code data-trim data-noescape class="language-bash">
+            <pre><code data-trim data-noescape class="language-html">
+
+Number of dependency cycles found for a contract 'Acyclic dependecies': 252
+Package level cycles: 148
+Module level cycles: 104
+
 ...
 
->>>> Cycles family for parent module 'django'
+Package django contains a (package) dependency cycle:
 
-Sibilings:
-(
-  django.apps
-  django.core
-)
+  1. django.conf depends on django.views:
 
-Number of cycles: 1
+      - django.conf.urls -> django.views.defaults (l. 2)
 
-Cycle 1 (package dependency):
+  2. django.views depends on django.template:
 
-(
- -> django.apps (full path: 'django.apps.config')
- -> django.core (full path: 'django.core.exceptions')
- -> django.core (full path: 'django.core.checks.model_checks')
- -> django.apps
-)
+      - django.views.defaults -> django.template (l. 9)
 
-<<<< Cycles family for parent module 'django'
+  3. django.template depends on django.urls:
 
-Number of cycle families found for a contract 'AcyclicDependencies': 167
-Number of cycle families with package dependencies: 88
+      - django.template.defaulttags -> django.urls (l. 468)
+
+  4. django.urls depends on django.conf:
+
+      - django.urls.resolvers -> django.conf.urls (l. 744)
+
+...
 </code></pre>
 
 
@@ -1477,37 +1477,12 @@ Number of cycle families with package dependencies: 88
         </section>
 
         <section>
-          <h5>Import Linter - AcyclicContract "v.2"</h5>
-          <div style="text-align: left; font-size: 0.6em;">
-            <pre><code data-trim data-noescape class="language-bash">
-...
-
->>>> Cycles family for parent module 'django'
-
-Sibilings:
-(
-  django.apps
-  django.core
-)
-
-Number of cycles: 1
-
-Cycle 1 (package dependency):
-
-(
- -> django.apps (full path: 'django.apps.config')
- -> django.core (full path: 'django.core.exceptions')
- -> django.core (full path: 'django.core.checks.model_checks')
- -> django.apps
-)
-
-<<<< Cycles family for parent module 'django'
-
-Number of cycle families found for a contract 'AcyclicDependencies': 167
-Number of cycle families with package dependencies: 88
-</code></pre>
-
-
+          <h5>Import Linter - Cycles solver</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <img style="height: 40vh;" data-src="./img/cycles_solver.jpg" />
+            <p>
+              Show cycle breakers using "minimum weighted feedback arc set" algorithm
+            </p>
           </div>
         </section>
 
