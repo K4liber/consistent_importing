@@ -7,7 +7,7 @@
   <link 
     rel="icon" 
     type="image/x-icon"
-    href="img/pycon_gr.svg"
+    href="img/pycon_wroclaw_logo.jpg"
   >
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/theme/simple.min.css">
@@ -31,8 +31,9 @@
     :root {
       --main-bg-color: white;
       --main-text-color: black;
-      --heading-color: #4099da;
+      --heading-color: #000000;
       --link-color: #4099da;
+      --second-color: #d196ff;
     }
 
     .reveal {
@@ -57,6 +58,10 @@
       width: 100%;
     }
 
+    .controls-arrow {
+      color: var(--second-color);
+    }
+
     .reveal a {
       color: var(--link-color);
     }
@@ -75,7 +80,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-
+      color: var(--heading-color);
       font-size: calc(var(--r-main-font-size) * 0.4);
     }
   
@@ -135,10 +140,10 @@
       bottom: auto !important;
       left: auto !important;
       font-size: 0.5em !important;
-      background: var(--heading-color) !important;
+      background: var(--second-color) !important;
       padding: 8px 8px !important;
       border-radius: 4px !important;
-      color: rgba(255, 255, 255, 0.8) !important;
+      color: var(--heading-color) !important;
       font-weight: bold !important;
     }
     /* Maximize code area in #large-content */
@@ -159,11 +164,24 @@
     pre.no-line-numbers .hljs {
       padding-left: 0.5em !important;
     }
-    /* change the comment color in python code snippets */
+    /* change the colors in code snippets */
     pre code.language-python .hljs-comment {
       color: #4dd100 !important;
       opacity: 1 !important;
     }
+    pre code.language-python .hljs-keyword {
+      color: #4099da !important;
+      opacity: 1 !important;
+    }
+    pre code.language-bash .hljs-keyword {
+      color: #4099da !important;
+      opacity: 1 !important;
+    }
+    pre code.language-python .hljs-title, .hljs-built_in{
+      color: #bd8f10 !important;
+      opacity: 1 !important;
+    }
+
   </style>
 </head>
 
@@ -171,18 +189,19 @@
   <div class="reveal">
     <footer class="footer">
       <a href="https://2025.pycon.gr/">
-        <img src="img/pycon_gr.svg" alt="Orsted logo" style="z-index: 1000;">
+        <img src="img/pycon_wroclaw_logo.jpg" style="z-index: 1000;">
       </a>
       <span>Consistent importing, PyCon Wroclaw, November 2025</span>
     </footer>
     <div class="slides">
       <!-- main section --> 
       <section
-        data-background-image="./img/pycon_greece_background.png"
+        data-background-image="./img/pycon_wroclaw_background.png"
         data-background-size="cover"
       >
         <h2>Consistent importing</h2>
-        <h4>Jan Bielecki</h4>
+        <h3>Jan Bielecki</h3>
+        <h4>14-15 November 2025</h4>
       </section>
   
       <!-- sub sections -->
@@ -205,13 +224,13 @@
                 <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
                   <img src="./img/money.png" alt="Passion" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0; border: 2px solid var(--heading-color);">
                   <p style="font-size: 0.45em; font-weight: bold; margin: 0; color: var(--heading-color);">2019</p>
-                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Get paid thanks to Python</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Using Python professionally</p>
                 </div>
 
                 <div style="flex: 1; text-align: center; padding: 0.3em; border-radius: 6px; background: rgba(64, 153, 218, 0.1);">
                   <img src="./img/energy_system.png" alt="Background" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0; border: 2px solid var(--heading-color);">
                   <p style="font-size: 0.45em; font-weight: bold; margin: 0; color: var(--heading-color);">2021</p>
-                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Modelling energy systems</p>
+                  <p style="font-size: 0.4em; line-height: 1.3; margin: 0;">Modelling systems in energy industry</p>
                 </div>
               </div>
             </div>
@@ -761,7 +780,7 @@ from source.connector.adapter import TimeSeries
   <pre><code data-trim data-noescape class="language-python" style="font-size: 1.0em; letter-spacing: 0em; line-height: 1.1em;"> 
   # pkg_a/module_a.py
 
-  
+
   class ClassA:
       pass
 
@@ -1318,7 +1337,7 @@ force-single-line = true  #                           (7)
         </section>
 
         <section>
-          <h5>Import Linter[4]</h5>
+          <h5>Import Linter</h5>
           <img style="height: 8em;" data-src="./img/import-linter.png" />
           <p style="font-size: 0.7em; font-style: italic;">
             "Import Linter allows you to define and enforce rules for the internal and external imports within your Python project."
@@ -1326,6 +1345,7 @@ force-single-line = true  #                           (7)
         </section>
 
         <section>
+          <h5>Import Linter - ForbiddenContract</h5>
           <div class="image-text" style="float: center;">
             <pre><code data-trim data-noescape class="language-toml">
 [importlinter]
@@ -1342,13 +1362,10 @@ forbidden_modules=
 </code></pre>
 <pre><code data-trim data-noescape class="language-bash">
 (my_package) jan@jan-Inspiron-3543:~$ lint-imports
+
 =============
 Import Linter
 =============
-
----------
-Contracts
----------
 
 Analyzed 134 files, 699 dependencies.
 -------------------------------------
@@ -1362,7 +1379,41 @@ Contracts: 1 kept, 0 broken.
         </section>
 
         <section>
-          <h5>AcyclicContract</h5>
+          <h5>Import Linter - LayersContract</h5>
+          <div class="image-text" style="float: center;">
+            <pre><code data-trim data-noescape class="language-toml">
+[importlinter]
+root_package = my_package
+
+[importlinter:contract:1]
+name=GUI cannot be imported from other packages
+type=forbidden
+source_modules=
+    my_package.model
+    my_package.db
+forbidden_modules=
+    my_package.gui
+</code></pre>
+<pre><code data-trim data-noescape class="language-bash">
+(my_package) jan@jan-Inspiron-3543:~$ lint-imports
+
+=============
+Import Linter
+=============
+
+Analyzed 134 files, 699 dependencies.
+-------------------------------------
+
+GUI cannot be imported from other packages KEPT
+
+Contracts: 1 kept, 0 broken.
+            </code></pre>
+          </div>
+
+        </section>
+
+        <section>
+          <h5>Import Linter - AcyclicContract</h5>
           <div class="image-text" style="float: left; width: 105%;">
             <pre><code data-trim data-noescape class="language-bash">
 pip install import-linter@git+https://github.com/K4liber/import-linter@issue/221_tree_contract
@@ -1391,7 +1442,42 @@ exclude_parents=
         </section>
 
         <section>
-          <h5>Check upholding of AcyclicContract in django</h5>
+          <h5>Import Linter - AcyclicContract check on django</h5>
+          <div style="text-align: left; font-size: 0.6em;">
+            <pre><code data-trim data-noescape class="language-bash">
+...
+
+>>>> Cycles family for parent module 'django'
+
+Sibilings:
+(
+  django.apps
+  django.core
+)
+
+Number of cycles: 1
+
+Cycle 1 (package dependency):
+
+(
+ -> django.apps (full path: 'django.apps.config')
+ -> django.core (full path: 'django.core.exceptions')
+ -> django.core (full path: 'django.core.checks.model_checks')
+ -> django.apps
+)
+
+<<<< Cycles family for parent module 'django'
+
+Number of cycle families found for a contract 'AcyclicDependencies': 167
+Number of cycle families with package dependencies: 88
+</code></pre>
+
+
+          </div>
+        </section>
+
+        <section>
+          <h5>Import Linter - AcyclicContract "v.2"</h5>
           <div style="text-align: left; font-size: 0.6em;">
             <pre><code data-trim data-noescape class="language-bash">
 ...
@@ -1431,8 +1517,8 @@ Number of cycle families with package dependencies: 88
             <li>Importing in Python can be done in many different ways</li>
             <li>Choosing one, consistent way, will reduce decision fatigue</li>
             <li>Clean modular structure of your Python code matters</li>
-            <li>Following Acyclic Dependencies Principle (ADP) leads to better software design</li>
-            <li>Using tools like Ruff and Import Linter for automated checks</li>
+            <li>Following Acyclic Dependencies Principle (ADP) leads to a better software design</li>
+            <li>Using tools like Ruff and Import Linter facilitate checks automation</li>
           </ol>
         </section>
 
@@ -1441,79 +1527,14 @@ Number of cycle families with package dependencies: 88
       <section>
         <h3>Bibliography</h3>
         <ol style="font-size: 0.5em;">
-          <li>Photo by Lester Hsu, https://orsted.com/en/media/news/2022/04/20220421515811</li>
-          <li>Why do successful people wear the same outfits every day?, https://www.todaywellspent.com/blogs/articles/why-do-successful-people-wear-the-same-outfits-every-day</li>
-          <li>PEP-0008, Imports, https://peps.python.org/pep-0008/#imports</li>
-          <li>Import Linter, https://github.com/seddonym/import-linter</li>
-          <li>Italian pasta code, Lynn (Yu Ling) Wang, https://www.linkedin.com/in/yuling-wang-jobmenta/ </li>
+          <li><b>Ørsted find farm photo</b>, Lester Hsu, </br>https://orsted.com/en/media/news/2022/04/20220421515811</li>
+          <li><b>Why do successful people wear the same outfits every day?</b>, Oneindia News, </br>https://www.todaywellspent.com/blogs/articles/why-do-successful-people-wear-the-same-outfits-every-day</li>
+          <li><b>PEP-0008 (Imports)</b>, Python Software Foundation, </br> https://peps.python.org/pep-0008/#imports</li>
+          <li><b>Convenience Imports</b>, Kraken, </br> https://github.com/octoenergy/public-conventions/blob/main/conventions/python.md#convenience-imports</li>
+          <li><b>Import Linter</b>, David Seddon, et al.</br> https://github.com/seddonym/import-linter</li>
         </ol>
       </section>
 
-      <section>
-
-        <section>
-          <h4>(EXTRA) Python code that can adapt to changing requirements</h4>
-          <div class="image-text" style="float: center;">
-            <img style="height: 15em;" data-src="./img/changing_requirements.jpg" />
-          </div>
-        </section>
-
-        <section>
-          <div class="image-text" style="float: center;">
-            <img style="height: 15em;" data-src="./img/italian_pasta.jpeg" />
-          </div>
-          <p style="font-size: 0.7em;">
-            Using Python, it is easy to cook some italian pasta code [5]
-          </p>
-        </section>
-
-        <section>
-          <h5>Clean code principles</h5>
-          <div style="display: flex; align-items: flex-start; justify-content: space-between;">
-            <div style="flex: 1; text-align: center;">
-              <img src="img/uncle_bob.jpg" alt="Uncle Bob" style="width: 13vw; border-radius: 1em; float: center;" />
-              <div style="font-size: 0.5em; margin-top: 0.5em;">
-                <strong>Uncle Bob</strong><br>
-                <em>Clean Code: A Handbook of Agile Software Craftsmanship</em><br>
-                2008
-              </div>
-            </div>
-            <div style="flex: 2; text-align: left; margin-left: 2em;">
-              <ul style="font-size: 0.7em;">
-                <li><strong>SRP</strong> - Single Responsibility Principle</li>
-                <li><strong>OCP</strong> - Open/Closed Principle</li>
-                <li><strong>LSP</strong> - Liskov Substitution Principle</li>
-                <li><strong>ISP</strong> - Interface Segregation Principle</li>
-                <li><strong>DIP</strong> - Dependency Inversion Principle</li>
-                <li><strong>DRY</strong> - Don't Repeat Yourself</li>
-                <li><strong>KISS</strong> - Keep It Simple, Stupid</li>
-                <li><strong>YAGNI</strong> - You Aren't Gonna Need It</li>
-                <li><strong>POLA</strong> - Principle of Least Astonishment</li>
-                <li><strong>ADP</strong> - Acyclic Dependencies Principle</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <div class="image-text" style="float: center;">
-            <img style="height: 15em;" data-src="./img/code_flexibility_vs_effort.png" />
-          </div>
-          <p style="font-size: 0.7em;">
-            Effort vs benefit of applying clean code principles
-          </p>
-        </section>
-
-        <section>
-          <div class="image-text" style="float: center;">
-            <img style="height: 15em;" data-src="./img/code_flexibility_vs_effort_part_2.png" />
-          </div>
-          <p style="font-size: 0.7em;">
-            Automated checks of clean code principles violations
-          </p>
-        </section>
-
-      </section>
     </div>
   </div>
 
