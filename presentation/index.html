@@ -274,7 +274,7 @@
               <div style="background: white; padding: 0.5em; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block;">
                 <img src="./img/all_slides_pdf_qr_code.png" alt="QR Code to full presentation" style="width: 350px; height: 350px; margin-bottom: 0.1em;">
                 <p style="font-size: 0.6em; color: #666; margin: 0;">Scan for full presentation</p>
-                <p style="font-size: 0.5em; color: #888; margin: 0.1em 0 0 0;">consistent_importing_all_slides.pdf</p>
+                <p style="font-size: 0.5em; color: #888; margin: 0.1em 0 0 0;">consistent_importing.pdf</p>
               </div>
             </div>
           </div>
@@ -327,7 +327,7 @@ from model import Node, Edge, function_a, function_b, SomeOtherClass
           <h5>Consistency reduces decision fatigue</h5>
           <img style="height: 9em;" data-src="./img/zuck.png" />
           <p style="font-size: 0.7em;">
-            "... the more decisions you make throughout the day, the worse you are at making them."[2]
+            "... the more decisions you make throughout the day, the worse you are at making them."
           </p>
         </section>
         <section>
@@ -928,7 +928,7 @@ from source.connector.adapter import TimeSeries
               </div>
             </div>
             <p>
-              <b>Benefit: </b>Individual package as a separated component (divide and conquer)
+              <b>Benefit: </b>Individual package as a separated component ("divide and conquer")
             </p>
           </div>
         </section>
@@ -1318,7 +1318,7 @@ from my_another_package.graph import Node
 from my_package.model import model
 
             </code></pre>
-            <pre><code data-trim data-noescape class="language-toml" data-line-numbers="*|3,4|5|6|7|8|10,11|12">
+            <pre><code data-trim data-noescape class="language-toml" data-line-numbers="*|3,4|5|6|7|8|10,11|12|13">
 # ruff.toml
 [lint]
 select = [
@@ -1331,6 +1331,7 @@ select = [
 [lint.isort]
 known-first-party = ["my_another_package"]  #         (6)
 force-single-line = true  #                           (7)
+only-imports-from-defining-module = true  # (WIP)     (8)
 </code></pre>
 
           </div>
