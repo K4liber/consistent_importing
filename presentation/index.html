@@ -739,7 +739,7 @@ from source.connector.adapter import TimeSeriesAdapter
         </section>
       
         <section>
-          <h5>7. (PEP) Import one definition per line</h5>
+          <h5>7. Import one definition per line</h5>
           <div class="image-text" style="float: center; padding-top: 5vh;">
             <div style="display: flex; align-items: flex-start;">
               <div style="width: 45%; padding-left: 0.1em;">
@@ -1435,7 +1435,7 @@ group_by_family = true
 
             </code></pre>
             <pre><code data-trim data-noescape class="language-bash">
-(django) jan@jan-Inspiron-3543:~$ lint-imports --verbose
+lint-imports --verbose
 </code></pre>
 
           </div>
@@ -1488,6 +1488,67 @@ Package django contains a (package) dependency cycle:
         </section>
 
         <section>
+          <h5>Import Linter - Acyclic siblings</h5>
+          <div class="image-text" style="float: left; width: 105%;">
+            <pre><code data-trim data-noescape class="language-toml">
+# .importlinter
+          
+[importlinter]
+root_package = django
+
+[importlinter:contract:1]
+name = Acyclic siblings
+type = acyclic_siblings
+ancestors =
+  django.db
+depth = 0
+skip_descendants =
+    django.db.**.base
+ignore_imports =
+    django.db.backends.dummy.features -> 
+    django.db.backends.base.features
+            </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h5>Import Linter - Acyclic siblings</h5>
+          <div class="image-text" style="float: center; padding-top: 5vh;">
+            <div style="display: flex; align-items: flex-start;">
+              <div style="width: 50%; padding-left: 0.1em;">
+  <pre><code data-trim data-noescape class="language-bash" style="font-size: 0.9em; letter-spacing: -0.1em;">
+
+Acyclic siblings BROKEN
+
+Contracts: 0 kept, 1 broken.
+
+
+----------------
+Broken contracts
+----------------
+
+Acyclic siblings
+----------------
+
+No cycles are allowed in django.db.
+It could be made acyclic by removing 2 dependencies:
+
+- .models -> .backends (4 imports)
+- .utils -> .backends (1 import)
+
+  </code></pre>
+              </div>
+              <div style="width: 50%; padding-right: 0.01em">
+                <img style="height: 40vh;" data-src="./img/django_db_graph.png" />
+              </div>
+            </div>
+            <pre><code data-trim data-noescape class="language-bash">
+impulse drawgraph django.db --show-import-totals --show-cycle-breakers
+            </code></pre>
+          </div>
+        </section>
+
+        <section>
           <h3>Summary</h3>
           <ol style="font-size: 0.8em;" start="1">
             <li>Importing in Python can be done in many different ways</li>
@@ -1501,13 +1562,14 @@ Package django contains a (package) dependency cycle:
       </section>
       <!-- main section --> 
       <section>
-        <h3>Bibliography</h3>
+        <h4>Bibliography</h4>
         <ol style="font-size: 0.5em;">
           <li><b>Ørsted find farm photo</b>, Lester Hsu, </br>https://orsted.com/en/media/news/2022/04/20220421515811</li>
           <li><b>Why do successful people wear the same outfits every day?</b>, Oneindia News, </br>https://www.todaywellspent.com/blogs/articles/why-do-successful-people-wear-the-same-outfits-every-day</li>
           <li><b>PEP-0008 (Imports)</b>, Python Software Foundation, </br> https://peps.python.org/pep-0008/#imports</li>
           <li><b>Convenience Imports</b>, Kraken, </br> https://github.com/octoenergy/public-conventions/blob/main/conventions/python.md#convenience-imports</li>
           <li><b>Import Linter</b>, David Seddon, et al.</br> https://github.com/seddonym/import-linter</li>
+          <li><b>Impulse</b>, David Seddon</br> https://github.com/seddonym/impulse</li>
         </ol>
       </section>
 
